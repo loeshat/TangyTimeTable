@@ -24,5 +24,4 @@ TangyTimeTable has gone through two prototype development stages:
 This is the third prototyping stage, where the design team will be building TangyTimeTable using React Native.
 
 ## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
+TangyTimeTable is designed and developed by T13A - ZesteeBestees Team.
