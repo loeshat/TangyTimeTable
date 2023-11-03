@@ -4,6 +4,11 @@ import TopNavBar from '../components/TopBar';
 import { View } from 'react-native';
 import { PaperProvider, Text } from 'react-native-paper';
 
+/**
+ * Main Events page, containing filters for upcoming, in progress and past events
+ * @param {*} navigation 
+ * @returns 
+ */
 const Home = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>

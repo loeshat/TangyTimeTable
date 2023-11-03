@@ -6,6 +6,11 @@ import TitleTopBar from '../components/TitleTopBar';
 
 // TODO: Add error prevention alert before quitting flow
 
+/**
+ * Beginning of new group creation workflow
+ * @param {*} navigation 
+ * @returns 
+ */
 const CreateNewGroup = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>

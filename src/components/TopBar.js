@@ -3,6 +3,11 @@ import { theme } from '../styles/Theme';
 import { Image } from 'react-native';
 import { Appbar, PaperProvider } from 'react-native-paper';
 
+/**
+ * Default top navigation bar, containing TangyTimeTable logo and profile icon button
+ * @param {*} navigation 
+ * @returns 
+ */
 const TopNavBar = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>

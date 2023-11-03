@@ -3,6 +3,11 @@ import { theme } from '../styles/Theme';
 import { View } from 'react-native';
 import { Button, IconButton, Text, PaperProvider } from 'react-native-paper';
 
+/**
+ * Create pop-up modal, allowing user to move onto create new group or create new event screen
+ * @param {*} navigation 
+ * @returns 
+ */
 const Create = ({ navigation }) => {
   const newGroupNavigate = () => {
     navigation.goBack();

@@ -4,6 +4,11 @@ import { View } from 'react-native';
 import { PaperProvider, Text } from 'react-native-paper';
 import TopNavBar from '../components/TopBar';
 
+/**
+ * Friends 'Home' Page, containing all groups and friends list display
+ * @param {*} navigation 
+ * @returns 
+ */
 const FriendsHome = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>

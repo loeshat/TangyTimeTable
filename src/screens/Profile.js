@@ -4,6 +4,12 @@ import { View } from 'react-native';
 import { PaperProvider, Text } from 'react-native-paper';
 import TitleTopBar from '../components/TitleTopBar';
 
+/**
+ * Profile Screen displaying user profile picture and general user details
+ * Also contains Settings button, leading to Settings screen display
+ * @param {*} navigation 
+ * @returns 
+ */
 const Profile = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>
