@@ -4,6 +4,8 @@ import { View } from 'react-native';
 import { PaperProvider, Text } from 'react-native-paper';
 import TitleTopBar from '../components/TitleTopBar';
 
+// TODO: Add error prevention alert before quitting flow
+
 const CreateNewEvent = ({ navigation }) => {
   const handleReturn = () => navigation.navigate('Events');
   return (
