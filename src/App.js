@@ -2,8 +2,11 @@ import React from 'react';
 import Home from './screens/Home';
 import Create from './screens/Create';
 import FriendsHome from './screens/FriendsHome';
+import Profile from './screens/Profile';
+import CreateNewGroup from './screens/NewGroup';
+import CreateNewEvent from './screens/NewEvent';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, PaperProvider, Text } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,7 +15,7 @@ import { View } from 'react-native';
 const Tab = createMaterialBottomTabNavigator();
 const RootStack = createNativeStackNavigator();
 
-const theme = {
+const themeExtended = {
   ...DefaultTheme,
   myOwnProperty: true,
   colors: {
@@ -24,21 +27,21 @@ const theme = {
 const CreatePlaceholder = () => {
   return (
     <View>
-      Create Placeholder
+      <Text>Create Placeholder</Text>
     </View>
   );
 }
 
 const App = () => {
   const BottomBar = () => (
-    <PaperProvider theme={theme}>
+    <PaperProvider theme={themeExtended}>
       <Tab.Navigator
         initialRouteName='Events'
         activeColor='#FF8300'
         inactiveColor='#9E9E9E'
         barStyle={{ backgroundColor: '#F5F5F5' }}
         screenOptions={{ headerShown: false }}
-        theme={theme}
+        theme={themeExtended}
       >
         <Tab.Screen 
           name='Events'
@@ -87,7 +90,22 @@ const App = () => {
         <RootStack.Screen 
           name='CreateNew'
           component={Create}
-          options={{ presentation: 'modal', headerShown: false }}
+          options={{ headerShown: false, presentation: 'modal' }}
+        />
+        <RootStack.Screen 
+          name='Profile'
+          component={Profile}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen 
+          name='Create New Group'
+          component={CreateNewGroup}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen 
+          name='Create New Event'
+          component={CreateNewEvent}
+          options={{ headerShown: false }}
         />
       </RootStack.Navigator>
     </NavigationContainer>
