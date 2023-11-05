@@ -9,7 +9,7 @@ export const theme = {
     ...DefaultTheme.colors,
     primary: '#FF8300',
     background: '#FFEBD0',
-    surface: '#F5F5F5',
+    surface: '#FFFFFF',
     text: '#5E412F',
     disabled: '#9E9E9E',
     success: '#79C1A9'

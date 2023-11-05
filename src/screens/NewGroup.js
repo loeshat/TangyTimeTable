@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { theme, progressStyles } from '../styles/Theme';
 import { groupStyles } from '../styles/GroupStyles';
-import { Image, View } from 'react-native';
-import { PaperProvider, Text, TextInput } from 'react-native-paper';
+import { Image, View, ScrollView } from 'react-native';
+import { PaperProvider, Searchbar, Text, TextInput } from 'react-native-paper';
 import TitleTopBar from '../components/TitleTopBar';
+import FriendCard from '../components/FriendCard';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 
 // TODO: Add error prevention alert before quitting flow
@@ -15,11 +16,12 @@ import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
  */
 const CreateNewGroup = ({ navigation }) => {
   const [name, setName] = useState('');
+  const [friendSearch, setSearch] = useState('');
 
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={() => navigation.navigate('Events')} title={'Return Home'} />
-      <View style={{ width: '100%', height: '88%' }}>
+      <View style={{ width: '100%', height: '88%', backgroundColor: '#FFFFFF' }}>
         <ProgressSteps {...progressStyles}>
           <ProgressStep 
             label='Group Name'
@@ -107,6 +109,16 @@ const CreateNewGroup = ({ navigation }) => {
                   style={groupStyles.imageStyle}
                 />
               </View>
+              <Searchbar 
+                placeholder='Search'
+                value={friendSearch}
+                onChangeText={query => setSearch(query)}
+                mode='bar'
+              />
+              <ScrollView>
+                <FriendCard name={'Sam'} image={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'} isCheckbox={true}/>
+                <FriendCard name={'Sam'} image={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'} isCheckbox={true}/>
+              </ScrollView>
             </View>
           </ProgressStep>
           <ProgressStep 
