@@ -1,5 +1,8 @@
 import { DefaultTheme } from 'react-native-paper';
 
+/**
+ * Standardised theme following TangyTimeTable's branding
+ */
 export const theme = {
   ...DefaultTheme,
   colors: {
@@ -11,4 +14,21 @@ export const theme = {
     disabled: '#9E9E9E',
     success: '#79C1A9'
   }
+}
+
+/**
+ * Style for progress bars
+ */
+export const progressStyles = {
+  activeStepIconBorderColor: theme.colors.primary,
+  activeStepNumColor: theme.colors.primary,
+  activeLabelColor: theme.colors.text,
+  completedStepIconColor: theme.colors.success,
+  completedProgressBarColor: theme.colors.success,
+  completedLabelColor: theme.colors.success,
+  borderWidth: 1,
+  labelFontSize: 15,
+  progressBarColor: theme.colors.disabled,
+  disabledStepIconColor: '#D6D6D6',
+  labelColor: theme.colors.disabled,
 }

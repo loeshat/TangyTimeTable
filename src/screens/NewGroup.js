@@ -1,25 +1,12 @@
 import React, { useState } from 'react';
-import { theme } from '../styles/Theme';
+import { theme, progressStyles } from '../styles/Theme';
+import { groupStyles } from '../styles/GroupStyles';
 import { Image, View } from 'react-native';
 import { PaperProvider, Text, TextInput } from 'react-native-paper';
 import TitleTopBar from '../components/TitleTopBar';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 
 // TODO: Add error prevention alert before quitting flow
-
-const progressStyles = {
-  activeStepIconBorderColor: theme.colors.primary,
-  activeStepNumColor: theme.colors.primary,
-  activeLabelColor: theme.colors.text,
-  completedStepIconColor: theme.colors.success,
-  completedProgressBarColor: theme.colors.success,
-  completedLabelColor: theme.colors.success,
-  borderWidth: 1,
-  labelFontSize: 15,
-  progressBarColor: theme.colors.disabled,
-  disabledStepIconColor: '#D6D6D6',
-  labelColor: theme.colors.disabled,
-}
 
 /**
  * Beginning of new group creation workflow
@@ -41,40 +28,33 @@ const CreateNewGroup = ({ navigation }) => {
           >
             <View style={{ alignItems: 'center' }}>
               <View 
-                style={{ 
-                  width: '100%', 
-                  alignItems: 'flex-end',
+                style={[groupStyles.outerSpeech, {
                   marginRight: '30%',
                   marginTop: '10%' 
-                }}
+                }]}
               >
                 <View 
-                  style={{ 
-                    borderColor: theme.colors.text, 
-                    borderWidth: 1,
-                    borderRadius: 10,
-                    padding: 10, 
+                  style={[groupStyles.speechContainer, {  
                     width: 175,
                     marginBottom: 10,
-                  }}
+                  }]}
                 >
                   <Text
                     variant='bodyLarge'
+                    style={{ color: theme.colors.text }}
                   >
                     What would you like to name the group?
                   </Text>
                 </View>
               </View>
               <View 
-                style={{ 
-                  alignItems: 'flex-start', 
-                  width: '100%', 
-                  marginLeft: '30%' 
-                }}
+                style={[groupStyles.imageContainer, {
+                  marginLeft: '30%'
+                }]}
               >
                 <Image 
                   source={require('../assets/wave.png')}
-                  style={{ width: 150, height: 150 }}
+                  style={groupStyles.imageStyle}
                 />
               </View>
               <TextInput 
@@ -98,7 +78,35 @@ const CreateNewGroup = ({ navigation }) => {
             previousBtnTextStyle={{ color: theme.colors.text }}
           >
             <View style={{ alignItems: 'center' }}>
-              <Text>Add your group members</Text>
+              <View
+                style={[groupStyles.outerSpeech, {
+                  marginRight: '20%',
+                  marginTop: '2%'
+                }]}
+              >
+                <View
+                  style={[groupStyles.speechContainer, {
+                    width: 200
+                  }]}
+                >
+                  <Text
+                    variant='bodyLarge'
+                    style={{ color: theme.colors.text }}
+                  >
+                    Who do you want to add to {name}?
+                  </Text>
+                </View>
+              </View>
+              <View 
+                style={[groupStyles.imageContainer, {
+                  marginLeft: '20%'
+                }]}
+              >
+                <Image 
+                  source={require('../assets/wave.png')}
+                  style={groupStyles.imageStyle}
+                />
+              </View>
             </View>
           </ProgressStep>
           <ProgressStep 
