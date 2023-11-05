@@ -3,8 +3,8 @@ import Home from './screens/Home';
 import Create from './screens/Create';
 import FriendsHome from './screens/FriendsHome';
 import Profile from './screens/Profile';
-import CreateNewGroup from './screens/NewGroup';
-import CreateNewEvent from './screens/NewEvent';
+import { GroupRoutes } from './routes/GroupRoutes';
+import { EventRoutes } from './routes/EventRoutes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { MD3LightTheme as DefaultTheme, PaperProvider, Text } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -98,13 +98,13 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <RootStack.Screen 
-          name='Create New Group'
-          component={CreateNewGroup}
+          name='GroupRoutes'
+          component={GroupRoutes}
           options={{ headerShown: false }}
         />
         <RootStack.Screen 
-          name='Create New Event'
-          component={CreateNewEvent}
+          name='EventRoutes'
+          component={EventRoutes}
           options={{ headerShown: false }}
         />
       </RootStack.Navigator>
