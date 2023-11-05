@@ -3,6 +3,11 @@ import CreateNewGroup from '../screens/NewGroup';
 
 const Root = createNativeStackNavigator();
 
+/**
+ * Stores all group/friends related routes for all screens which
+ * cannot be accessed by clicking on the bottom navigation bar
+ * @returns 
+ */
 export const GroupRoutes = () => {
   return (
     <Root.Navigator>
