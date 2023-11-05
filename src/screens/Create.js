@@ -11,11 +11,11 @@ import { Button, IconButton, Text, PaperProvider } from 'react-native-paper';
 const Create = ({ navigation }) => {
   const newGroupNavigate = () => {
     navigation.goBack();
-    navigation.navigate('Create New Group');
+    navigation.navigate('GroupRoutes', { screen: 'Create New Group' });
   }
   const newEventNavigate = () => {
     navigation.goBack();
-    navigation.navigate('Create New Event');
+    navigation.navigate('EventRoutes', { screen: 'Create New Event' });
   }
   return (
     <PaperProvider theme={theme}>
