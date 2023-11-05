@@ -6,6 +6,7 @@ import { PaperProvider, Searchbar, Text, TextInput } from 'react-native-paper';
 import TitleTopBar from '../components/TitleTopBar';
 import FriendCard from '../components/FriendCard';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+import { FriendsList } from '../services/Data';
 
 // TODO: Add error prevention alert before quitting flow
 
@@ -16,7 +17,8 @@ import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
  */
 const CreateNewGroup = ({ navigation }) => {
   const [name, setName] = useState('');
-  const [friendSearch, setSearch] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const onChangeSearch = query => setSearchQuery(query);
 
   return (
     <PaperProvider theme={theme}>
@@ -66,7 +68,8 @@ const CreateNewGroup = ({ navigation }) => {
                 textColor={theme.colors.text}
                 style={{ 
                   width: '70%',
-                  marginTop: '5%'
+                  marginTop: '5%',
+                  backgroundColor: theme.colors.surface
                 }}
                 value={name}
                 onChangeText={e => setName(e)}
@@ -110,14 +113,31 @@ const CreateNewGroup = ({ navigation }) => {
                 />
               </View>
               <Searchbar 
-                placeholder='Search'
-                value={friendSearch}
-                onChangeText={query => setSearch(query)}
-                mode='bar'
+                placeholder='Search...'
+                onChangeText={onChangeSearch}
+                value={searchQuery}
+                style={{
+                  width: 375,
+                  backgroundColor: theme.colors.background,
+                  marginTop: 10
+                }}
               />
-              <ScrollView>
-                <FriendCard name={'Sam'} image={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'} isCheckbox={true}/>
-                <FriendCard name={'Sam'} image={'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'} isCheckbox={true}/>
+              <ScrollView
+                style={{
+                  display: 'inline-flex',
+                  height: 300
+                }}
+              >
+                {
+                  FriendsList.map((item, index) => (
+                    <FriendCard 
+                      key={index}
+                      name={item.name}
+                      image={item.image}
+                      isCheckbox={true}
+                    />
+                  ))
+                }
               </ScrollView>
             </View>
           </ProgressStep>
