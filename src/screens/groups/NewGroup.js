@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { Image, View, ScrollView } from 'react-native';
-import { Button, Dialog, PaperProvider, Portal, Searchbar, Text, TextInput } from 'react-native-paper';
+import { PaperProvider, Searchbar, Text, TextInput } from 'react-native-paper';
 import TitleTopBar from '../../components/TitleTopBar';
 import FriendCard from '../../components/FriendCard';
+import WarningAlert from '../../components/Alert';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import { FriendsList } from '../../services/Data';
 
@@ -51,55 +52,15 @@ const CreateNewGroup = ({ navigation }) => {
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={displayAlert} title={'Return Home'} />
       <View style={flowStyles.screen}>
-        <Portal>
-          <Dialog 
-            visible={alertOpen} 
-            onDismiss={closeAlert}
-            style={{
-              backgroundColor: theme.colors.background
-            }}
-          >
-            <Dialog.Title
-              style={{
-                color: theme.colors.primary,
-                fontWeight: '500'
-              }}
-            >
-              Warning
-            </Dialog.Title>
-            <Dialog.Content>
-              <Text
-                variant='bodyLarge'
-              >
-                You will lose all your group creation progress. Are you sure?
-              </Text>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button
-                mode='outlined'
-                textColor={theme.colors.text}
-                onPress={closeAlert}
-                style={{
-                  borderColor: theme.colors.text
-                }}
-                contentStyle={{
-                  width: 80
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                mode='contained'
-                onPress={returnHome}
-                contentStyle={{
-                  width: 125
-                }}
-              >
-                Return Home
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
+        <WarningAlert 
+          description={'You will lose all your group creation progress. Are you sure?'}
+          affirmText={'Return Home'}
+          affirmAction={returnHome}
+          affirmContentStyle={{width: 125}}
+          cancelAction={closeAlert}
+          closeAction={closeAlert}
+          visible={alertOpen}
+        />
         <ProgressSteps {...progressStyles}>
           <ProgressStep 
             label='Group Name'
