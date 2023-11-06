@@ -1,6 +1,6 @@
 import React from 'react';
 import { theme } from '../../styles/Theme';
-import { groupStyles } from '../../styles/GroupStyles';
+import { groupStyles } from '../../styles/FlowStyles';
 import { Button, Text, PaperProvider } from 'react-native-paper';
 import { Image, View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
-import { groupStyles } from '../../styles/GroupStyles';
+import { flowStyles } from '../../styles/FlowStyles';
 import { Image, View, ScrollView } from 'react-native';
 import { Button, Dialog, PaperProvider, Portal, Searchbar, Text, TextInput } from 'react-native-paper';
 import TitleTopBar from '../../components/TitleTopBar';
@@ -50,7 +50,7 @@ const CreateNewGroup = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={displayAlert} title={'Return Home'} />
-      <View style={groupStyles.screen}>
+      <View style={flowStyles.screen}>
         <Portal>
           <Dialog 
             visible={alertOpen} 
@@ -108,13 +108,13 @@ const CreateNewGroup = ({ navigation }) => {
           >
             <View style={{ alignItems: 'center' }}>
               <View 
-                style={[groupStyles.outerSpeech, {
+                style={[flowStyles.outerSpeech, {
                   marginRight: '30%',
                   marginTop: '10%' 
                 }]}
               >
                 <View 
-                  style={[groupStyles.speechContainer, {  
+                  style={[flowStyles.speechContainer, {  
                     width: 175,
                     marginBottom: 10,
                   }]}
@@ -123,18 +123,18 @@ const CreateNewGroup = ({ navigation }) => {
                     variant='bodyLarge'
                     style={{ color: theme.colors.text }}
                   >
-                    What would you like to name the group?
+                    Let's name your group!
                   </Text>
                 </View>
               </View>
               <View 
-                style={[groupStyles.imageContainer, {
+                style={[flowStyles.imageContainer, {
                   marginLeft: '30%'
                 }]}
               >
                 <Image 
                   source={require('../../assets/wave.png')}
-                  style={groupStyles.imageStyle}
+                  style={flowStyles.imageStyle}
                 />
               </View>
               <TextInput 
@@ -163,13 +163,13 @@ const CreateNewGroup = ({ navigation }) => {
           >
             <View style={{ alignItems: 'center' }}>
               <View
-                style={[groupStyles.outerSpeech, {
+                style={[flowStyles.outerSpeech, {
                   marginRight: '20%',
                   marginTop: '2%'
                 }]}
               >
                 <View
-                  style={[groupStyles.speechContainer, {
+                  style={[flowStyles.speechContainer, {
                     width: 200
                   }]}
                 >
@@ -182,13 +182,13 @@ const CreateNewGroup = ({ navigation }) => {
                 </View>
               </View>
               <View 
-                style={[groupStyles.imageContainer, {
+                style={[flowStyles.imageContainer, {
                   marginLeft: '20%'
                 }]}
               >
                 <Image 
                   source={require('../../assets/wave.png')}
-                  style={groupStyles.imageStyle}
+                  style={flowStyles.imageStyle}
                 />
               </View>
               <Searchbar 

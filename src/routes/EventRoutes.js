@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CreateNewEvent from '../screens/NewEvent';
+import CreateNewEvent from '../screens/events/NewEvent';
 
 const Root = createNativeStackNavigator();
 
