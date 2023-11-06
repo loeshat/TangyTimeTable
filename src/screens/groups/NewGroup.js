@@ -56,7 +56,7 @@ const CreateNewGroup = ({ navigation }) => {
           description={'You will lose all your group creation progress. Are you sure?'}
           affirmText={'Return Home'}
           affirmAction={returnHome}
-          affirmContentStyle={{width: 125}}
+          affirmContentStyle={{ width: 125 }}
           cancelAction={closeAlert}
           closeAction={closeAlert}
           visible={alertOpen}

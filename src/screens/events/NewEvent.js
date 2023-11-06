@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
 import { Image, View } from 'react-native';
-import { Button, Dialog, PaperProvider, Portal, Text, TextInput } from 'react-native-paper';
+import { PaperProvider, Text, TextInput } from 'react-native-paper';
 import TitleTopBar from '../../components/TitleTopBar';
+import WarningAlert from '../../components/Alert';
 import { flowStyles } from '../../styles/FlowStyles';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 
@@ -29,55 +30,15 @@ const CreateNewEvent = ({ navigation }) => {
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={openAlert} title={'Return Home'} />
       <View style={flowStyles.screen}>
-        <Portal>
-          <Dialog 
-            visible={alertOpen}
-            onDismiss={closeAlert}
-            style={{
-              backgroundColor: theme.colors.background
-            }}
-          >
-            <Dialog.Title
-              style={{
-                color: theme.colors.primary,
-                fontWeight: '500'
-              }}
-            >
-              Warning
-            </Dialog.Title>
-            <Dialog.Content>
-              <Text
-                variant='bodyLarge'
-              >
-                You will lose all your event planning progress! Are you sure?
-              </Text>
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button
-                mode='outlined'
-                textColor={theme.colors.text}
-                style={{
-                  borderColor: theme.colors.text
-                }}
-                contentStyle={{
-                  width: 80
-                }}
-                onPress={closeAlert}
-              >
-                Cancel
-              </Button>
-              <Button
-                mode='contained'
-                contentStyle={{
-                  width: 125
-                }}
-                onPress={returnHome}
-              >
-                Return Home
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
+        <WarningAlert 
+          description={'You will lose all your event planning progress! Are you sure?'}
+          affirmText={'Return Home'}
+          affirmAction={returnHome}
+          affirmContentStyle={{ width: 125 }}
+          cancelAction={closeAlert}
+          closeAction={closeAlert}
+          visible={alertOpen}
+        />
         <ProgressSteps {...progressStyles}>
           <ProgressStep
             label='Event Name'
