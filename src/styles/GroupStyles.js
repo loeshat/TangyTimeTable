@@ -2,6 +2,11 @@ import { StyleSheet } from 'react-native';
 import { theme } from './Theme';
 
 export const groupStyles = StyleSheet.create({
+  screen: {
+    width: '100%',
+    height: '88%',
+    backgroundColor: '#FFFFFF'
+  },
   speechContainer: {
     borderColor: theme.colors.text,
     borderWidth: 1,

@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import { theme, progressStyles } from '../styles/Theme';
-import { groupStyles } from '../styles/GroupStyles';
+import { theme, progressStyles } from '../../styles/Theme';
+import { groupStyles } from '../../styles/GroupStyles';
 import { Image, View, ScrollView } from 'react-native';
-import { Button, PaperProvider, Searchbar, Text, TextInput } from 'react-native-paper';
-import TitleTopBar from '../components/TitleTopBar';
-import FriendCard from '../components/FriendCard';
+import { Button, Dialog, PaperProvider, Portal, Searchbar, Text, TextInput } from 'react-native-paper';
+import TitleTopBar from '../../components/TitleTopBar';
+import FriendCard from '../../components/FriendCard';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
-import { FriendsList } from '../services/Data';
+import { FriendsList } from '../../services/Data';
 
-// TODO: Add error prevention alert before quitting flow
 // TODO: Disable next button if no friends has been selected
 // TODO: Look into making search functional
-// TODO: Add functionality to confirm stage's buttons
 
 /**
  * Beginning of new group creation workflow
@@ -19,14 +17,72 @@ import { FriendsList } from '../services/Data';
  * @returns 
  */
 const CreateNewGroup = ({ navigation }) => {
+  const [alertOpen, setAlertOpen] = useState(false);
+  const displayAlert = () => setAlertOpen(true);
+  const closeAlert = () => setAlertOpen(false);
+
+  const returnHome = () => {
+    closeAlert();
+    navigation.navigate('Events');
+  }
+
   const [name, setName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
 
   return (
     <PaperProvider theme={theme}>
-      <TitleTopBar backAction={() => navigation.navigate('Events')} title={'Return Home'} />
-      <View style={{ width: '100%', height: '88%', backgroundColor: '#FFFFFF' }}>
+      <TitleTopBar backAction={displayAlert} title={'Return Home'} />
+      <View style={groupStyles.screen}>
+        <Portal>
+          <Dialog 
+            visible={alertOpen} 
+            onDismiss={closeAlert}
+            style={{
+              backgroundColor: theme.colors.background
+            }}
+          >
+            <Dialog.Title
+              style={{
+                color: theme.colors.primary,
+                fontWeight: '500'
+              }}
+            >
+              Warning
+            </Dialog.Title>
+            <Dialog.Content>
+              <Text
+                variant='bodyLarge'
+              >
+                You will lose all your group creation progress. Are you sure?
+              </Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                mode='outlined'
+                textColor={theme.colors.text}
+                onPress={closeAlert}
+                style={{
+                  borderColor: theme.colors.text
+                }}
+                contentStyle={{
+                  width: 80
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                mode='contained'
+                onPress={returnHome}
+                contentStyle={{
+                  width: 125
+                }}
+              >
+                Return Home
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
         <ProgressSteps {...progressStyles}>
           <ProgressStep 
             label='Group Name'
@@ -60,7 +116,7 @@ const CreateNewGroup = ({ navigation }) => {
                 }]}
               >
                 <Image 
-                  source={require('../assets/wave.png')}
+                  source={require('../../assets/wave.png')}
                   style={groupStyles.imageStyle}
                 />
               </View>
@@ -82,8 +138,10 @@ const CreateNewGroup = ({ navigation }) => {
           <ProgressStep 
             label='Group Members'
             previousBtnText='Back'
+            finishBtnText='Confirm'
             nextBtnTextStyle={{ color: theme.colors.text }}
             previousBtnTextStyle={{ color: theme.colors.text }}
+            onSubmit={() => navigation.navigate('Confirm Group', { name: name })}
           >
             <View style={{ alignItems: 'center' }}>
               <View
@@ -111,7 +169,7 @@ const CreateNewGroup = ({ navigation }) => {
                 }]}
               >
                 <Image 
-                  source={require('../assets/wave.png')}
+                  source={require('../../assets/wave.png')}
                   style={groupStyles.imageStyle}
                 />
               </View>
@@ -142,76 +200,6 @@ const CreateNewGroup = ({ navigation }) => {
                   ))
                 }
               </ScrollView>
-            </View>
-          </ProgressStep>
-          <ProgressStep 
-            label='Confirm'
-            previousBtnText='Back'
-            finishBtnText=''
-            previousBtnTextStyle={{ color: theme.colors.text }}
-          >
-            <View style={{ alignItems: 'center' }}>
-              <View
-                style={[groupStyles.outerSpeech, {
-                  marginTop: '10%'
-                }]}
-              >
-                <View
-                  style={[groupStyles.speechContainer, {
-                    width: 200,
-                    marginRight: '12%'
-                  }]}
-                >
-                  <Text
-                    variant='bodyLarge'
-                    style={{ color: theme.colors.text }}
-                  >
-                    Your group {name} has been successfully created! 
-                    Do you want to plan an event for the group?
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={[groupStyles.imageContainer, {
-                  marginLeft: '23%'
-                }]}
-              >
-                <Image 
-                  source={require('../assets/wave.png')}
-                  style={groupStyles.imageStyle}
-                />
-              </View>
-              <Button
-                mode='contained'
-                labelStyle={{ 
-                  fontSize: 20
-                }}
-                contentStyle={{ 
-                  height: 60,
-                  width: 200
-                }}
-                style={{
-                  marginTop: 30
-                }}
-              >
-                Plan an Event
-              </Button>
-              <Button
-                mode='contained'
-                buttonColor={theme.colors.success}
-                labelStyle={{ 
-                  fontSize: 20
-                }}
-                contentStyle={{ 
-                  height: 60,
-                  width: 200
-                }}
-                style={{
-                  marginTop: 20
-                }}
-              >
-                See my Group
-              </Button>
             </View>
           </ProgressStep>
         </ProgressSteps>
