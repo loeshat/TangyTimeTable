@@ -1,6 +1,6 @@
 import React from 'react';
 import { theme } from '../../styles/Theme';
-import { groupStyles } from '../../styles/FlowStyles';
+import { flowStyles } from '../../styles/FlowStyles';
 import { Button, Text, PaperProvider } from 'react-native-paper';
 import { Image, View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
@@ -11,15 +11,15 @@ const ConfirmGroup = ({ route, navigation }) => {
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={returnHome} title={'Return Home'} />
-      <View style={groupStyles.screen}>
+      <View style={flowStyles.screen}>
         <View style={{ alignItems: 'center'}}>
           <View
-            style={[groupStyles.outerSpeech, {
+            style={[flowStyles.outerSpeech, {
               marginTop: '25%'
             }]}
           >
             <View
-              style={[groupStyles.speechContainer, {
+              style={[flowStyles.speechContainer, {
                 width: 200,
                 marginRight: '12%'
               }]}
@@ -53,13 +53,13 @@ const ConfirmGroup = ({ route, navigation }) => {
             </View>
           </View>
           <View
-            style={[groupStyles.imageContainer, {
+            style={[flowStyles.imageContainer, {
               marginLeft: '23%'
             }]}
           >
             <Image 
               source={require('../../assets/wave.png')}
-              style={groupStyles.imageStyle}
+              style={flowStyles.imageStyle}
             />
           </View>
           <Button
