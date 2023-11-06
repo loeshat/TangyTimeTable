@@ -2,6 +2,17 @@ import React from 'react';
 import { theme } from '../styles/Theme';
 import { Button, Dialog, Portal, Text } from 'react-native-paper';
 
+/**
+ * Warning alert component for error prevention
+ * @param {String} description: Warning message to be displayed on alert 
+ * @param {String} affirmText: Text display of affirm button
+ * @param {Function} affirmAction: Action taken place when 'affirm' button is clicked on
+ * @param {Object} affirmContentStyle: To modify the width/height of affirm button
+ * @param {Function} cancelAction: Action taken place when user clicks on cancel button
+ * @param {String} closeAction: To dismiss/close the alert popup
+ * @param {Boolean} visible: Display logic for pop-up warning alert 
+ * @returns 
+ */
 const WarningAlert = ({ 
   description, 
   affirmText, 
