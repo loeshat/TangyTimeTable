@@ -8,27 +8,44 @@ import FriendCard from '../../components/FriendCard';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import { FriendsList } from '../../services/Data';
 
-// TODO: Disable next button if no friends has been selected
-// TODO: Look into making search functional
-
 /**
  * Beginning of new group creation workflow
  * @param {*} navigation 
  * @returns 
  */
 const CreateNewGroup = ({ navigation }) => {
+  // Alert state handling
   const [alertOpen, setAlertOpen] = useState(false);
   const displayAlert = () => setAlertOpen(true);
   const closeAlert = () => setAlertOpen(false);
-
   const returnHome = () => {
     closeAlert();
     navigation.navigate('Events');
   }
 
+  // Group related states
   const [name, setName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
+
+  // Friend selection state handling
+  const initialStates = Array.from({ length: FriendsList.length }, () => false);
+  const [friendStates, setFriendStates] = useState(initialStates);
+  const [confirmDisabled, setDisabled] = useState(true);
+  const handleFriendChange = (id, newState) => {
+    const newStates = [...friendStates];
+    newStates[id] = newState;
+    setFriendStates(newStates);
+    setDisabled(!newStates.some((state) => state === true));
+  }
+
+  // New Group data
+  const createGroup = () => {
+    const members = friendStates.map((state, id) => (state ? FriendsList[id].userId : null))
+                    .filter(id => id !== null && id !== undefined);
+    console.log(name, members); // To modify to actually store data
+    navigation.navigate('Confirm Group', { name: name });
+  }
 
   return (
     <PaperProvider theme={theme}>
@@ -141,7 +158,8 @@ const CreateNewGroup = ({ navigation }) => {
             finishBtnText='Confirm'
             nextBtnTextStyle={{ color: theme.colors.text }}
             previousBtnTextStyle={{ color: theme.colors.text }}
-            onSubmit={() => navigation.navigate('Confirm Group', { name: name })}
+            nextBtnDisabled={confirmDisabled}
+            onSubmit={createGroup}
           >
             <View style={{ alignItems: 'center' }}>
               <View
@@ -196,6 +214,7 @@ const CreateNewGroup = ({ navigation }) => {
                       name={item.name}
                       image={item.image}
                       isCheckbox={true}
+                      onChange={(newState) => handleFriendChange(index, newState)}
                     />
                   ))
                 }

@@ -4,9 +4,12 @@ import { View } from 'react-native';
 import { CheckBox } from '@rneui/themed';
 import { Avatar, Card, PaperProvider, Text } from 'react-native-paper';
 
-const FriendCard = ({ name, image, isCheckbox }) => {
+const FriendCard = ({ name, image, isCheckbox, onChange }) => {
   const [checked, setChecked] = useState(false);
-  const toggleCheck = () => setChecked(!checked);
+  const toggleCheck = () => {
+    setChecked(!checked);
+    onChange(!checked);
+  }
   return (
     <PaperProvider theme={theme}>
       <View 

@@ -37,7 +37,7 @@ const ConfirmGroup = ({ route, navigation }) => {
                 variant='bodyLarge'
                 style={{
                   color: theme.colors.primary,
-                  fontWeight: '500'
+                  fontWeight: '700'
                 }}
               >
                 plan an event
