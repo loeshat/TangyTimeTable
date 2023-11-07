@@ -19,6 +19,14 @@ const GROUPS_KEY = '@tangy_groups';
  *   eventId: number,
  *   name: string,
  *   description: string,
+ *   decider: string (userId of decider or group),
+ *   status: string (past, in progress or upcoming),
+ *           - if event is still in planning, it is in progress
+ *           - if the event's date is in the past, it is a past event
+ *           - if the event's planning is completed, it is an upcoming event
+ *   date: string (in DD/MM/YYYY format),
+ *   startTime: string (in HH:MM format),
+ *   endTime: string (in HH:MM format),
  * }
  * 
  * Groups Struct:
