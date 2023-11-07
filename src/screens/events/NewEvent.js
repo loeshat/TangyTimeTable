@@ -43,13 +43,18 @@ const CreateNewEvent = ({ navigation }) => {
           <ProgressStep
             label='Event Name'
             nextBtnTextStyle={{ color: theme.colors.text }}
+            nextBtnDisabled={!name}
           >
             <View style={{ alignItems: 'center' }}>
               <View
-                style={[flowStyles.outerSpeech]}
+                style={[flowStyles.outerSpeech, {
+                  marginTop: '30%'
+                }]}
               >
                 <View
-                  stylle={[flowStyles.speechContainer]}
+                  style={[flowStyles.speechContainer, {
+                    marginRight: '15%'
+                  }]}
                 >
                   <Text
                     variant='bodyLarge'
@@ -60,7 +65,9 @@ const CreateNewEvent = ({ navigation }) => {
                 </View>
               </View>
               <View
-                style={[flowStyles.imageContainer]}
+                style={[flowStyles.imageContainer, {
+                  marginLeft: '20%'
+                }]}
               >
                 <Image 
                   source={require('../../assets/wave.png')}
@@ -85,8 +92,55 @@ const CreateNewEvent = ({ navigation }) => {
           <ProgressStep
             label='Event Details'
             previousBtnText='Back'
+            previousBtnTextStyle={{ color: theme.colors.text }}
+            finishBtnText='Next'
+            nextBtnDisabled={!description}
+            nextBtnTextStyle={{ color: theme.colors.text }}
           >
-            {/** TBC */}
+            <View style={{ alignItems: 'center' }}>
+              <View
+                style={[flowStyles.outerSpeech, {
+                  marginTop: '30%'
+                }]}
+              >
+                <View
+                  style={[flowStyles.speechContainer, {
+                    marginRight: '15%'
+                  }]}
+                >
+                  <Text
+                    variant='bodyLarge'
+                    style={{ color: theme.colors.text }}
+                  >
+                    What's your event about?
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={[flowStyles.imageContainer, {
+                  marginLeft: '20%'
+                }]}
+              >
+                <Image 
+                  source={require('../../assets/wave.png')}
+                  style={flowStyles.imageStyle}
+                />
+              </View>
+              <TextInput 
+                label='Event Description'
+                mode='outlined'
+                multiline
+                outlineColor={theme.colors.text}
+                textColor={theme.colors.text}
+                style={{
+                  width: '70%',
+                  marginTop: '5%',
+                  backgroundColor: theme.colors.surface
+                }}
+                value={description}
+                onChangeText={(e) => setDescription(e)}
+              />
+            </View>
           </ProgressStep>
         </ProgressSteps>
       </View>

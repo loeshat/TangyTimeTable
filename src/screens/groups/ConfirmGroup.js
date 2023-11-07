@@ -8,6 +8,7 @@ import TitleTopBar from '../../components/TitleTopBar';
 const ConfirmGroup = ({ route, navigation }) => {
   const { name } = route.params ?? {};
   const returnHome = () => navigation.navigate('Events');
+  const planEvent = () => navigation.navigate('EventRoutes', { screen: 'Create New Event' });
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={returnHome} title={'Return Home'} />
@@ -74,6 +75,7 @@ const ConfirmGroup = ({ route, navigation }) => {
             style={{
               marginTop: 30
             }}
+            onPress={planEvent}
           >
             Plan an Event
           </Button>
