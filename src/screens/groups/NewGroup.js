@@ -26,6 +26,8 @@ const CreateNewGroup = ({ navigation }) => {
 
   // Group related states
   const [name, setName] = useState('');
+
+  // Friends list search handling - note that search is NOT functional
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
 
