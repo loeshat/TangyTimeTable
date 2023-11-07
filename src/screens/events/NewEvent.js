@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
 import { Image, View } from 'react-native';
-import { PaperProvider, Text, TextInput } from 'react-native-paper';
+import { Button, PaperProvider, Text, TextInput } from 'react-native-paper';
 import TitleTopBar from '../../components/TitleTopBar';
 import WarningAlert from '../../components/Alert';
 import { flowStyles } from '../../styles/FlowStyles';
@@ -93,7 +93,6 @@ const CreateNewEvent = ({ navigation }) => {
             label='Event Details'
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
-            finishBtnText='Next'
             nextBtnDisabled={!description}
             nextBtnTextStyle={{ color: theme.colors.text }}
           >
@@ -140,6 +139,74 @@ const CreateNewEvent = ({ navigation }) => {
                 value={description}
                 onChangeText={(e) => setDescription(e)}
               />
+            </View>
+          </ProgressStep>
+          <ProgressStep
+            label='Decision Maker'
+            previousBtnText='Back'
+            previousBtnTextStyle={{ color: theme.colors.text }}
+            finishBtnText=''
+            nextBtnTextStyle={{ color: theme.colors.text }}
+          >
+            <View style={{ alignItems: 'center' }}>
+              <View
+                style={[flowStyles.outerSpeech, {
+                  marginTop: '20%'
+                }]}
+              >
+                <View
+                  style={[flowStyles.speechContainer, {
+                    marginRight: '15%',
+                    width: 200
+                  }]}
+                >
+                  <Text
+                    variant='bodyLarge'
+                    style={{ color: theme.colors.text }}
+                  >
+                    Who will decide on your event's activity?
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={[flowStyles.imageContainer, {
+                  marginLeft: '25%'
+                }]}
+              >
+                <Image 
+                  source={require('../../assets/wave.png')}
+                  style={flowStyles.imageStyle}
+                />
+              </View>
+              <Button
+                mode='contained'
+                contentStyle={{
+                  height: 60,
+                  width: 200
+                }}
+                labelStyle={{
+                  fontSize: 20
+                }}
+                style={{
+                  marginTop: '5%',
+                  marginBottom: '5%'
+                }}
+                buttonColor={theme.colors.success}
+              >
+                Just Me
+              </Button>
+              <Button
+                mode='contained'
+                contentStyle={{
+                  height: 60,
+                  width: 200
+                }}
+                labelStyle={{
+                  fontSize: 20
+                }}
+              >
+                Group Vote
+              </Button>
             </View>
           </ProgressStep>
         </ProgressSteps>
