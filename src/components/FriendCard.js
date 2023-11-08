@@ -4,11 +4,20 @@ import { View } from 'react-native';
 import { CheckBox } from '@rneui/themed';
 import { Avatar, Card, PaperProvider, Text } from 'react-native-paper';
 
+/**
+ * Displays a friend's basic details, typically used for friends list display
+ * @param {String} name: name of friend
+ * @param {String} image: uri of profile image
+ * @param {Boolean} isCheckbox: true if checkbox should be included in friend card display,
+ * false otherwise.
+ * @param {Function} onChange: parent state controller of friend cards' checkboxes state
+ * @returns 
+ */
 const FriendCard = ({ name, image, isCheckbox, onChange }) => {
   const [checked, setChecked] = useState(false);
   const toggleCheck = () => {
     setChecked(!checked);
-    onChange(!checked);
+    if (isCheckbox) onChange(!checked);
   }
   return (
     <PaperProvider theme={theme}>
