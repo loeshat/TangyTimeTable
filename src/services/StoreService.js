@@ -72,8 +72,9 @@ export const getAllGroups = async (userId) => {
 }
 
 /**
- * Adds a new group to the TangyTimeTable database
+ * Create a new group and add it to the database
  * @param {Object} groupObj 
+ * @returns 
  */
 export const addGroup = async (groupObj) => {
   try {
@@ -115,33 +116,17 @@ export const getGroupEvents = async (groupId) => {
 }
 
 /**
- * Generate an ID for new event
- * @returns 
- */
-export const getNewEventId = async () => {
-  try {
-    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
-    if (allEvents) {
-      return JSON.parse(allEvents).length;
-    } else {
-      return 0;
-    }
-  } catch (e) {
-    console.log(`Failed to generate new event ID: ${e}`);
-  }
-}
-
-/**
- * Save new group event to backend
+ * Adds a new event to given group
  * @param {*} groupId 
- * @param {*} eventId 
  * @param {*} eventObj 
+ * @returns ID of new event
  */
-export const addGroupEvent = async (groupId, eventId, eventObj) => {
+export const addGroupEvent = async (groupId, eventObj) => {
   try {
     const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    const newEventId = allEvents ? JSON.parse(allEvents).length : 0;
     const newEventData = {
-      eventId,
+      eventId: newEventId,
       groupId,
       ...eventObj,
     };
@@ -152,6 +137,7 @@ export const addGroupEvent = async (groupId, eventId, eventObj) => {
       newEventList = [newEventData];
     }
     await AsyncStorage.setItem(EVENTS_KEY, JSON.stringify(newEventList));
+    return newEventId;
   } catch (e) {
     console.log(`Failed to add new event: ${e}`);
   }

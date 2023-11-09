@@ -6,7 +6,7 @@ import TitleTopBar from '../../components/TitleTopBar';
 import WarningAlert from '../../components/Alert';
 import { flowStyles } from '../../styles/FlowStyles';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
-import { addGroupEvent, clearEvents, getNewEventId } from '../../services/StoreService';
+import { addGroupEvent, clearEvents } from '../../services/StoreService';
 
 /**
  * Display a list of groups, allowing user to select a group to plan an event with
@@ -31,8 +31,7 @@ const CreateNewEvent = ({ route, navigation }) => {
 
   // Create first part of event
   const createEvent = async (deciderType) => {
-    await clearEvents(); // to keep DB clean while testing, remove later
-    const eventId = await getNewEventId();
+    await clearEvents();
     // TODO: Add ID of currently logged in user as the organiser
     const eventBody = {
       name: name,
@@ -40,9 +39,10 @@ const CreateNewEvent = ({ route, navigation }) => {
       decider: deciderType,
       status: 'in progress',
     }
-    console.log(groupId, eventId, eventBody); // for testing only
-    await addGroupEvent(groupId, eventId, eventBody);
-    navigation.navigate('EventRoutes', { screen: 'New Event Plan', params: { eventId: eventId } });
+    addGroupEvent(groupId, eventBody).then((eventId) => {
+      console.log(groupId, eventId, eventBody);
+      navigation.navigate('EventRoutes', { screen: 'New Event Plan', params: { eventId: eventId } });
+    });
   }
 
   return (

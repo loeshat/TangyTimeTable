@@ -14,7 +14,7 @@ const Home = ({ navigation }) => {
     <PaperProvider theme={theme}>
       <TopNavBar navigation={navigation}/>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text variant='bodyMedium'>All Events</Text>
+        <Text>Home Screen</Text>
       </View>
     </PaperProvider>
   );
