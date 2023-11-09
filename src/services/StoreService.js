@@ -17,14 +17,17 @@ const GROUPS_KEY = '@tangy_groups';
  * Events Struct:
  * {
  *   eventId: number,
+ *   groupId: number,
+ *   organiser: userId of organiser,
  *   name: string,
  *   description: string,
- *   decider: string (userId of decider or group),
+ *   decider: string (single or group),
  *   status: string (past, in progress or upcoming),
  *           - if event is still in planning, it is in progress
  *           - if the event's date is in the past, it is a past event
  *           - if the event's planning is completed, it is an upcoming event
- *   date: string (in DD/MM/YYYY format),
+ *   inputDates: array of dates in DD/MM/YYYY format,
+ *   eventDate: string (in DD/MM/YYYY format),
  *   startTime: string (in HH:MM format),
  *   endTime: string (in HH:MM format),
  * }
@@ -81,9 +84,84 @@ export const addGroup = async (groupObj) => {
       name: groupObj.name,
       members: groupObj.members,
     };
-    await AsyncStorage.setItem(GROUPS_KEY, [...allGroups, newGroupData]);
+    let groupList = [];
+    if (allGroups) {
+      groupList = [...allGroups, newGroupData];
+    } else {
+      groupList = [newGroupData];
+    }
+    await AsyncStorage.setItem(GROUPS_KEY, JSON.stringify(groupList));
+    return newGroupId;
   } catch (e) {
     console.log(`Failed to update groups list: ${e}`);
   }
 }
 
+/**
+ * Retrieve all events of a given group
+ * @param {*} groupId 
+ */
+export const getGroupEvents = async (groupId) => {
+  try {
+    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    if (allEvents) {
+      const groupEvents = JSON.parse(allEvents).filter((e) => e.groupId === groupId);
+      return groupEvents;
+    }
+    return [];
+  } catch (e) {
+    console.log(`Failed to retrieve events for group ${groupId}: ${e}`);
+  }
+}
+
+/**
+ * Generate an ID for new event
+ * @returns 
+ */
+export const getNewEventId = async () => {
+  try {
+    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    if (allEvents) {
+      return JSON.parse(allEvents).length;
+    } else {
+      return 0;
+    }
+  } catch (e) {
+    console.log(`Failed to generate new event ID: ${e}`);
+  }
+}
+
+/**
+ * Save new group event to backend
+ * @param {*} groupId 
+ * @param {*} eventId 
+ * @param {*} eventObj 
+ */
+export const addGroupEvent = async (groupId, eventId, eventObj) => {
+  try {
+    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    const newEventData = {
+      eventId,
+      groupId,
+      ...eventObj,
+    };
+    let newEventList = [];
+    if (allEvents) {
+      newEventList = [...allEvents, newEventData];
+    } else {
+      newEventList = [newEventData];
+    }
+    await AsyncStorage.setItem(EVENTS_KEY, JSON.stringify(newEventList));
+  } catch (e) {
+    console.log(`Failed to add new event: ${e}`);
+  }
+}
+
+// FOR TESTING ONLY
+export const clearEvents = async () => {
+  await AsyncStorage.removeItem(EVENTS_KEY);
+}
+
+export const clearGroups = async () => {
+  await AsyncStorage.removeItem(GROUPS_KEY);
+}
