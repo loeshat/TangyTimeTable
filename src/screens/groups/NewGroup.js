@@ -8,7 +8,7 @@ import FriendCard from '../../components/FriendCard';
 import WarningAlert from '../../components/Alert';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
 import { FriendsList } from '../../services/Data';
-import { addGroup } from '../../services/StoreService';
+import { addGroup, clearGroups } from '../../services/StoreService';
 
 /**
  * Beginning of new group creation workflow
@@ -45,6 +45,7 @@ const CreateNewGroup = ({ navigation }) => {
 
   // New Group data
   const createGroup = async () => {
+    await clearGroups(); // to keep DB clean while testing, remove later
     const members = friendStates.map((state, id) => (state ? FriendsList[id].userId : null))
                     .filter(id => id !== null && id !== undefined);
     // TODO: Add currently logged in user into list of group members

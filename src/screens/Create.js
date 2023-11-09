@@ -15,7 +15,7 @@ const Create = ({ navigation }) => {
   }
   const newEventNavigate = () => {
     navigation.goBack();
-    navigation.navigate('EventRoutes', { screen: 'Create New Event' });
+    navigation.navigate('EventRoutes', { screen: 'Group Select' });
   }
   return (
     <PaperProvider theme={theme}>
