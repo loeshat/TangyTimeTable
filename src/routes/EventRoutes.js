@@ -17,13 +17,13 @@ export const EventRoutes = () => {
   return (
     <Root.Navigator>
       <Root.Screen 
-        name='Create New Event'
-        component={CreateNewEvent}
+        name='Group Select'
+        component={SelectGroupScreen}
         options={{ headerShown: false }}
       />
       <Root.Screen 
-        name='Group Select'
-        component={SelectGroupScreen}
+        name='Create New Event'
+        component={CreateNewEvent}
         options={{ headerShown: false }}
       />
       <Root.Screen 

@@ -26,7 +26,7 @@ const GROUPS_KEY = '@tangy_groups';
  *           - if event is still in planning, it is in progress
  *           - if the event's date is in the past, it is a past event
  *           - if the event's planning is completed, it is an upcoming event
- *   inputDates: array of dates in DD/MM/YYYY format,
+ *   inputDates: array of dates in DD/MM/YYYY format for members to provide availabilities,
  *   eventDate: string (in DD/MM/YYYY format),
  *   startTime: string (in HH:MM format),
  *   endTime: string (in HH:MM format),

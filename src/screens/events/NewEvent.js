@@ -40,8 +40,9 @@ const CreateNewEvent = ({ route, navigation }) => {
       decider: deciderType,
       status: 'in progress',
     }
-    console.log(groupId, eventId, eventBody);
+    console.log(groupId, eventId, eventBody); // for testing only
     await addGroupEvent(groupId, eventId, eventBody);
+    navigation.navigate('EventRoutes', { screen: 'New Event Plan', params: { eventId: eventId } });
   }
 
   return (
@@ -146,7 +147,6 @@ const CreateNewEvent = ({ route, navigation }) => {
               <TextInput 
                 label='Event Description'
                 mode='outlined'
-                multiline
                 outlineColor={theme.colors.text}
                 textColor={theme.colors.text}
                 style={{
