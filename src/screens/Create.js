@@ -19,21 +19,21 @@ const Create = ({ navigation }) => {
   }
   return (
     <PaperProvider theme={theme}>
-      <View 
-        style={{ 
-          alignItems: 'flex-end', 
-          marginTop: '5%', 
-          marginRight: '2%' 
+      <View
+        style={{
+          alignItems: 'flex-end',
+          marginTop: '5%',
+          marginRight: '2%'
         }}
       >
-        <IconButton 
+        <IconButton
           icon='close'
           iconColor={theme.colors.text}
           onPress={() => navigation.navigate('Events')}
         />
       </View>
       <View style={{ marginLeft: '7%' }}>
-        <Text 
+        <Text
           variant='displayMedium'
           style={{
             color: theme.colors.text,
