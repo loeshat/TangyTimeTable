@@ -78,7 +78,8 @@ const EventTimeInput = ({ route, navigation }) => {
             }}
             style={{
               marginBottom: '5%',
-              width: 200
+              width: 200,
+              borderRadius: 12,
             }}
           >
             Sync My Calendar
@@ -93,7 +94,8 @@ const EventTimeInput = ({ route, navigation }) => {
               fontSize: 18
             }}
             style={{
-              width: 200
+              width: 200,
+              borderRadius: 12,
             }}
           >
             Enter Manually

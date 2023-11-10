@@ -26,10 +26,12 @@ const GROUPS_KEY = '@tangy_groups';
  *           - if event is still in planning, it is in progress
  *           - if the event's date is in the past, it is a past event
  *           - if the event's planning is completed, it is an upcoming event
- *   inputDates: array of dates in DD/MM/YYYY format for members to provide availabilities,
- *   eventDate: string (in DD/MM/YYYY format),
- *   startTime: string (in HH:MM format),
- *   endTime: string (in HH:MM format),
+ *   inputDates: array of dates in YYYY-MM-DD format for members to provide availabilities,
+ *   inputStartTime: string (in HH:MM format),
+ *   inputEndTime: string (in HH:MM format),
+ *   activity: string,
+ *   location: string,
+ *   eventDate: string (in YYYY-MM-DD format),
  * }
  * 
  * Groups Struct:
@@ -140,6 +142,29 @@ export const addGroupEvent = async (groupId, eventObj) => {
     return newEventId;
   } catch (e) {
     console.log(`Failed to add new event: ${e}`);
+  }
+}
+
+/**
+ * Update the event of given ID with additional details
+ * Event details previously added will still stay the same
+ * @param {*} eventId 
+ * @param {*} eventObj 
+ */
+export const updateEventDetails = async (eventId, eventObj) => {
+  try {
+    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    if (allEvents) {
+      const eventsArray = JSON.parse(allEvents);
+      const idToUpdate = eventsArray.findIndex(e => e.eventId === eventId);
+      if (idToUpdate !== -1) {
+        eventsArray[idToUpdate] = { ...eventsArray[idToUpdate], ...eventObj };
+        console.log(eventsArray[idToUpdate]); // for testing only
+        await AsyncStorage.setItem(EVENTS_KEY, JSON.stringify(eventsArray));
+      }
+    }
+  } catch (e) {
+    console.log(`Failed to update details for event ${eventId}: ${e}`);
   }
 }
 

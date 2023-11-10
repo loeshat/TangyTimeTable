@@ -11,6 +11,8 @@ import { CalendarList } from 'react-native-calendars';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Dropdown } from 'react-native-element-dropdown';
 import { ActivityCategories } from '../../services/Data';
+import { formatTime } from '../../services/helpers';
+import { updateEventDetails } from '../../services/StoreService';
 
 // All screens related to finer event details planning such as
 // date, time and optional activity and location selection
@@ -36,7 +38,6 @@ const NewEventPlan = ({ route, navigation }) => {
   }
 
   // Dates selection
-  // Object.keys(markedDates) -> to extract selected dates
   const [markedDates, setMarkedDates] = useState({});
   const onDayPress = (day) => {
     const selectedDate = day.dateString;
@@ -51,7 +52,6 @@ const NewEventPlan = ({ route, navigation }) => {
   }
 
   // Time selection
-  // console.log(fromTime.getHours(), fromTime.getMinutes(), toTime.getHours(), toTime.getMinutes())
   const [fromTime, setFromTime] = useState(new Date());
   const [toTime, setToTime] = useState(new Date());
   const fromTimeHandler = (e, selected) => setFromTime(selected);
@@ -63,6 +63,19 @@ const NewEventPlan = ({ route, navigation }) => {
 
   // Location selection
   const [location, setLocation] = useState('');
+
+  // Add further event details to BE
+  const updateEvent = async () => {
+    const newEventDetails = {
+      inputDates: Object.keys(markedDates),
+      inputStartTime: formatTime(fromTime),
+      inputEndTime: formatTime(toTime),
+      activity: activity === 'Other' ? customActivity : activity,
+      location: location,
+    };
+    await updateEventDetails(eventId, newEventDetails);
+    navigation.navigate('EventRoutes', { screen: 'Event Time Input', params: { eventId: eventId } });
+  }
 
   return (
     <PaperProvider theme={theme}>
@@ -330,7 +343,7 @@ const NewEventPlan = ({ route, navigation }) => {
             finishBtnText='Next'
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
-            onSubmit={() => navigation.navigate('EventRoutes', { screen: 'Event Time Input', params: { eventId: eventId } })}
+            onSubmit={updateEvent}
           >
             <View style={{ alignItems: 'center' }}>
               <View
