@@ -159,7 +159,7 @@ export const updateEventDetails = async (eventId, eventObj) => {
       const idToUpdate = eventsArray.findIndex(e => e.eventId === eventId);
       if (idToUpdate !== -1) {
         eventsArray[idToUpdate] = { ...eventsArray[idToUpdate], ...eventObj };
-        console.log(eventsArray[idToUpdate]); // for testing only
+        console.log(eventsArray); // for testing only
         await AsyncStorage.setItem(EVENTS_KEY, JSON.stringify(eventsArray));
       }
     }
