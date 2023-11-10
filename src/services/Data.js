@@ -25,3 +25,30 @@ export const FriendsList = [
     userId: 4,
   }
 ];
+
+export const ActivityCategories = [
+  {
+    label: 'Dining Out / Eating',
+    value: 'Dining',
+  },
+  {
+    label: 'Outdoor Recreation',
+    value: 'Outdoor Recreation',
+  },
+  {
+    label: 'Fitness & Wellness',
+    value: 'Fitness & Wellness',
+  },
+  {
+    label: 'Entertainment',
+    value: 'Entertainment',
+  },
+  {
+    label: 'Meeting / Networking',
+    value: 'Work',
+  },
+  {
+    label: 'Other',
+    value: 'Other',
+  },
+];

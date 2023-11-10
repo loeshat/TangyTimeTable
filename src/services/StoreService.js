@@ -17,16 +17,21 @@ const GROUPS_KEY = '@tangy_groups';
  * Events Struct:
  * {
  *   eventId: number,
+ *   groupId: number,
+ *   organiser: userId of organiser,
  *   name: string,
  *   description: string,
- *   decider: string (userId of decider or group),
+ *   decider: string (single or group),
  *   status: string (past, in progress or upcoming),
  *           - if event is still in planning, it is in progress
  *           - if the event's date is in the past, it is a past event
  *           - if the event's planning is completed, it is an upcoming event
- *   date: string (in DD/MM/YYYY format),
- *   startTime: string (in HH:MM format),
- *   endTime: string (in HH:MM format),
+ *   inputDates: array of dates in YYYY-MM-DD format for members to provide availabilities,
+ *   inputStartTime: string (in HH:MM format),
+ *   inputEndTime: string (in HH:MM format),
+ *   activity: string,
+ *   location: string,
+ *   eventDate: string (in YYYY-MM-DD format),
  * }
  * 
  * Groups Struct:
@@ -69,8 +74,9 @@ export const getAllGroups = async (userId) => {
 }
 
 /**
- * Adds a new group to the TangyTimeTable database
+ * Create a new group and add it to the database
  * @param {Object} groupObj 
+ * @returns 
  */
 export const addGroup = async (groupObj) => {
   try {
@@ -81,9 +87,92 @@ export const addGroup = async (groupObj) => {
       name: groupObj.name,
       members: groupObj.members,
     };
-    await AsyncStorage.setItem(GROUPS_KEY, [...allGroups, newGroupData]);
+    let groupList = [];
+    if (allGroups) {
+      groupList = [...allGroups, newGroupData];
+    } else {
+      groupList = [newGroupData];
+    }
+    await AsyncStorage.setItem(GROUPS_KEY, JSON.stringify(groupList));
+    return newGroupId;
   } catch (e) {
     console.log(`Failed to update groups list: ${e}`);
   }
 }
 
+/**
+ * Retrieve all events of a given group
+ * @param {*} groupId 
+ */
+export const getGroupEvents = async (groupId) => {
+  try {
+    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    if (allEvents) {
+      const groupEvents = JSON.parse(allEvents).filter((e) => e.groupId === groupId);
+      return groupEvents;
+    }
+    return [];
+  } catch (e) {
+    console.log(`Failed to retrieve events for group ${groupId}: ${e}`);
+  }
+}
+
+/**
+ * Adds a new event to given group
+ * @param {*} groupId 
+ * @param {*} eventObj 
+ * @returns ID of new event
+ */
+export const addGroupEvent = async (groupId, eventObj) => {
+  try {
+    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    const newEventId = allEvents ? JSON.parse(allEvents).length : 0;
+    const newEventData = {
+      eventId: newEventId,
+      groupId,
+      ...eventObj,
+    };
+    let newEventList = [];
+    if (allEvents) {
+      newEventList = [...allEvents, newEventData];
+    } else {
+      newEventList = [newEventData];
+    }
+    await AsyncStorage.setItem(EVENTS_KEY, JSON.stringify(newEventList));
+    return newEventId;
+  } catch (e) {
+    console.log(`Failed to add new event: ${e}`);
+  }
+}
+
+/**
+ * Update the event of given ID with additional details
+ * Event details previously added will still stay the same
+ * @param {*} eventId 
+ * @param {*} eventObj 
+ */
+export const updateEventDetails = async (eventId, eventObj) => {
+  try {
+    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    if (allEvents) {
+      const eventsArray = JSON.parse(allEvents);
+      const idToUpdate = eventsArray.findIndex(e => e.eventId === eventId);
+      if (idToUpdate !== -1) {
+        eventsArray[idToUpdate] = { ...eventsArray[idToUpdate], ...eventObj };
+        console.log(eventsArray); // for testing only
+        await AsyncStorage.setItem(EVENTS_KEY, JSON.stringify(eventsArray));
+      }
+    }
+  } catch (e) {
+    console.log(`Failed to update details for event ${eventId}: ${e}`);
+  }
+}
+
+// FOR TESTING ONLY
+export const clearEvents = async () => {
+  await AsyncStorage.removeItem(EVENTS_KEY);
+}
+
+export const clearGroups = async () => {
+  await AsyncStorage.removeItem(GROUPS_KEY);
+}

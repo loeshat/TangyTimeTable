@@ -6,9 +6,9 @@ import { Image, View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
 
 const ConfirmGroup = ({ route, navigation }) => {
-  const { name } = route.params ?? {};
+  const { name, groupId } = route.params ?? {};
   const returnHome = () => navigation.navigate('Events');
-  const planEvent = () => navigation.navigate('EventRoutes', { screen: 'Create New Event' });
+  const planEvent = () => navigation.navigate('EventRoutes', { screen: 'Create New Event', params: { groupId: groupId } });
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={returnHome} title={'Return Home'} />

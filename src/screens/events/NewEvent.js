@@ -6,13 +6,16 @@ import TitleTopBar from '../../components/TitleTopBar';
 import WarningAlert from '../../components/Alert';
 import { flowStyles } from '../../styles/FlowStyles';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
+import { addGroupEvent, clearEvents } from '../../services/StoreService';
 
 /**
  * Display a list of groups, allowing user to select a group to plan an event with
  * @param {*} navigation 
  * @returns 
  */
-const CreateNewEvent = ({ navigation }) => {
+const CreateNewEvent = ({ route, navigation }) => {
+  const { groupId } = route.params ?? {};
+
   // Warning alert handling
   const [alertOpen, setAlertOpen] = useState(false);
   const openAlert = () => setAlertOpen(true);
@@ -22,9 +25,25 @@ const CreateNewEvent = ({ navigation }) => {
     navigation.navigate('Events');
   }
 
-  // Group basic details handling
+  // Event basic details handling
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+
+  // Create first part of event
+  const createEvent = async (deciderType) => {
+    await clearEvents();
+    // TODO: Add ID of currently logged in user as the organiser
+    const eventBody = {
+      name: name,
+      description: description,
+      decider: deciderType,
+      status: 'in progress',
+    }
+    addGroupEvent(groupId, eventBody).then((eventId) => {
+      console.log(groupId, eventId, eventBody);
+      navigation.navigate('EventRoutes', { screen: 'New Event Plan', params: { eventId: eventId } });
+    });
+  }
 
   return (
     <PaperProvider theme={theme}>
@@ -128,7 +147,6 @@ const CreateNewEvent = ({ navigation }) => {
               <TextInput 
                 label='Event Description'
                 mode='outlined'
-                multiline
                 outlineColor={theme.colors.text}
                 textColor={theme.colors.text}
                 style={{
@@ -192,6 +210,7 @@ const CreateNewEvent = ({ navigation }) => {
                   marginBottom: '5%'
                 }}
                 buttonColor={theme.colors.success}
+                onPress={() => createEvent('single')}
               >
                 Just Me
               </Button>
@@ -204,6 +223,7 @@ const CreateNewEvent = ({ navigation }) => {
                 labelStyle={{
                   fontSize: 20
                 }}
+                onPress={() => createEvent('group')}
               >
                 Group Vote
               </Button>

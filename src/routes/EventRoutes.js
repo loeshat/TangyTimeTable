@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CreateNewEvent from '../screens/events/NewEvent';
+import SelectGroupScreen from '../screens/events/SelectGroup';
 import NewEventPlan from '../screens/events/EventPlan';
 import EventTimeInput from '../screens/events/EventTimeInput';
 import NewEventDecider from '../screens/events/EventDecider';
@@ -15,6 +16,11 @@ const Root = createNativeStackNavigator();
 export const EventRoutes = () => {
   return (
     <Root.Navigator>
+      <Root.Screen 
+        name='Group Select'
+        component={SelectGroupScreen}
+        options={{ headerShown: false }}
+      />
       <Root.Screen 
         name='Create New Event'
         component={CreateNewEvent}
