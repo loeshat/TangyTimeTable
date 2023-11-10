@@ -84,7 +84,6 @@ const SignUp = ({ navigation }) => {
             <Button icon='apple' style={styles.socialButton} />
           </View>
           <TouchableOpacity
-            style={styles.input}
             onPress={() => navigation.navigate('LoginRoutes', { screen: 'Login' })}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
@@ -104,6 +103,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 10,
+    backgroundColor: 'white'
   },
   button: {
     marginTop: 20,

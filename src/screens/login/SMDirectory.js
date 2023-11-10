@@ -20,6 +20,11 @@ function SMDirectory({ route, navigation }) {
     { name: 'Apple', color: 'lightgrey', icon: require('../../assets/apple.png') },
   ];
 
+  const handlePasswordLoginSignup = () => {
+    if (value === 'Login') navigation.navigate('LoginRoutes', { screen: 'Login' })
+    else navigation.navigate('LoginRoutes', { screen: 'Sign Up' })
+  };
+
   return (
     <PaperProvider theme={theme}>
       <Appbar.Header style={styles.appbar}>
@@ -32,11 +37,12 @@ function SMDirectory({ route, navigation }) {
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.container}>
           <Text style={styles.title}>
-            {value === 'Log In' ? "Let's log in!" : "Let's get started"}</Text>
+            {value === 'Login' ? "Let's log in!" : "Let's get started!"}</Text>
           {socialMediaAccounts.map((account) => (
             <TouchableOpacity
               key={account.name}
-              onPress={() => navigation.navigate('LoginRoutes', { screen: 'Social Media Confirm' })}
+              onPress={() => navigation.navigate('LoginRoutes',
+                { screen: 'Social Media Confirm', params: { value: account.name, type: value } })}
               style={[styles.smContainer, { backgroundColor: account.color }]}
             >
               <Image source={account.icon} style={styles.smIcon} />
@@ -48,10 +54,10 @@ function SMDirectory({ route, navigation }) {
           </Divider>
           <Button
             mode='contained'
-            onPress={() => navigation.navigate('LoginRoutes', { screen: 'Sign Up' })}
+            onPress={handlePasswordLoginSignup}
             style={styles.button}
           >
-            LOG IN WITH PASSWORD
+            {value === 'Login' ? "LOG IN WITH PASSWORD" : "SIGN UP USING PASSWORD"}
           </Button>
         </View>
       </View>

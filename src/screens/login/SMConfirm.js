@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { theme } from '../../styles/Theme';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { PaperProvider, Text, Appbar, Button } from 'react-native-paper';
+import WarningAlert from '../../components/Alert'
 
 /**
  * Sign up flow
@@ -9,7 +10,37 @@ import { PaperProvider, Text, Appbar, Button } from 'react-native-paper';
  * @returns 
  */
 
-const SMConfirm = ({ navigation }) => {
+const SMConfirm = ({ navigation, route }) => {
+  // value = type of social media user pressed
+  const params = route.params;
+  console.log(params.type);
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const displayAlert = () => setAlertOpen(true);
+  const closeAlert = () => setAlertOpen(false);
+
+  const approveLoginSignup = () => {
+    console.log('lol cant implement');
+    closeAlert();
+    if (params.type === 'Login') navigation.navigate('Events');
+    else navigation.navigate('LoginRoutes', { screen: 'Sign Up Flow' });
+  }
+
+  const getImageSource = (imageName) => {
+    switch (imageName) {
+      case 'Facebook':
+        return require('../../assets/facebook.png');
+      case 'Instagram':
+        return require('../../assets/instagram.png');
+      case 'Google':
+        return require('../../assets/google.png');
+      case 'Outlook':
+        return require('../../assets/outlook.png');
+      case 'Apple':
+        return require('../../assets/apple.png');
+    }
+  };
+
   return (
     <PaperProvider theme={theme}>
       <Appbar.Header
@@ -20,10 +51,19 @@ const SMConfirm = ({ navigation }) => {
         }}>
         <Button
           icon='arrow-left'
-          onPress={() => navigation.navigate('LoginRoutes', { screen: 'Social Media Directory' })}
+          onPress={() => navigation.navigate('LoginRoutes', { screen: 'Landing' })}
           style={styles.backButton}
         />
       </Appbar.Header>
+      <WarningAlert
+        description={`You are being redirected to ${params.value}.`}
+        affirmText={'Keep Going'}
+        affirmAction={approveLoginSignup}
+        affirmContentStyle={{ width: 125 }}
+        cancelAction={closeAlert}
+        closeAction={closeAlert}
+        visible={alertOpen}
+      />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.container}>
           <Image
@@ -41,15 +81,15 @@ const SMConfirm = ({ navigation }) => {
               fontSize: 45,
             }}
           >
-            Log in as [user name]? </Text>
+            {params.type === 'Login' ? "Log in as [user name]?" : "Sign up as [user name]?"} </Text>
           <TouchableOpacity
-            // onPress={() => navigation.navigate('LoginRoutes', { screen: 'Social Media Confirm' })}
+            onPress={displayAlert}
             style={styles.button}
           >
             <Image
-              source={require('../../assets/facebook.png')}
+              source={getImageSource(params.value)}
               style={styles.icon} />
-            <Text style={styles.text}>LOG IN</Text>
+            <Text style={styles.text}>{params.type === 'Login' ? "LOG IN" : "SIGN UP"}</Text>
           </TouchableOpacity>
         </View>
       </View>

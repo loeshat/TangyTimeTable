@@ -23,7 +23,7 @@ const Login = ({ navigation }) => {
     <PaperProvider theme={theme}>
       <Appbar.Header
         style={{
-          backgroundColor: '#f2f2f2',
+          backgroundColor: '#FFFFFF',
           marginLeft: 30,
           zIndex: 2,
         }}>
@@ -32,9 +32,8 @@ const Login = ({ navigation }) => {
           onPress={() => navigation.navigate('LoginRoutes', { screen: 'Landing' })}
           style={styles.backButton} />
       </Appbar.Header>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF', }}>
         <View style={styles.container}>
-
           <Text style={{
             color: theme.colors.text,
             fontWeight: 'bold',
@@ -83,7 +82,6 @@ const Login = ({ navigation }) => {
             <Button icon='apple' style={styles.socialButton} />
           </View>
           <TouchableOpacity
-            style={styles.input}
             onPress={() => navigation.navigate('LoginRoutes', { screen: 'Sign Up' })}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
@@ -103,6 +101,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 10,
+    backgroundColor: 'white',
   },
   button: {
     marginTop: 20,

@@ -5,6 +5,7 @@ import SignUp from '../screens/login/SignUp';
 import ForgotPassword from '../screens/login/ForgotPassword';
 import SMDirectory from '../screens/login/SMDirectory';
 import SMConfirm from '../screens/login/SMConfirm';
+import SignUpFlow from '../screens/login/SignUpFlow';
 
 const Root = createNativeStackNavigator();
 
@@ -43,6 +44,11 @@ export const LoginRoutes = () => {
       <Root.Screen
         name='Social Media Confirm'
         component={SMConfirm}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen
+        name='Sign Up Flow'
+        component={SignUpFlow}
         options={{ headerShown: false }}
       />
     </Root.Navigator>

@@ -36,21 +36,12 @@ const Landing = ({ navigation }) => {
           Welcome to TangyTimeTable!</Text>
         <TouchableOpacity
           style={styles.buttonPrimary}
-          onPress={() => navigation.navigate('LoginRoutes',
-            {
-              screen: 'Social Media Directory',
-              value: 'Log In'
-            })}
-        >
+          onPress={() => navigation.navigate('LoginRoutes', { screen: 'Social Media Directory', params: { value: 'Login' } })}>
           <Text style={styles.buttonText}>LOG IN</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonSecondary}
-          onPress={() => navigation.navigate('LoginRoutes',
-            {
-              screen: 'Social Media Directory',
-              value: 'Sign Up'
-            })}
+          onPress={() => navigation.navigate('LoginRoutes', { screen: 'Social Media Directory', params: { value: 'Sign Up' } })}
         >
           <Text style={styles.buttonTextSecondary}>SIGN UP</Text>
         </TouchableOpacity>
