@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { theme } from '../../styles/Theme';
+import { loginStyles } from '../../styles/LoginStyles';
 import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { PaperProvider, Text, Appbar, Button, TextInput } from 'react-native-paper';
+import { PaperProvider, Text, TextInput } from 'react-native-paper';
 import FriendCard from '../../components/FriendCard';
 import { FriendsList } from '../../services/Data';
+import SignUpTopBar from '../../components/SignUpTopBar';
 
 /**
  * Sign up flow
@@ -11,39 +13,32 @@ import { FriendsList } from '../../services/Data';
  * @returns 
  */
 
-const SignUpFlow = ({ navigation }) => {
+const ConnectFriends = ({ navigation }) => {
   const [friendStates, setFriendStates] = useState(new Array(FriendsList.length).fill(false));
-  const [confirmDisabled, setDisabled] = useState(true);
+  const [confirmDisabled, setDisabled] = useState(false);
   const handleFriendChange = (id, newState) => {
     const newStates = [...friendStates];
     newStates[id] = newState;
     setFriendStates(newStates);
-    setDisabled(!newStates.some((state) => state === true));
+    setDisabled(newStates.some(state => state === true));
+  }
+  const selectAll = () => {
+    // doesn't work at the moment
+    const newStates = new Array(FriendsList.length).fill(true);
+    setFriendStates(newStates);
+    setDisabled(true);
+  }
+
+  const handleAddFriends = () => {
+    // Not included in the data base because of MVP. Now only navigates to the next stage
+    navigation.navigate('LoginRoutes', { screen: 'Sync Calendar' });
   }
 
   return (
     <PaperProvider theme={theme}>
-      <Appbar.Header
-        style={{
-          backgroundColor: '#f2f2f2',
-          marginHorizontal: 30,
-          zIndex: 2,
-          justifyContent: 'space-between'
-        }}>
-        <Button
-          icon='arrow-left'
-          onPress={() => navigation.goBack()}
-          style={{ backgroundColor: '#FFEBD0' }}
-        />
-        <TouchableOpacity style={styles.skipContainer}>
-          <Text style={styles.skipText}>SKIP</Text>
-          <Button
-            icon='arrow-right'
-            // onPress={() => implement skipping to next stage}
-            style={{ backgroundColor: '#FFEBD0' }}
-          />
-        </TouchableOpacity>
-      </Appbar.Header>
+      <SignUpTopBar
+        navigation={navigation}
+        section='Connect Friends' />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.container}>
           <Text
@@ -51,7 +46,7 @@ const SignUpFlow = ({ navigation }) => {
               color: theme.colors.text,
               fontWeight: 'bold',
               fontSize: 45,
-              padding: 50,
+              padding: 30,
             }}
           >
             Connect with your friends</Text>
@@ -61,16 +56,16 @@ const SignUpFlow = ({ navigation }) => {
               placeholder="Search here..."
             />
             <TouchableOpacity
-              onPress={() => { }}
+              onPress={selectAll}
               style={styles.selectAllButton}
             >
-              <Text style={styles.buttonText}>Select All</Text>
+              <Text style={loginStyles.buttonPrimaryText}>Select All</Text>
             </TouchableOpacity>
           </View>
           <ScrollView
             style={{
               display: 'inline-flex',
-              height: 300,
+              height: 320,
             }}
           >
             {
@@ -80,33 +75,33 @@ const SignUpFlow = ({ navigation }) => {
                   name={item.name}
                   image={item.image}
                   isCheckbox={true}
-                  onChange={(newState) => handleFriendChange(index, newState)}
+                  onChange={(newState) => {
+                    handleFriendChange(index, newState)
+                  }}
                 />
               ))
             }
           </ScrollView>
+          <TouchableOpacity
+            style={[
+              loginStyles.buttonPrimary,
+              { opacity: !confirmDisabled ? 0.3 : 1 },
+            ]}
+            onPress={handleAddFriends}
+            disabled={!confirmDisabled}
+          >
+            <Text style={loginStyles.buttonPrimaryText}>ADD FRIENDS</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </PaperProvider>
+    </PaperProvider >
   );
 }
 
 const styles = StyleSheet.create({
-  skipContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignContent: 'center',
-    flexDirection: 'row',
-  },
-  skipText: {
-    color: theme.colors.primary,
-    marginRight: 10,
-    fontWeight: 'bold',
-    paddingTop: 10,
-  },
   container: {
     padding: 20,
-    width: '100%',
+    width: '90%',
   },
   searchContainer: {
     flexDirection: 'row',
@@ -131,10 +126,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
 });
 
-export default SignUpFlow;
+export default ConnectFriends;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { theme } from '../../styles/Theme';
+import { loginStyles } from '../../styles/LoginStyles';
 import { flowStyles } from '../../styles/FlowStyles';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { PaperProvider, Text } from 'react-native-paper';
@@ -11,8 +12,6 @@ import { PaperProvider, Text } from 'react-native-paper';
  */
 
 const Landing = ({ navigation }) => {
-
-
   return (
     <PaperProvider theme={theme}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -35,9 +34,9 @@ const Landing = ({ navigation }) => {
         >
           Welcome to TangyTimeTable!</Text>
         <TouchableOpacity
-          style={styles.buttonPrimary}
+          style={[loginStyles.buttonPrimary, { width: '60%' }]}
           onPress={() => navigation.navigate('LoginRoutes', { screen: 'Social Media Directory', params: { value: 'Login' } })}>
-          <Text style={styles.buttonText}>LOG IN</Text>
+          <Text style={[loginStyles.buttonPrimaryText, { fontSize: 20 }]}>LOG IN</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonSecondary}
@@ -51,15 +50,6 @@ const Landing = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  buttonPrimary: {
-    backgroundColor: '#F0771A',
-    width: '60%',
-    marginTop: 40,
-    padding: 15,
-    borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   buttonSecondary: {
     backgroundColor: '#FFEBD0',
     borderColor: '#F0771A',
@@ -70,11 +60,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 20,
   },
   buttonTextSecondary: {
     color: '#F0771A',

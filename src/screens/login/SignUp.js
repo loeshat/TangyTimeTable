@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from '../../styles/Theme';
+import { loginStyles } from '../../styles/LoginStyles';
 import { PaperProvider, Text, TextInput, Button, Divider, Appbar } from 'react-native-paper';
+import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
 
 /**
  * Sign up flow
@@ -23,18 +25,7 @@ const SignUp = ({ navigation }) => {
 
   return (
     <PaperProvider theme={theme}>
-      <Appbar.Header
-        style={{
-          backgroundColor: '#f2f2f2',
-          marginLeft: 30,
-          zIndex: 2,
-        }}>
-        <Button
-          icon='arrow-left'
-          onPress={() => navigation.navigate('LoginRoutes', { screen: 'Landing' })}
-          style={styles.backButton}
-        />
-      </Appbar.Header>
+      <SignUpTopBarTwo navigation={navigation} />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.container}>
           <Text style={{
@@ -70,11 +61,11 @@ const SignUp = ({ navigation }) => {
             secureTextEntry
             style={styles.input}
           />
-          <Button mode='contained' onPress={handleSignUp} style={styles.button}>
+          <Button mode='contained' onPress={handleSignUp} style={{ marginTop: 20 }}>
             Sign Up
           </Button>
-          <Divider style={styles.divider}>
-            <Text style={styles.dividerText}>or continue with</Text>
+          <Divider style={loginStyles.divider}>
+            <Text style={loginStyles.dividerText}>or continue with</Text>
           </Divider>
           <View style={styles.socialButtonsContainer}>
             <Button icon='facebook' style={styles.socialButton} />
@@ -105,23 +96,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: 'white'
   },
-  button: {
-    marginTop: 20,
-  },
-  divider: {
-    marginVertical: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 0,
-  },
-  dividerText: {
-    marginHorizontal: 10,
-    color: 'lightgrey',
-    fontSize: 16,
-    backgroundColor: '#f2f2f2',
-    margin: 5,
-  },
   socialButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -139,10 +113,6 @@ const styles = StyleSheet.create({
   loginText: {
     marginTop: 20,
     textAlign: 'center',
-  },
-  backButton: {
-    width: 50,
-    backgroundColor: '#FFEBD0',
   },
 });
 

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { theme } from '../../styles/Theme';
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { PaperProvider, Text, Appbar, Button } from 'react-native-paper';
+import { PaperProvider, Text } from 'react-native-paper';
 import WarningAlert from '../../components/Alert'
+import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
 
 /**
  * Sign up flow
@@ -13,7 +14,6 @@ import WarningAlert from '../../components/Alert'
 const SMConfirm = ({ navigation, route }) => {
   // value = type of social media user pressed
   const params = route.params;
-  console.log(params.type);
 
   const [alertOpen, setAlertOpen] = useState(false);
   const displayAlert = () => setAlertOpen(true);
@@ -23,7 +23,7 @@ const SMConfirm = ({ navigation, route }) => {
     console.log('lol cant implement');
     closeAlert();
     if (params.type === 'Login') navigation.navigate('Events');
-    else navigation.navigate('LoginRoutes', { screen: 'Sign Up Flow' });
+    else navigation.navigate('LoginRoutes', { screen: 'Connect Friends' });
   }
 
   const getImageSource = (imageName) => {
@@ -43,18 +43,7 @@ const SMConfirm = ({ navigation, route }) => {
 
   return (
     <PaperProvider theme={theme}>
-      <Appbar.Header
-        style={{
-          backgroundColor: '#f2f2f2',
-          marginLeft: 30,
-          zIndex: 2,
-        }}>
-        <Button
-          icon='arrow-left'
-          onPress={() => navigation.navigate('LoginRoutes', { screen: 'Landing' })}
-          style={styles.backButton}
-        />
-      </Appbar.Header>
+      <SignUpTopBarTwo navigation={navigation} />
       <WarningAlert
         description={`You are being redirected to ${params.value}.`}
         affirmText={'Keep Going'}
@@ -88,7 +77,7 @@ const SMConfirm = ({ navigation, route }) => {
           >
             <Image
               source={getImageSource(params.value)}
-              style={styles.icon} />
+              style={{ height: 50, width: 50 }} />
             <Text style={styles.text}>{params.type === 'Login' ? "LOG IN" : "SIGN UP"}</Text>
           </TouchableOpacity>
         </View>
@@ -119,14 +108,6 @@ const styles = StyleSheet.create({
     color: '#F0771A',
     fontWeight: 'bold',
     fontSize: 20,
-  },
-  backButton: {
-    width: 50,
-    backgroundColor: '#FFEBD0',
-  },
-  icon: {
-    height: 50,
-    width: 50,
   },
 });
 

@@ -5,7 +5,10 @@ import SignUp from '../screens/login/SignUp';
 import ForgotPassword from '../screens/login/ForgotPassword';
 import SMDirectory from '../screens/login/SMDirectory';
 import SMConfirm from '../screens/login/SMConfirm';
-import SignUpFlow from '../screens/login/SignUpFlow';
+import ConnectFriends from '../screens/login/ConnectFriends';
+import SyncCalendar from '../screens/login/SyncCalendar';
+import AddLocation from '../screens/login/AddLocation';
+import FinalSignUpConfirmation from '../screens/login/FinalSignUpConfirmation';
 
 const Root = createNativeStackNavigator();
 
@@ -47,8 +50,23 @@ export const LoginRoutes = () => {
         options={{ headerShown: false }}
       />
       <Root.Screen
-        name='Sign Up Flow'
-        component={SignUpFlow}
+        name='Connect Friends'
+        component={ConnectFriends}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen
+        name='Sync Calendar'
+        component={SyncCalendar}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen
+        name='Add Location'
+        component={AddLocation}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen
+        name='Final Sign Up Confirmation'
+        component={FinalSignUpConfirmation}
         options={{ headerShown: false }}
       />
     </Root.Navigator>
