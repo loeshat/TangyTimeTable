@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { theme } from '../../styles/Theme';
+import { calendarTheme, theme } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
-import { calendarTheme } from './EventPlan';
 import { Button, PaperProvider, Text } from 'react-native-paper';
 import { Image, View, ScrollView } from 'react-native';
 import { CalendarProvider, ExpandableCalendar } from 'react-native-calendars';

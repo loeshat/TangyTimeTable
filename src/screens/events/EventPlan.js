@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { theme, progressStyles } from '../../styles/Theme';
+import { calendarTheme, theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { PaperProvider, Text, TextInput, HelperText } from 'react-native-paper';
 import { Image, View } from 'react-native';
@@ -16,17 +16,6 @@ import { updateEventDetails } from '../../services/StoreService';
 
 // All screens related to finer event details planning such as
 // date, time and optional activity and location selection
-
-export const calendarTheme = {
-  textSectionTitleColor: theme.colors.text,
-  dayTextColor: theme.colors.text,
-  todayTextColor: theme.colors.success,
-  monthTextColor: theme.colors.text,
-  textMonthFontWeight: '500',
-  arrowColor: theme.colors.text,
-  selectedDayBackgroundColor: theme.colors.background,
-  selectedDayTextColor: theme.colors.primary,
-};
 
 const NewEventPlan = ({ route, navigation }) => {
   const { eventId } = route.params ?? {};

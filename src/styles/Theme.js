@@ -32,3 +32,17 @@ export const progressStyles = {
   disabledStepIconColor: '#D6D6D6',
   labelColor: theme.colors.disabled,
 }
+
+/**
+ * Styles for calendar component
+ */
+export const calendarTheme = {
+  textSectionTitleColor: theme.colors.text,
+  dayTextColor: theme.colors.text,
+  todayTextColor: theme.colors.success,
+  monthTextColor: theme.colors.text,
+  textMonthFontWeight: '500',
+  arrowColor: theme.colors.text,
+  selectedDayBackgroundColor: theme.colors.background,
+  selectedDayTextColor: theme.colors.primary,
+};
