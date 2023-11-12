@@ -20,10 +20,14 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     // handle login logic here
-    const success = await loginRequest(email, password)
-    if (success) navigation.navigate('Events');
+    const success = await loginRequest(email, password);
+    if (success) {
+      navigation.navigate('Events');
+    }
     // TODO: remember me functionality
   };
+
+  const isDisabled = !email || !password;
 
   return (
     <PaperProvider theme={theme}>
@@ -62,8 +66,10 @@ const Login = ({ navigation }) => {
             </View>
           </View>
           <TouchableOpacity
-            style={loginStyles.buttonPrimary}
-            onPress={handleLogin}>
+            style={[loginStyles.buttonPrimary, { opacity: isDisabled ? 0.3 : 1 }]}
+            onPress={handleLogin}
+            disabled={isDisabled}
+          >
             <Text style={loginStyles.buttonPrimaryText}>LOG IN</Text>
           </TouchableOpacity>
           <Divider style={loginStyles.divider}>

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from '../../styles/Theme';
 import { loginStyles } from '../../styles/LoginStyles';
-import { PaperProvider, Text, TextInput, Button, Divider, Appbar } from 'react-native-paper';
+import { PaperProvider, Text, TextInput, Button, Divider } from 'react-native-paper';
 import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
-import { signUpRequest } from '../../services/StoreService'
+import { signUpRequest } from '../../services/StoreService';
 
 /**
  * Sign up with password screen
@@ -25,11 +25,15 @@ const SignUp = ({ navigation }) => {
     // check that the password and confirmPassword are the same
     if (password === confirmPassword) {
       const success = await signUpRequest(fullName, email, password);
-      if (success) navigation.navigate('LoginRoutes', { screen: 'Connect Friends' })
+      if (success) {
+        navigation.navigate('LoginRoutes', { screen: 'Connect Friends' });
+      }
     } else {
       console.error('Passwords do not match');
     }
   };
+
+  const isDisabled = !fullName || !email || !password || !confirmPassword;
 
   return (
     <PaperProvider theme={theme}>
@@ -67,8 +71,10 @@ const SignUp = ({ navigation }) => {
             style={loginStyles.input}
           />
           <TouchableOpacity
-            style={loginStyles.buttonPrimary}
-            onPress={handleSignUp}>
+            style={[loginStyles.buttonPrimary, { opacity: isDisabled ? 0.3 : 1 }]}
+            onPress={handleSignUp}
+            disabled={isDisabled}
+          >
             <Text style={loginStyles.buttonPrimaryText}>SIGN UP</Text>
           </TouchableOpacity>
           <Divider style={loginStyles.divider}>
