@@ -9,6 +9,9 @@ import WarningAlert from '../../components/Alert';
 // For the user to add their own availabilities during event
 // planning process
 
+// TODO: Remove warning alert from here and work on conditional rendering
+// from user clicking on event
+
 const EventTimeInput = ({ route, navigation }) => {
   const { eventId, dates, times } = route.params ?? {};
 
@@ -18,6 +21,21 @@ const EventTimeInput = ({ route, navigation }) => {
   const returnHome = () => {
     closeAlert();
     navigation.navigate('Events');
+  }
+
+  const inputNav = (inputType) => {
+    navigation.navigate(
+      'EventRoutes', 
+      { 
+        screen: 'Availabilities', 
+        params: { 
+          type: inputType,
+          eventId: eventId, 
+          dates: dates, 
+          times: times 
+        } 
+      }
+    );
   }
 
   return (
@@ -81,6 +99,7 @@ const EventTimeInput = ({ route, navigation }) => {
               width: 200,
               borderRadius: 12,
             }}
+            onPress={() => inputNav('auto')}
           >
             Sync My Calendar
           </Button>
@@ -97,7 +116,7 @@ const EventTimeInput = ({ route, navigation }) => {
               width: 200,
               borderRadius: 12,
             }}
-            onPress={() => navigation.navigate('EventRoutes', { screen: 'Manual Time Input', params: { eventId: eventId, dates: dates, times: times } })}
+            onPress={() => inputNav('manual')}
           >
             Enter Manually
           </Button>

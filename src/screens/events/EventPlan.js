@@ -75,6 +75,7 @@ const NewEventPlan = ({ route, navigation }) => {
       inputEndTime: formatTime(toTime),
       activity: activity === 'Other' ? customActivity : activity,
       location: location,
+      status: 'in progress for availabilities input'
     };
     await updateEventDetails(eventId, newEventDetails);
     navigation.navigate('EventRoutes', 

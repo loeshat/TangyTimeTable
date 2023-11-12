@@ -9,9 +9,13 @@ import TitleTopBar from '../../components/TitleTopBar';
 import WarningAlert from '../../components/Alert';
 import TimeInput from '../../components/TimeInput';
 import { timeRange } from '../../services/helpers';
+import { updateEventDetails } from '../../services/StoreService';
 
-const ManualTimeInput = ({ route, navigation }) => {
-  const { eventId, dates, times } = route.params ?? {};
+const AvailabilityInput = ({ route, navigation }) => {
+  const { type, eventId, dates, times } = route.params ?? {};
+  const speech = type === 'manual' 
+                ? 'Let me know when you are busy!' 
+                : 'I found the following availabilities...';
 
   // Warning alert handling
   const [alertOpen, setAlertOpen] = useState(false);
@@ -24,6 +28,13 @@ const ManualTimeInput = ({ route, navigation }) => {
 
   // Availabilities input handling
   const timeArray = timeRange(times.start, times.end);
+  const [selectedDate, setSelectedDate] = useState(dates[0]);
+  const handleDayPress = (day) => setSelectedDate(day.dateString);
+
+  const updateEvent = () => {
+    updateEventDetails(eventId, { status: 'in progress for finalisation' });
+    navigation.navigate('EventRoutes', { screen: 'Time Confirmation Screen' });
+  }
 
   return (
     <PaperProvider theme={theme}>
@@ -48,7 +59,8 @@ const ManualTimeInput = ({ route, navigation }) => {
           >
             <View
               style={[flowStyles.speechContainer, {
-                marginRight: '18%'
+                marginRight: '18%',
+                width: 200,
               }]}
             >
               <Text
@@ -57,7 +69,7 @@ const ManualTimeInput = ({ route, navigation }) => {
                   color: theme.colors.text,
                 }}
               >
-                When are you free?
+                {speech}
               </Text>
             </View>
           </View>
@@ -76,7 +88,7 @@ const ManualTimeInput = ({ route, navigation }) => {
               alignItems: 'center',
               flexDirection: 'row',
               marginLeft: '70%',
-              marginTop: '8%',
+              marginTop: '5%',
             }}
           >
             <View
@@ -110,18 +122,41 @@ const ManualTimeInput = ({ route, navigation }) => {
                 theme={calendarTheme}
                 allowShadow={false}
                 pastScrollRange={0}
-                scrollEnabled={true}
+                onDayPress={handleDayPress}
                 minDate={dates[0]}
                 maxDate={dates[dates.length - 1]}
               />
               <View style={{ alignItems: 'center', marginTop: '2%', height: 220 }}>
-                <ScrollView>
-                  {
-                    timeArray.map((time, id) => (
-                      <TimeInput key={id} time={time} />
-                    ))
-                  }
-                </ScrollView>
+                {
+                  !dates.includes(selectedDate)
+                  &&
+                  <View
+                    style={{
+                      width: 300,
+                    }}
+                  >
+                    <Text
+                      variant='bodyLarge'
+                      style={{
+                        color: theme.colors.text,
+                        textAlign: 'center',
+                      }}
+                    >
+                      Availability Input Not Required for Selected Date
+                    </Text>
+                  </View>
+                }
+                {
+                  dates.includes(selectedDate)
+                  &&
+                  <ScrollView>
+                    {
+                      timeArray.map((time, id) => (
+                        <TimeInput key={id} time={time} />
+                      ))
+                    }
+                  </ScrollView>
+                }
               </View>
             </CalendarProvider>
           </View>
@@ -132,6 +167,7 @@ const ManualTimeInput = ({ route, navigation }) => {
               contentStyle={{
                 flexDirection: 'row-reverse'
               }}
+              onPress={updateEvent}
             >
               Confirm
             </Button>
@@ -142,4 +178,4 @@ const ManualTimeInput = ({ route, navigation }) => {
   );
 }
 
-export default ManualTimeInput;
+export default AvailabilityInput;

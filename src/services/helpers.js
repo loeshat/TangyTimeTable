@@ -29,3 +29,24 @@ export const timeRange = (startTime, endTime) => {
   }
   return hours;
 }
+
+/**
+ * Set up availabilities input storage array
+ * @param {*} dates 
+ * @param {*} times 
+ * @returns 
+ */
+export const inputArraySetup = (dates, startTime, endTime) => {
+  const res = [];
+  const times = timeRange(startTime, endTime);
+  for (const date of dates) {
+    const timeArray = [];
+    for (const time of times) {
+      const timeDict = { time: time, state: false };
+      timeArray.push(timeDict);
+    }
+    const dateDict = { [date]: timeArray };
+    res.push(dateDict);
+  }
+  return res;
+}
