@@ -1,5 +1,4 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Landing from '../screens/login/Landing';
 import Login from '../screens/login/Login';
 import SignUp from '../screens/login/SignUp';
 import ForgotPassword from '../screens/login/ForgotPassword';
@@ -20,11 +19,6 @@ const Root = createNativeStackNavigator();
 export const LoginRoutes = () => {
   return (
     <Root.Navigator>
-      <Root.Screen
-        name='Landing'
-        component={Landing}
-        options={{ headerShown: false }}
-      />
       <Root.Screen
         name='Login'
         component={Login}

@@ -1,5 +1,6 @@
 import React from 'react';
 import Home from './screens/Home';
+import Landing from './screens/Landing';
 import Create from './screens/Create';
 import FriendsHome from './screens/FriendsHome';
 import Profile from './screens/Profile';
