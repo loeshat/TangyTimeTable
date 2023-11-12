@@ -114,12 +114,8 @@ const ManualTimeInput = ({ route, navigation }) => {
                 minDate={dates[0]}
                 maxDate={dates[dates.length - 1]}
               />
-              <View style={{ alignItems: 'center', marginTop: '2%' }}>
-                <ScrollView
-                  style={{
-                    height: 300,
-                  }}
-                >
+              <View style={{ alignItems: 'center', marginTop: '2%', height: 220 }}>
+                <ScrollView>
                   {
                     timeArray.map((time, id) => (
                       <TimeInput key={id} time={time} />

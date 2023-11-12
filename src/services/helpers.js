@@ -19,10 +19,10 @@ export const formatTime = (dateObj) => {
  * @returns 
  */
 export const timeRange = (startTime, endTime) => {
-  const startHour = startTime.split(':')[0];
+  const startHour = Number(startTime.split(':')[0]);
   const endHour = endTime.includes(3) 
                   ? Number(endTime.split(':')[0]) + 1 
-                  : endTime.split(':')[0];
+                  : Number(endTime.split(':')[0]);
   const hours = [];
   for (let i = startHour; i <= endHour; i++) {
     hours.push(`${i}:00`);
