@@ -257,6 +257,26 @@ export const updateEventDetails = async (eventId, eventObj) => {
   }
 }
 
+/**
+ * Retrieve details about an event of given ID
+ * @param {*} eventId 
+ * @returns 
+ */
+export const getEvent = async (eventId) => {
+  try {
+    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    if (allEvents) {
+      const eventsArray = JSON.parse(allEvents);
+      const eventMatch = eventsArray.filter(e => e.eventId === eventId);
+      console.log(eventMatch[0]); // for testing only
+      return eventMatch[0];
+    }
+    return [];
+  } catch (e) {
+    console.log(`Failed to get event details for event ${eventId}: ${e}`);
+  }
+}
+
 // FOR TESTING ONLY
 export const clearEvents = async () => {
   await AsyncStorage.removeItem(EVENTS_KEY);

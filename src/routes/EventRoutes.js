@@ -4,6 +4,8 @@ import SelectGroupScreen from '../screens/events/SelectGroup';
 import NewEventPlan from '../screens/events/EventPlan';
 import EventTimeInput from '../screens/events/EventTimeInput';
 import NewEventDecider from '../screens/events/EventDecider';
+import AvailabilityInput from '../screens/events/AvailabilityInput';
+import TimeInputConfirmScreen from '../screens/events/TimeInputConfirmScreen';
 
 const Root = createNativeStackNavigator();
 
@@ -34,6 +36,16 @@ export const EventRoutes = () => {
       <Root.Screen 
         name='Event Time Input'
         component={EventTimeInput}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen 
+        name='Availabilities'
+        component={AvailabilityInput}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen 
+        name='Time Confirmation Screen'
+        component={TimeInputConfirmScreen}
         options={{ headerShown: false }}
       />
       <Root.Screen 

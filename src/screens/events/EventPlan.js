@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import { theme, progressStyles } from '../../styles/Theme';
+import { calendarTheme, theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { PaperProvider, Text, TextInput, HelperText } from 'react-native-paper';
 import { Image, View } from 'react-native';
@@ -16,14 +16,6 @@ import { updateEventDetails } from '../../services/StoreService';
 
 // All screens related to finer event details planning such as
 // date, time and optional activity and location selection
-
-const calendarTheme = {
-  textSectionTitleColor: theme.colors.text,
-  dayTextColor: theme.colors.text,
-  todayTextColor: theme.colors.success,
-  monthTextColor: theme.colors.text,
-  textMonthFontWeight: '500',
-};
 
 const NewEventPlan = ({ route, navigation }) => {
   const { eventId } = route.params ?? {};
@@ -72,9 +64,21 @@ const NewEventPlan = ({ route, navigation }) => {
       inputEndTime: formatTime(toTime),
       activity: activity === 'Other' ? customActivity : activity,
       location: location,
+      status: 'in progress for availabilities input'
     };
     await updateEventDetails(eventId, newEventDetails);
-    navigation.navigate('EventRoutes', { screen: 'Event Time Input', params: { eventId: eventId } });
+    navigation.navigate('EventRoutes', 
+      { 
+        screen: 'Event Time Input', 
+        params: { 
+          eventId: eventId, 
+          dates: Object.keys(markedDates),
+          times: {
+            start: newEventDetails.inputStartTime,
+            end: newEventDetails.inputEndTime,
+          },
+        }, 
+      });
   }
 
   return (
@@ -197,6 +201,7 @@ const NewEventPlan = ({ route, navigation }) => {
                 </Text>
                 <DateTimePicker 
                   mode='time'
+                  minuteInterval={30}
                   value={fromTime}
                   onChange={fromTimeHandler}
                 />
@@ -219,6 +224,7 @@ const NewEventPlan = ({ route, navigation }) => {
                 </Text>
                 <DateTimePicker 
                   mode='time'
+                  minuteInterval={30}
                   value={toTime}
                   onChange={toTimeHandler}
                 />
