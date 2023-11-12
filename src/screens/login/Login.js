@@ -4,6 +4,7 @@ import { theme } from '../../styles/Theme';
 import { loginStyles } from '../../styles/LoginStyles';
 import { PaperProvider, Text, TextInput, Button, Divider, Checkbox } from 'react-native-paper';
 import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
+import { loginRequest } from '../../services/StoreService';
 
 /**
  * Login with password screen
@@ -17,8 +18,11 @@ const Login = ({ navigation }) => {
   const [hovered, setHovered] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     // handle login logic here
+    const success = await loginRequest(email, password)
+    if (success) navigation.navigate('Events');
+    // TODO: remember me functionality
   };
 
   return (
@@ -32,12 +36,15 @@ const Login = ({ navigation }) => {
             label='Email'
             value={email}
             onChangeText={setEmail}
+            autoCapitalize='none'
             style={loginStyles.input}
           />
           <TextInput
             label='Password'
             value={password}
             onChangeText={setPassword}
+            autoCapitalize='none'
+            secureTextEntry
             style={loginStyles.input}
           />
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

@@ -4,6 +4,7 @@ import { theme } from '../../styles/Theme';
 import { loginStyles } from '../../styles/LoginStyles';
 import { PaperProvider, Text, TextInput, Button, Divider, Appbar } from 'react-native-paper';
 import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
+import { signUpRequest } from '../../services/StoreService'
 
 /**
  * Sign up with password screen
@@ -18,9 +19,16 @@ const SignUp = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [hovered, setHovered] = useState(false);
 
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
     // handle sign up logic here
     console.log('handle signup');
+    // check that the password and confirmPassword are the same
+    if (password === confirmPassword) {
+      const success = await signUpRequest(fullName, email, password);
+      if (success) navigation.navigate('LoginRoutes', { screen: 'Connect Friends' })
+    } else {
+      console.error('Passwords do not match');
+    }
   };
 
   return (
@@ -39,12 +47,15 @@ const SignUp = ({ navigation }) => {
             label='Email'
             value={email}
             onChangeText={setEmail}
+            autoCapitalize='none'
             style={loginStyles.input}
           />
           <TextInput
             label='Password'
             value={password}
             onChangeText={setPassword}
+            secureTextEntry
+            autoCapitalize='none'
             style={loginStyles.input}
           />
           <TextInput
@@ -52,6 +63,7 @@ const SignUp = ({ navigation }) => {
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
+            autoCapitalize='none'
             style={loginStyles.input}
           />
           <TouchableOpacity
