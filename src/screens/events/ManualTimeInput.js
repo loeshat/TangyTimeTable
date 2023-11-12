@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { theme } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
-import { Button, PaperProvider, Text } from 'react-native-paper';
-import { Image, View } from 'react-native';
+import { PaperProvider, Text } from 'react-native-paper';
+import { Image, View, TouchableOpacity } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
 import WarningAlert from '../../components/Alert';
 
-// For the user to add their own availabilities during event
-// planning process
-
-const EventTimeInput = ({ route, navigation }) => {
+const ManualTimeInput = ({ route, navigation }) => {
   const { eventId } = route.params ?? {};
 
+  // Warning alert handling
   const [alertOpen, setAlertOpen] = useState(false);
   const openAlert = () => setAlertOpen(true);
   const closeAlert = () => setAlertOpen(false);
@@ -35,17 +33,16 @@ const EventTimeInput = ({ route, navigation }) => {
           closeAction={closeAlert}
           visible={alertOpen}
         />
-        <View
-          style={{ alignItems: 'center' }}
-        >
+        <View style={{ alignItems: 'center' }}>
           <View
             style={[flowStyles.outerSpeech, {
-              marginTop: '40%',
-              marginRight: '30%'
+              marginTop: '15%'
             }]}
           >
             <View
-              style={[flowStyles.speechContainer]}
+              style={[flowStyles.speechContainer, {
+                marginRight: '18%'
+              }]}
             >
               <Text
                 variant='bodyLarge'
@@ -59,8 +56,7 @@ const EventTimeInput = ({ route, navigation }) => {
           </View>
           <View
             style={[flowStyles.imageContainer, {
-              marginLeft: '28%',
-              marginBottom: '8%'
+              marginLeft: '25%'
             }]}
           >
             <Image 
@@ -68,43 +64,11 @@ const EventTimeInput = ({ route, navigation }) => {
               style={flowStyles.imageStyle}
             />
           </View>
-          <Button
-            mode='contained'
-            contentStyle={{
-              height: 60
-            }}
-            labelStyle={{
-              fontSize: 18
-            }}
-            style={{
-              marginBottom: '5%',
-              width: 200,
-              borderRadius: 12,
-            }}
-          >
-            Sync My Calendar
-          </Button>
-          <Button
-            mode='contained'
-            buttonColor={theme.colors.success}
-            contentStyle={{
-              height: 60
-            }}
-            labelStyle={{
-              fontSize: 18
-            }}
-            style={{
-              width: 200,
-              borderRadius: 12,
-            }}
-            onPress={() => navigation.navigate('EventRoutes', { screen: 'Manual Time Input', params: { eventId: eventId } })}
-          >
-            Enter Manually
-          </Button>
+          
         </View>
       </View>
     </PaperProvider>
   );
 }
 
-export default EventTimeInput;
+export default ManualTimeInput;

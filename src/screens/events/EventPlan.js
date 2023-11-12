@@ -197,6 +197,7 @@ const NewEventPlan = ({ route, navigation }) => {
                 </Text>
                 <DateTimePicker 
                   mode='time'
+                  minuteInterval={30}
                   value={fromTime}
                   onChange={fromTimeHandler}
                 />
@@ -219,6 +220,7 @@ const NewEventPlan = ({ route, navigation }) => {
                 </Text>
                 <DateTimePicker 
                   mode='time'
+                  minuteInterval={30}
                   value={toTime}
                   onChange={toTimeHandler}
                 />
