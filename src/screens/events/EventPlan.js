@@ -17,12 +17,15 @@ import { updateEventDetails } from '../../services/StoreService';
 // All screens related to finer event details planning such as
 // date, time and optional activity and location selection
 
-const calendarTheme = {
+export const calendarTheme = {
   textSectionTitleColor: theme.colors.text,
   dayTextColor: theme.colors.text,
   todayTextColor: theme.colors.success,
   monthTextColor: theme.colors.text,
   textMonthFontWeight: '500',
+  arrowColor: theme.colors.text,
+  selectedDayBackgroundColor: theme.colors.background,
+  selectedDayTextColor: theme.colors.primary,
 };
 
 const NewEventPlan = ({ route, navigation }) => {
@@ -74,7 +77,18 @@ const NewEventPlan = ({ route, navigation }) => {
       location: location,
     };
     await updateEventDetails(eventId, newEventDetails);
-    navigation.navigate('EventRoutes', { screen: 'Event Time Input', params: { eventId: eventId } });
+    navigation.navigate('EventRoutes', 
+      { 
+        screen: 'Event Time Input', 
+        params: { 
+          eventId: eventId, 
+          dates: Object.keys(markedDates),
+          times: {
+            start: newEventDetails.inputStartTime,
+            end: newEventDetails.inputEndTime,
+          },
+        }, 
+      });
   }
 
   return (

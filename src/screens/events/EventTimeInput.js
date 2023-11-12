@@ -10,7 +10,7 @@ import WarningAlert from '../../components/Alert';
 // planning process
 
 const EventTimeInput = ({ route, navigation }) => {
-  const { eventId } = route.params ?? {};
+  const { eventId, dates, times } = route.params ?? {};
 
   const [alertOpen, setAlertOpen] = useState(false);
   const openAlert = () => setAlertOpen(true);
@@ -97,7 +97,7 @@ const EventTimeInput = ({ route, navigation }) => {
               width: 200,
               borderRadius: 12,
             }}
-            onPress={() => navigation.navigate('EventRoutes', { screen: 'Manual Time Input', params: { eventId: eventId } })}
+            onPress={() => navigation.navigate('EventRoutes', { screen: 'Manual Time Input', params: { eventId: eventId, dates: dates, times: times } })}
           >
             Enter Manually
           </Button>
