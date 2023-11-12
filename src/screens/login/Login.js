@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from '../../styles/Theme';
 import { loginStyles } from '../../styles/LoginStyles';
-import { PaperProvider, Text, TextInput, Button, Divider, Checkbox, Appbar } from 'react-native-paper';
+import { PaperProvider, Text, TextInput, Button, Divider, Checkbox } from 'react-native-paper';
 import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
 
 /**
@@ -24,15 +24,9 @@ const Login = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>
       <SignUpTopBarTwo navigation={navigation} />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
-          <Text style={{
-            color: theme.colors.text,
-            fontWeight: 'bold',
-            fontSize: 50,
-            textAlign: 'left',
-            padding: 20,
-          }}
+          <Text style={loginStyles.title}
           >Log in with password</Text>
           <TextInput
             label='Email'
@@ -60,9 +54,11 @@ const Login = ({ navigation }) => {
               </TouchableOpacity>
             </View>
           </View>
-          <Button mode='contained' onPress={handleLogin} style={{ marginTop: 20 }}>
-            LOG IN
-          </Button>
+          <TouchableOpacity
+            style={loginStyles.buttonPrimary}
+            onPress={handleLogin}>
+            <Text style={loginStyles.buttonPrimaryText}>LOG IN</Text>
+          </TouchableOpacity>
           <Divider style={loginStyles.divider}>
             <Text style={loginStyles.dividerText}>or continue with</Text>
           </Divider>

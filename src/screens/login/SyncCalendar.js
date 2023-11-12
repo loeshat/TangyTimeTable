@@ -4,6 +4,7 @@ import { loginStyles } from '../../styles/LoginStyles';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { PaperProvider, Text, Divider, TextInput } from 'react-native-paper';
 import SignUpTopBar from '../../components/SignUpTopBar';
+import WarningAlert from '../../components/Alert'
 
 /**
  * Sign up flow
@@ -15,6 +16,11 @@ const SyncCalendar = ({ navigation }) => {
   const [calendarLink, setCalendarLink] = useState('');
   const [selectedCalendar, setSelectedCalendar] = useState(null);
   const [hasTextInput, setHasTextInput] = useState(false);
+
+  // for the confirmation
+  const [alertOpen, setAlertOpen] = useState(false);
+  const displayAlert = () => setAlertOpen(true);
+  const closeAlert = () => setAlertOpen(false);
 
   const calendarMethods = [
     { name: 'Google', color: 'lightgreen', icon: require('../../assets/google.png') },
@@ -37,10 +43,18 @@ const SyncCalendar = ({ navigation }) => {
       <SignUpTopBar
         navigation={navigation}
         section='Sync Calendar' />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <WarningAlert
+        description={`You are connecting your ${selectedCalendar} Calendar with TangyTimeTable.`}
+        affirmText={'Keep Going'}
+        affirmAction={handleSyncCalendar}
+        affirmContentStyle={{ width: 125 }}
+        cancelAction={closeAlert}
+        closeAction={closeAlert}
+        visible={alertOpen}
+      />
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
-          <Text style={styles.title}>
-            Sync your calendar</Text>
+          <Text style={loginStyles.title}>Sync your calendar</Text>
           {calendarMethods.map((account) => (
             <TouchableOpacity
               key={account.name}
@@ -72,7 +86,7 @@ const SyncCalendar = ({ navigation }) => {
               loginStyles.buttonPrimary,
               { opacity: !selectedCalendar && !hasTextInput ? 0.3 : 1 },
             ]}
-            onPress={handleSyncCalendar}
+            onPress={displayAlert}
             disabled={!selectedCalendar && !hasTextInput}
           >
             <Text style={loginStyles.buttonPrimaryText}>SYNC CALENDAR</Text>
@@ -86,18 +100,11 @@ const SyncCalendar = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    width: '80%',
+    width: '90%',
   },
   input: {
     marginBottom: 10,
     backgroundColor: 'white',
-  },
-  title: {
-    color: theme.colors.text,
-    fontWeight: 'bold',
-    fontSize: 40,
-    textAlign: 'left',
-    padding: 20,
   },
   smContainer: {
     display: 'flex',

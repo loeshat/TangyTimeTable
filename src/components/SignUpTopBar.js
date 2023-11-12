@@ -19,7 +19,7 @@ const SignUpTopBar = ({ navigation, section }) => {
   return (
     <Appbar.Header
       style={{
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#FFFFFF',
         marginHorizontal: 30,
         zIndex: 2,
         justifyContent: 'space-between',

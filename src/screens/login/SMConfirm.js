@@ -4,6 +4,7 @@ import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { PaperProvider, Text } from 'react-native-paper';
 import WarningAlert from '../../components/Alert'
 import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
+import { loginStyles } from '../../styles/LoginStyles';
 
 /**
  * Sign up flow
@@ -53,24 +54,18 @@ const SMConfirm = ({ navigation, route }) => {
         closeAction={closeAlert}
         visible={alertOpen}
       />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
           <Image
             source={require('../../assets/wave.png')}
             style={{
               height: 200,
               width: 200,
-              marginBottom: 50
+              marginVertical: 50
             }}
           />
-          <Text
-            style={{
-              color: theme.colors.text,
-              fontWeight: 'bold',
-              fontSize: 45,
-            }}
-          >
-            {params.type === 'Login' ? "Log in as [user name]?" : "Sign up as [user name]?"} </Text>
+          <Text style={[loginStyles.title, { textAlign: 'center' }]}>
+            {params.type === 'Login' ? "Log in as [username]?" : "Sign up as [username]?"} </Text>
           <TouchableOpacity
             onPress={displayAlert}
             style={styles.button}
@@ -89,24 +84,27 @@ const SMConfirm = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    width: '80%',
+    width: '90%',
+    alignItems: 'center',
   },
   button: {
     backgroundColor: '#FFEBD0',
     borderColor: '#F0771A',
     borderWidth: 1,
-    width: '60%',
+    width: '80%',
     marginTop: 40,
     padding: 15,
+    paddingLeft: 15,
     borderRadius: 5,
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     flexDirection: 'row',
   },
   text: {
     color: '#F0771A',
     fontWeight: 'bold',
+    paddingLeft: 30,
     fontSize: 20,
   },
 });

@@ -26,16 +26,9 @@ const SignUp = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>
       <SignUpTopBarTwo navigation={navigation} />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
-          <Text style={{
-            color: theme.colors.text,
-            fontWeight: 'bold',
-            fontSize: 50,
-            textAlign: 'left',
-            padding: 20,
-          }}
-          >Create an account</Text>
+          <Text style={loginStyles.title}>Create an account</Text>
           <TextInput
             label='Full Name'
             value={fullName}
@@ -61,9 +54,11 @@ const SignUp = ({ navigation }) => {
             secureTextEntry
             style={styles.input}
           />
-          <Button mode='contained' onPress={handleSignUp} style={{ marginTop: 20 }}>
-            Sign Up
-          </Button>
+          <TouchableOpacity
+            style={loginStyles.buttonPrimary}
+            onPress={handleSignUp}>
+            <Text style={loginStyles.buttonPrimaryText}>SIGN UP</Text>
+          </TouchableOpacity>
           <Divider style={loginStyles.divider}>
             <Text style={loginStyles.dividerText}>or continue with</Text>
           </Divider>

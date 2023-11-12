@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { theme } from './Theme';
 
 export const loginStyles = StyleSheet.create({
   divider: {
@@ -9,11 +10,11 @@ export const loginStyles = StyleSheet.create({
     padding: 0,
   },
   dividerText: {
-    marginHorizontal: 10,
+    paddingHorizontal: 20,
     color: 'lightgrey',
     fontSize: 16,
-    backgroundColor: '#f2f2f2',
-    margin: 5,
+    backgroundColor: '#FFFFFF',
+    height: 20,
   },
   buttonPrimary: {
     backgroundColor: '#F0771A',
@@ -26,5 +27,26 @@ export const loginStyles = StyleSheet.create({
   buttonPrimaryText: {
     color: '#FFFFFF',
     fontWeight: 'bold',
+  },
+  title: {
+    color: theme.colors.text,
+    fontWeight: 'bold',
+    fontSize: 40,
+    textAlign: 'left',
+    padding: 20,
+  },
+  buttonSecondary: {
+    backgroundColor: '#FFEBD0',
+    borderColor: '#F0771A',
+    borderWidth: 1,
+    padding: 15,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonTextSecondary: {
+    color: '#F0771A',
+    fontWeight: 'bold',
+    fontSize: 20,
   },
 });

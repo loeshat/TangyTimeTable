@@ -30,9 +30,9 @@ function SMDirectory({ route, navigation }) {
   return (
     <PaperProvider theme={theme}>
       <SignUpTopBarTwo navigation={navigation} />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
-          <Text style={styles.title}>
+          <Text style={loginStyles.title}>
             {value === 'Login' ? "Let's log in!" : "Let's get started!"}</Text>
           {socialMediaAccounts.map((account) => (
             <TouchableOpacity
@@ -48,13 +48,12 @@ function SMDirectory({ route, navigation }) {
           <Divider style={loginStyles.divider}>
             <Text style={loginStyles.dividerText}>or</Text>
           </Divider>
-          <Button
-            mode='contained'
-            onPress={handlePasswordLoginSignup}
-            style={styles.button}
-          >
-            {value === 'Login' ? "LOG IN WITH PASSWORD" : "SIGN UP USING PASSWORD"}
-          </Button>
+          <TouchableOpacity
+            style={loginStyles.buttonPrimary}
+            onPress={handlePasswordLoginSignup}>
+            <Text style={loginStyles.buttonPrimaryText}>
+              {value === 'Login' ? "LOG IN WITH PASSWORD" : "SIGN UP USING PASSWORD"}</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </PaperProvider>
@@ -65,13 +64,6 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     width: '80%',
-  },
-  title: {
-    color: theme.colors.text,
-    fontWeight: 'bold',
-    fontSize: 30,
-    textAlign: 'left',
-    padding: 20,
   },
   button: {
     marginTop: 20,

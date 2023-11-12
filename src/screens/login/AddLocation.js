@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { theme } from '../../styles/Theme';
-import { View, StyleSheet } from 'react-native';
-import { PaperProvider, Text } from 'react-native-paper';
+import { loginStyles } from '../../styles/LoginStyles';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { PaperProvider, Text, Button, TextInput } from 'react-native-paper';
 import SignUpTopBar from '../../components/SignUpTopBar';
+import WarningAlert from '../../components/Alert'
 
 /**
  * Sign up flow
@@ -11,15 +13,53 @@ import SignUpTopBar from '../../components/SignUpTopBar';
  */
 
 const AddLocation = ({ navigation }) => {
+  // for the tipbit on why we take your location
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [location, setLocation] = useState('');
+  const [hasTextInput, setHasTextInput] = useState(false);
+  const displayAlert = () => setAlertOpen(true);
+  const closeAlert = () => setAlertOpen(false);
+
   return (
     <PaperProvider theme={theme}>
       <SignUpTopBar
         navigation={navigation}
         section='Add Location' />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <WarningAlert
+        description={`We're asking you for your suburb and postcode so that we can suggest activity locations nearby your whereabouts to minimise your travel time to events!`}
+        affirmText={'Ok'}
+        affirmAction={closeAlert}
+        affirmContentStyle={{ width: 125 }}
+        cancelAction={closeAlert}
+        closeAction={closeAlert}
+        visible={alertOpen}
+      />
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
-          <Text style={styles.title}>
-            Add your location</Text>
+          <TouchableOpacity onPress={displayAlert}>
+            <Text style={loginStyles.title}>
+              Add your location<Button icon={'comment-question'} /></Text>
+          </TouchableOpacity>
+          <TextInput
+            label='Suburb, Postcode'
+            value={location}
+            onChangeText={(text) => {
+              setLocation(text);
+              setHasTextInput(text.length > 0);
+              if (location === '') setHasTextInput(false);
+            }}
+            style={styles.input}
+          />
+          <TouchableOpacity
+            style={[
+              loginStyles.buttonPrimary,
+              { opacity: !hasTextInput ? 0.3 : 1 },
+            ]}
+            onPress={() => { navigation.navigate('LoginRoutes', { screen: 'Final Sign Up Confirmation' }) }}
+            disabled={!hasTextInput}
+          >
+            <Text style={loginStyles.buttonPrimaryText}>SAVE LOCATION</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </PaperProvider>
@@ -29,7 +69,11 @@ const AddLocation = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    width: '80%',
+    width: '90%',
+  },
+  input: {
+    marginBottom: 10,
+    backgroundColor: 'white',
   },
 });
 

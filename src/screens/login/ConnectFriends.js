@@ -39,17 +39,9 @@ const ConnectFriends = ({ navigation }) => {
       <SignUpTopBar
         navigation={navigation}
         section='Connect Friends' />
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <View style={styles.container}>
-          <Text
-            style={{
-              color: theme.colors.text,
-              fontWeight: 'bold',
-              fontSize: 45,
-              padding: 30,
-            }}
-          >
-            Connect with your friends</Text>
+          <Text style={loginStyles.title}>Connect with your friends</Text>
           <View style={styles.searchContainer}>
             <TextInput
               style={styles.searchBar}

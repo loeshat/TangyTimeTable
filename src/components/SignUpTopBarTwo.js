@@ -10,7 +10,7 @@ const SignUpTopBarTwo = ({ navigation }) => {
   return (
     <Appbar.Header
       style={{
-        backgroundColor: '#f2f2f2',
+        backgroundColor: '#FFFFFF',
         marginLeft: 30,
         zIndex: 2,
       }}>
