@@ -7,7 +7,7 @@ import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
 import { loginStyles } from '../../styles/LoginStyles';
 
 /**
- * Sign up flow
+ * Confirming that you will be logging in/signing up with a social media account
  * @param {*} navigation 
  * @returns 
  */
@@ -55,7 +55,7 @@ const SMConfirm = ({ navigation, route }) => {
         visible={alertOpen}
       />
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-        <View style={styles.container}>
+        <View style={{ padding: 20, width: '90%', alignItems: 'center' }}>
           <Image
             source={require('../../assets/wave.png')}
             style={{
@@ -82,11 +82,6 @@ const SMConfirm = ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    width: '90%',
-    alignItems: 'center',
-  },
   button: {
     backgroundColor: '#FFEBD0',
     borderColor: '#F0771A',

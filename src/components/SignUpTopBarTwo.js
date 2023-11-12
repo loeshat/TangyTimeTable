@@ -2,7 +2,7 @@ import React from 'react';
 import { Appbar, Button } from 'react-native-paper';
 
 /**
- * Default top navigation bar, containing TangyTimeTable logo and profile icon button
+ * top nav bar of the log in/sign up flow. only has a back button
  * @param {*} navigation 
  * @returns 
  */

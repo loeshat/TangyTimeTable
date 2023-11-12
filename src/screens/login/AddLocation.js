@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { theme } from '../../styles/Theme';
 import { loginStyles } from '../../styles/LoginStyles';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { PaperProvider, Text, Button, TextInput } from 'react-native-paper';
 import SignUpTopBar from '../../components/SignUpTopBar';
 import WarningAlert from '../../components/Alert'
 
 /**
- * Sign up flow
+ * Add Location screen of the sign up flow
  * @param {*} navigation 
  * @returns 
  */
@@ -35,7 +35,7 @@ const AddLocation = ({ navigation }) => {
         visible={alertOpen}
       />
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-        <View style={styles.container}>
+        <View style={{ padding: 20, width: '90%' }}>
           <TouchableOpacity onPress={displayAlert}>
             <Text style={loginStyles.title}>
               Add your location<Button icon={'comment-question'} /></Text>
@@ -48,7 +48,7 @@ const AddLocation = ({ navigation }) => {
               setHasTextInput(text.length > 0);
               if (location === '') setHasTextInput(false);
             }}
-            style={styles.input}
+            style={loginStyles.input}
           />
           <TouchableOpacity
             style={[
@@ -65,16 +65,5 @@ const AddLocation = ({ navigation }) => {
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    width: '90%',
-  },
-  input: {
-    marginBottom: 10,
-    backgroundColor: 'white',
-  },
-});
 
 export default AddLocation;

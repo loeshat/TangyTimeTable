@@ -1,10 +1,10 @@
 import React from 'react';
 import { theme } from '../styles/Theme';
 import { TouchableOpacity, StyleSheet } from 'react-native';
-import { Appbar, PaperProvider, Button, Text } from 'react-native-paper';
+import { Appbar, Button, Text } from 'react-native-paper';
 
 /**
- * Default top navigation bar, containing TangyTimeTable logo and profile icon button
+ * Top nav bar for the sign up flow. has a back and skip button
  * @param {*} navigation 
  * @param {String} section: the section the user navigated FROM
  * @returns 

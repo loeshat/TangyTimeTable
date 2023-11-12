@@ -8,7 +8,7 @@ import { FriendsList } from '../../services/Data';
 import SignUpTopBar from '../../components/SignUpTopBar';
 
 /**
- * Sign up flow
+ * Connect with friends screen of the sign up flow
  * @param {*} navigation 
  * @returns 
  */
@@ -40,7 +40,7 @@ const ConnectFriends = ({ navigation }) => {
         navigation={navigation}
         section='Connect Friends' />
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-        <View style={styles.container}>
+        <View style={{ padding: 20, width: '90%' }}>
           <Text style={loginStyles.title}>Connect with your friends</Text>
           <View style={styles.searchContainer}>
             <TextInput
@@ -91,10 +91,6 @@ const ConnectFriends = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    width: '90%',
-  },
   searchContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -6,7 +6,7 @@ import { PaperProvider, Text, TextInput, Button, Divider, Checkbox } from 'react
 import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
 
 /**
- * Login flow
+ * Login with password screen
  * @param {*} navigation 
  * @returns 
  */
@@ -25,20 +25,20 @@ const Login = ({ navigation }) => {
     <PaperProvider theme={theme}>
       <SignUpTopBarTwo navigation={navigation} />
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-        <View style={styles.container}>
-          <Text style={loginStyles.title}
+        <View style={{ padding: 20, width: '80%' }}>
+          <Text style={[loginStyles.title, { textAlign: 'center' }]}
           >Log in with password</Text>
           <TextInput
             label='Email'
             value={email}
             onChangeText={setEmail}
-            style={styles.input}
+            style={loginStyles.input}
           />
           <TextInput
             label='Password'
             value={password}
             onChangeText={setPassword}
-            style={styles.input}
+            style={loginStyles.input}
           />
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -83,14 +83,6 @@ const Login = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    width: '80%',
-  },
-  input: {
-    marginBottom: 10,
-    backgroundColor: 'white',
-  },
   socialButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',

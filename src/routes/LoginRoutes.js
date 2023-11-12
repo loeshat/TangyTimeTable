@@ -9,6 +9,7 @@ import ConnectFriends from '../screens/login/ConnectFriends';
 import SyncCalendar from '../screens/login/SyncCalendar';
 import AddLocation from '../screens/login/AddLocation';
 import FinalSignUpConfirmation from '../screens/login/FinalSignUpConfirmation';
+import VerificationCode from '../screens/login/VerificationCode';
 
 const Root = createNativeStackNavigator();
 
@@ -67,6 +68,11 @@ export const LoginRoutes = () => {
       <Root.Screen
         name='Final Sign Up Confirmation'
         component={FinalSignUpConfirmation}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen
+        name='Verification Code'
+        component={VerificationCode}
         options={{ headerShown: false }}
       />
     </Root.Navigator>

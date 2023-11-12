@@ -5,7 +5,7 @@ import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { PaperProvider, Text, Button } from 'react-native-paper';
 
 /**
- * Sign up flow
+ * Final confirmation screen of the sign up flow
  * @param {*} navigation 
  * @returns 
  */
@@ -14,7 +14,7 @@ const FinalSignUpConfirmation = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-        <View style={styles.container}>
+        <View style={{ padding: 20, width: '90%', alignItems: 'center' }}>
           <Image
             source={require('../../assets/wave.png')}
             style={{
@@ -38,11 +38,6 @@ const FinalSignUpConfirmation = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    width: '90%',
-    alignItems: 'center',
-  },
   flex: {
     display: 'flex',
     flexDirection: 'row',

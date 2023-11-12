@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { theme } from '../../styles/Theme';
 import { loginStyles } from '../../styles/LoginStyles';
-import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
 import { PaperProvider, Text, Divider, TextInput } from 'react-native-paper';
 import SignUpTopBar from '../../components/SignUpTopBar';
 import WarningAlert from '../../components/Alert'
 
 /**
- * Sign up flow
+ * Sync calendar screen of the sign up flow
  * @param {*} navigation 
  * @returns 
  */
@@ -53,14 +53,14 @@ const SyncCalendar = ({ navigation }) => {
         visible={alertOpen}
       />
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-        <View style={styles.container}>
+        <View style={{ padding: 20, width: '90%' }}>
           <Text style={loginStyles.title}>Sync your calendar</Text>
           {calendarMethods.map((account) => (
             <TouchableOpacity
               key={account.name}
               onPress={() => highlightCalendar(account.name)}
               style={[
-                styles.smContainer,
+                loginStyles.smContainer,
                 { backgroundColor: account.name === selectedCalendar ? theme.colors.primary : account.color }
               ]}
             >
@@ -79,7 +79,7 @@ const SyncCalendar = ({ navigation }) => {
               setHasTextInput(text.length > 0);
               highlightCalendar();
             }}
-            style={styles.input}
+            style={loginStyles.input}
           />
           <TouchableOpacity
             style={[
@@ -96,25 +96,5 @@ const SyncCalendar = ({ navigation }) => {
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    width: '90%',
-  },
-  input: {
-    marginBottom: 10,
-    backgroundColor: 'white',
-  },
-  smContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    padding: 20,
-    margin: 10,
-    borderRadius: 10,
-  },
-});
 
 export default SyncCalendar;

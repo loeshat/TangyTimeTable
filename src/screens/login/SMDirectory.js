@@ -1,12 +1,12 @@
 import React from 'react';
 import { theme } from '../../styles/Theme';
 import { loginStyles } from '../../styles/LoginStyles';
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import { PaperProvider, Text, Appbar, Button, Divider } from 'react-native-paper';
+import { View, Image, TouchableOpacity } from 'react-native';
+import { PaperProvider, Text, Divider } from 'react-native-paper';
 import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
 
 /**
- * Sign up flow
+ * Directory where you can choose what social media account that you will be logging in/signing up with 
  * @param {*} navigation 
  * @returns 
  */
@@ -31,7 +31,7 @@ function SMDirectory({ route, navigation }) {
     <PaperProvider theme={theme}>
       <SignUpTopBarTwo navigation={navigation} />
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-        <View style={styles.container}>
+        <View style={{ padding: 20, width: '80%' }}>
           <Text style={loginStyles.title}>
             {value === 'Login' ? "Let's log in!" : "Let's get started!"}</Text>
           {socialMediaAccounts.map((account) => (
@@ -39,7 +39,7 @@ function SMDirectory({ route, navigation }) {
               key={account.name}
               onPress={() => navigation.navigate('LoginRoutes',
                 { screen: 'Social Media Confirm', params: { value: account.name, type: value } })}
-              style={[styles.smContainer, { backgroundColor: account.color }]}
+              style={[loginStyles.smContainer, { backgroundColor: account.color }]}
             >
               <Image source={account.icon} style={{ height: 25, width: 25 }} />
               <Text style={{ fontSize: 16 }}>Continue with {account.name}</Text>
@@ -56,27 +56,8 @@ function SMDirectory({ route, navigation }) {
           </TouchableOpacity>
         </View>
       </View>
-    </PaperProvider>
+    </PaperProvider >
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    width: '80%',
-  },
-  button: {
-    marginTop: 20,
-  },
-  smContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-    padding: 20,
-    margin: 10,
-    borderRadius: 10,
-  },
-});
 
 export default SMDirectory;

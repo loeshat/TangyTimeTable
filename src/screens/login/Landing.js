@@ -5,7 +5,7 @@ import { View, Image, TouchableOpacity } from 'react-native';
 import { PaperProvider, Text } from 'react-native-paper';
 
 /**
- * Main Events page, containing filters for upcoming, in progress and past events
+ * Landing page of TangyTimeTable - the first screen you will see when you open TangyTimeTable
  * @param {*} navigation 
  * @returns 
  */
@@ -22,7 +22,7 @@ const Landing = ({ navigation }) => {
             marginBottom: 50
           }}
         />
-        <Text style={loginStyles.title}>Welcome to TangyTimeTable!</Text>
+        <Text style={[loginStyles.title, { textAlign: 'center' }]}>Welcome to TangyTimeTable!</Text>
         <TouchableOpacity
           style={[loginStyles.buttonPrimary, { width: '60%' }]}
           onPress={() => navigation.navigate('LoginRoutes', { screen: 'Social Media Directory', params: { value: 'Login' } })}>

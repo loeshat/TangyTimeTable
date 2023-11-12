@@ -6,7 +6,7 @@ import { PaperProvider, Text, TextInput, Button, Divider, Appbar } from 'react-n
 import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
 
 /**
- * Sign up flow
+ * Sign up with password screen
  * @param {*} navigation 
  * @returns 
  */
@@ -27,32 +27,32 @@ const SignUp = ({ navigation }) => {
     <PaperProvider theme={theme}>
       <SignUpTopBarTwo navigation={navigation} />
       <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF' }}>
-        <View style={styles.container}>
-          <Text style={loginStyles.title}>Create an account</Text>
+        <View style={{ padding: 20, width: '80%' }}>
+          <Text style={[loginStyles.title, { textAlign: 'center' }]}>Create an account</Text>
           <TextInput
             label='Full Name'
             value={fullName}
             onChangeText={setFullName}
-            style={styles.input}
+            style={loginStyles.input}
           />
           <TextInput
             label='Email'
             value={email}
             onChangeText={setEmail}
-            style={styles.input}
+            style={loginStyles.input}
           />
           <TextInput
             label='Password'
             value={password}
             onChangeText={setPassword}
-            style={styles.input}
+            style={loginStyles.input}
           />
           <TextInput
             label='Confirm Password'
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry
-            style={styles.input}
+            style={loginStyles.input}
           />
           <TouchableOpacity
             style={loginStyles.buttonPrimary}
@@ -83,14 +83,6 @@ const SignUp = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    width: '80%',
-  },
-  input: {
-    marginBottom: 10,
-    backgroundColor: 'white'
-  },
   socialButtonsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',

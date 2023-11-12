@@ -49,4 +49,17 @@ export const loginStyles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
+  input: {
+    marginBottom: 10,
+    backgroundColor: 'white'
+  },
+  smContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexDirection: 'row',
+    padding: 20,
+    margin: 10,
+    borderRadius: 10,
+  },
 });
