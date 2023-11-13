@@ -14,7 +14,7 @@ import { loginStyles } from '../../styles/LoginStyles';
 const VerificationCode = ({ navigation }) => {
   const [code, setCode] = useState('')
   const handleVerifyCode = () => {
-    navigation.navigate('Events')
+    navigation.navigate('Bottom Tab Bar', { screen: 'Events' });
   }
 
   return (
