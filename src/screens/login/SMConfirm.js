@@ -23,7 +23,7 @@ const SMConfirm = ({ navigation, route }) => {
   const approveLoginSignup = () => {
     console.log('lol cant implement');
     closeAlert();
-    if (params.type === 'Login') navigation.navigate('Events');
+    if (params.type === 'Login') navigation.navigate('Bottom Tab Bar', { screen: 'Events' });
     else navigation.navigate('LoginRoutes', { screen: 'Connect Friends' });
   }
 
