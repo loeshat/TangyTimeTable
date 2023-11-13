@@ -32,7 +32,9 @@ const GROUPS_KEY = '@tangy_groups';
  *   inputEndTime: string (in HH:MM format),
  *   activity: string,
  *   location: string,
- *   eventDate: string (in YYYY-MM-DD format),
+ *   eventDate: string (in YYYY-MM-DD format) - finalised event date,
+ *   startTime: string - finalised event start time,
+ *   endTime: string - finalised event end time,
  * }
  * 
  * Groups Struct:

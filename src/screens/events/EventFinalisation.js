@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
-import { Button, PaperProvider, Text } from 'react-native-paper';
+import { Button, PaperProvider, Snackbar, Text } from 'react-native-paper';
 import { Image, ScrollView, View } from 'react-native';
 import { ProgressStep, ProgressSteps } from 'react-native-progress-steps';
 import TitleTopBar from '../../components/TitleTopBar';
@@ -35,20 +35,44 @@ const EventFinalisation = ({ route, navigation }) => {
   const returnToGroup = () => navigation.navigate('Events');
 
   // Time select controls
-  // TODO: Array to keep track of time select states
-  // TODO: Do not allow user to select more than one date
-  // TODO: Popup alert OR display at the bottom to say which date option the user selected
-
-  // TODO: Modal display for view in calendar -> separate screen
+  const initialTimeStates = Array.from({ length: dateOptions.length }, () => false);
+  const [timeStates, setTimeStates] = useState(initialTimeStates);
+  const [timeNextDisabled, setTimeDiabled] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const handleTimeChange = (id, newState) => {
+    const newStates = [...timeStates];
+    newStates[id] = newState;
+    setTimeStates(newStates);
+    const chosenTimesNum = newStates.filter(val => val === true).length;
+    if (chosenTimesNum > 1) {
+      setVisible(true);
+    }
+    setTimeDiabled(chosenTimesNum !== 1);
+  }
+  
+  // TODO: When user navigates to next screen, update event details with selected date and times
 
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={returnToGroup} title={'Back to Group'} />
       <View style={flowStyles.screen}>
+        <Snackbar
+          visible={visible}
+          onDismiss={() => setVisible(false)}
+          action={{
+            label: 'Close',
+            onPress: () => setVisible(false),
+            textColor: theme.colors.primary,           
+          }}
+        >
+          You cannot select more than one event time!
+        </Snackbar>
         <ProgressSteps {...progressStyles}>
           <ProgressStep
             label='Time'
             nextBtnTextStyle={{ color: theme.colors.text }}
+            nextBtnDisabled={timeNextDisabled}
+            nextBtnText='Confirm'
           >
             <View style={{ alignItems: 'center' }}>
               <View
@@ -95,6 +119,7 @@ const EventFinalisation = ({ route, navigation }) => {
                   labelStyle={{
                     color: theme.colors.text,
                   }}
+                  onPress={() => navigation.navigate('EventRoutes', { screen: 'View in Calendar' })}
                 >
                   View in Calendar
                 </Button>
@@ -115,6 +140,7 @@ const EventFinalisation = ({ route, navigation }) => {
                         date={item.date} 
                         startTime={item.startTime}
                         endTime={item.endTime}
+                        onChange={(newState) => handleTimeChange(id, newState)}
                       />
                     ))
                   }

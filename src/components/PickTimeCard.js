@@ -4,13 +4,16 @@ import { theme } from '../styles/Theme';
 import { Button, Card, Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 
-const PickTimeCard = ({ date, startTime, endTime }) => {
+const PickTimeCard = ({ date, startTime, endTime, onChange }) => {
   const dateMoment = moment(date, 'YYYY-MM-DD');
   const dayOfWeek = dateMoment.format('dddd');
   const formattedDate = dateMoment.format('DD/MM/YYYY');
 
   const [select, setSelected] = useState(false);
-  const toggleSelect = () => setSelected(!select);
+  const toggleSelect = () => {
+    setSelected(!select);
+    onChange(!select);
+  }
   
   return (
     <Card 
@@ -18,6 +21,8 @@ const PickTimeCard = ({ date, startTime, endTime }) => {
       theme={theme}
       style={{
         marginRight: 20,
+        borderColor: select ? theme.colors.success : theme.colors.text,
+        borderWidth: select ? 1.25 : 0.1,
       }}
     >
       <Card.Content>

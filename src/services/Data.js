@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { theme } from '../styles/Theme';
 
 export const FriendsList = [
   {
@@ -56,27 +57,84 @@ export const ActivityCategories = [
 ];
 
 const today = moment();
+const date1 = today.add(2, 'days').format('YYYY-MM-DD');
+const date2 = today.add(4, 'days').format('YYYY-MM-DD');
+const date3 = today.add(5, 'days').format('YYYY-MM-DD');
+const date4 = today.add(7, 'days').format('YYYY-MM-DD');
+
+export const calendarDisplay = {
+  [date1]: [
+    {
+      start: `${date1} 09:00:00`,
+      end: `${date1} 11:00:00`,
+      title: 'Accounting Tutorial',
+      color: theme.colors.success,
+    },
+    {
+      start: `${date1} 12:00:00`,
+      end: `${date1} 16:00:00`,
+      title: 'Your Potential Hangout',
+      color: theme.colors.primary,
+    },
+  ],
+  [date2]: [
+    {
+      start: `${date2} 14:00:00`,
+      end: `${date2} 16:00:00`,
+      title: 'Oztag Practice',
+      color: theme.colors.success,
+    },
+    {
+      start: `${date2} 16:00:00`,
+      end: `${date2} 19:00:00`,
+      title: 'Oztag Group Dinner',
+      color: theme.colors.success,
+    },
+    {
+      start: `${date2} 16:00:00`,
+      end: `${date2} 20:00:00`,
+      title: 'Your Potential Hangout',
+      color: theme.colors.primary,
+    },
+  ],
+  [date3]: [
+    {
+      start: `${date3} 09:00:00`,
+      end: `${date3} 12:00:00`,
+      title: 'Your Potential Hangout',
+      color: theme.colors.primary,
+    },
+  ],
+  [date4]: [
+    {
+      start: `${date4} 17:00:00`,
+      end: `${date4} 21:00:00`,
+      title: 'Your Potential Hangout',
+      color: theme.colors.primary,
+    },
+  ],
+};
 
 export const dateOptions = [
   {
-    date: today.add(5, 'days').format('YYYY-MM-DD'),
-    startTime: '9:00 am',
-    endTime: '12:00 pm',
-  },
-  {
-    date: today.add(2, 'days').format('YYYY-MM-DD'),
+    date: date1,
     startTime: '12:00 pm',
     endTime: '4:00 pm',
   },
   {
-    date: today.add(7, 'days').format('YYYY-MM-DD'),
-    startTime: '5:00 pm',
-    endTime: '9:00 pm',
-  },
-  {
-    date: today.add(4, 'days').format('YYYY-MM-DD'),
+    date: date2,
     startTime: '4:00 pm',
     endTime: '8:00 pm',
+  },
+  {
+    date: date3,
+    startTime: '9:00 am',
+    endTime: '12:00 pm',
+  },
+  {
+    date: date4,
+    startTime: '5:00 pm',
+    endTime: '9:00 pm',
   },
 ];
 

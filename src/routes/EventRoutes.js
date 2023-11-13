@@ -6,6 +6,7 @@ import EventTimeInput from '../screens/events/EventTimeInput';
 import AvailabilityInput from '../screens/events/AvailabilityInput';
 import TimeInputConfirmScreen from '../screens/events/TimeInputConfirmScreen';
 import EventFinalisation from '../screens/events/EventFinalisation';
+import ViewInCalendar from '../screens/events/ViewInCalendar';
 
 const Root = createNativeStackNavigator();
 
@@ -52,6 +53,11 @@ export const EventRoutes = () => {
         name='Event Finalisation'
         component={EventFinalisation}
         options={{ headerShown: false }}
+      />
+      <Root.Screen 
+        name='View in Calendar'
+        component={ViewInCalendar}
+        options={{ headerShown: false, presentation: 'modal' }}
       />
     </Root.Navigator>
   );
