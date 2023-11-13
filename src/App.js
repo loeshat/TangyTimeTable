@@ -1,10 +1,12 @@
 import React from 'react';
 import Home from './screens/Home';
+import Landing from './screens/Landing';
 import Create from './screens/Create';
 import FriendsHome from './screens/FriendsHome';
 import Profile from './screens/Profile';
 import { GroupRoutes } from './routes/GroupRoutes';
 import { EventRoutes } from './routes/EventRoutes';
+import { LoginRoutes } from './routes/LoginRoutes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { MD3LightTheme as DefaultTheme, PaperProvider, Text } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -43,7 +45,7 @@ const App = () => {
         screenOptions={{ headerShown: false }}
         theme={themeExtended}
       >
-        <Tab.Screen 
+        <Tab.Screen
           name='Events'
           component={Home}
           options={{
@@ -52,7 +54,7 @@ const App = () => {
             ),
           }}
         />
-        <Tab.Screen 
+        <Tab.Screen
           name='Create'
           component={CreatePlaceholder}
           options={{
@@ -67,7 +69,7 @@ const App = () => {
             }
           })}
         />
-        <Tab.Screen 
+        <Tab.Screen
           name='Friends'
           component={FriendsHome}
           options={{
@@ -81,30 +83,37 @@ const App = () => {
   );
   return (
     <NavigationContainer>
-      <RootStack.Navigator>
-        <RootStack.Screen 
+      <RootStack.Navigator
+        initialRouteName='LoginRoutes'
+      >
+        <RootStack.Screen
           name='Bottom Tab Bar'
           component={BottomBar}
           options={{ headerShown: false }}
         />
-        <RootStack.Screen 
+        <RootStack.Screen
           name='CreateNew'
           component={Create}
           options={{ headerShown: false, presentation: 'modal' }}
         />
-        <RootStack.Screen 
+        <RootStack.Screen
           name='Profile'
           component={Profile}
           options={{ headerShown: false }}
         />
-        <RootStack.Screen 
+        <RootStack.Screen
           name='GroupRoutes'
           component={GroupRoutes}
           options={{ headerShown: false }}
         />
-        <RootStack.Screen 
+        <RootStack.Screen
           name='EventRoutes'
           component={EventRoutes}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='LoginRoutes'
+          component={LoginRoutes}
           options={{ headerShown: false }}
         />
       </RootStack.Navigator>

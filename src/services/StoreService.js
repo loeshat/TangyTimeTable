@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const USERS_KEY = '@tangy_users';
+const USER_ID_KEY = '@tangy_lastUserId';
 const EVENTS_KEY = '@tangy_events';
 const GROUPS_KEY = '@tangy_groups';
 
@@ -41,6 +42,94 @@ const GROUPS_KEY = '@tangy_groups';
  *   members: array of userId's
  * }
  */
+
+/**
+ * Retrieve the last user id from async storage
+ * @returns 
+ */
+const getLastUserId = async () => {
+  try {
+    const lastUserId = await AsyncStorage.getItem(USER_ID_KEY);
+    return lastUserId ? parseInt(lastUserId, 10) : 0;
+  } catch (e) {
+    console.error(e);
+    // friends id takes up 0-4 lol
+    return 5;
+  }
+};
+
+/**
+ * Update the last user id and store the new one
+ * @param {*} userId
+ * @returns 
+ */
+const setLastUserId = async (userId) => {
+  try {
+    await AsyncStorage.setItem(USER_ID_KEY, userId.toString());
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/**
+ * Search through the users and approve a login request
+ * @returns 
+ */
+export const signUpRequest = async (name, email, password) => {
+  try {
+    const lastUserId = await getLastUserId();
+    const newUserId = lastUserId + 1;
+
+    const newUser = {
+      userId: newUserId,
+      name: name,
+      email: email,
+      password: password,
+    };
+    let users = await getAllUsers();
+    // check if the user's email is already in the system
+    const emailExists = users.some((user) => user.email === email);
+    if (emailExists) {
+      console.error('Email already in use');
+      return false;
+    }
+    users.push(newUser);
+
+    // Save the user data to AsyncStorage
+    await AsyncStorage.setItem(USERS_KEY, JSON.stringify(users));
+    console.log(users);
+    await setLastUserId(newUserId);
+    return true;
+  } catch (error) {
+    console.error('Sign up request failed');
+    return false;
+  }
+}
+
+/**
+ * Search through the users and approve a login request
+ * @returns true or false
+ */
+export const loginRequest = async (email, password) => {
+  try {
+    // Get the existing users
+    const users = await AsyncStorage.getItem(USERS_KEY);
+    const parsedUsers = JSON.parse(users);
+
+    // Find the user with the matching email and password
+    const user = parsedUsers.find((user) => user.email === email && user.password === password);
+
+    if (!user) {
+      console.error('Invalid email or password');
+      return false;
+    }
+    await AsyncStorage.setItem('currentUser', JSON.stringify(user));
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
 
 /**
  * Retrieve all users that exist in the TangyTimeTable database
@@ -195,4 +284,8 @@ export const clearEvents = async () => {
 
 export const clearGroups = async () => {
   await AsyncStorage.removeItem(GROUPS_KEY);
+}
+
+export const clearUsers = async () => {
+  await AsyncStorage.removeItem(USERS_KEY);
 }
