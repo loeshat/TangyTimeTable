@@ -80,6 +80,7 @@ export const dateOptions = [
   },
 ];
 
+// TODO: Get actual icon names and images
 export const activityOptions = [
   {
     type: 'Indoor Futsal',

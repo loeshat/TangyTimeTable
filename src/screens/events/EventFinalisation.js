@@ -1,5 +1,5 @@
 import React from 'react';
-import { calendarTheme, theme, progressStyles } from '../../styles/Theme';
+import { theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { Button, PaperProvider, Text } from 'react-native-paper';
 import { Image, ScrollView, View } from 'react-native';
@@ -9,6 +9,10 @@ import { dateOptions } from '../../services/Data';
 import PickTimeCard from '../../components/PickTimeCard';
 
 /** 
+ * Conditional rendering based on whether the logged in user 
+ * is the event organiser and/or if event decision type is single
+ * or group.
+ * 
  * If logged in user is the event organiser:
  * - Let them pick time
  * else if decision type is group:
