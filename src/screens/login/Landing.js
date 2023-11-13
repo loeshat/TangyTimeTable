@@ -1,6 +1,6 @@
 import React from 'react';
-import { theme } from '../styles/Theme';
-import { loginStyles } from '../styles/LoginStyles';
+import { theme } from '../../styles/Theme';
+import { loginStyles } from '../../styles/LoginStyles';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { PaperProvider, Text } from 'react-native-paper';
 
@@ -15,7 +15,7 @@ const Landing = ({ navigation }) => {
     <PaperProvider theme={theme}>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <Image
-          source={require('../assets/wave.png')}
+          source={require('../../assets/wave.png')}
           style={{
             height: 250,
             width: 250,
