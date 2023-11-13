@@ -3,9 +3,9 @@ import CreateNewEvent from '../screens/events/NewEvent';
 import SelectGroupScreen from '../screens/events/SelectGroup';
 import NewEventPlan from '../screens/events/EventPlan';
 import EventTimeInput from '../screens/events/EventTimeInput';
-import NewEventDecider from '../screens/events/EventDecider';
 import AvailabilityInput from '../screens/events/AvailabilityInput';
 import TimeInputConfirmScreen from '../screens/events/TimeInputConfirmScreen';
+import EventFinalisation from '../screens/events/EventFinalisation';
 
 const Root = createNativeStackNavigator();
 
@@ -50,7 +50,7 @@ export const EventRoutes = () => {
       />
       <Root.Screen 
         name='Event Finalisation'
-        component={NewEventDecider}
+        component={EventFinalisation}
         options={{ headerShown: false }}
       />
     </Root.Navigator>

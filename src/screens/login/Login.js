@@ -22,7 +22,7 @@ const Login = ({ navigation }) => {
     // handle login logic here
     const success = await loginRequest(email, password);
     if (success) {
-      navigation.navigate('Events');
+      navigation.navigate('Bottom Tab Bar', { screen: 'Events' });
     }
     // TODO: remember me functionality
   };

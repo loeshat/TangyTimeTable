@@ -53,7 +53,7 @@ const getLastUserId = async () => {
     return lastUserId ? parseInt(lastUserId, 10) : 0;
   } catch (e) {
     console.error(e);
-    // friends id takes up 0-4 lol
+    // Hard coded friends list IDs take up 0 - 4
     return 5;
   }
 };

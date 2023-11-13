@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const FriendsList = [
   {
     name: 'Sam Nguyen',
@@ -50,5 +52,77 @@ export const ActivityCategories = [
   {
     label: 'Other',
     value: 'Other',
+  },
+];
+
+const today = moment();
+
+export const dateOptions = [
+  {
+    date: today.add(5, 'days').format('YYYY-MM-DD'),
+    startTime: '9:00 am',
+    endTime: '12:00 pm',
+  },
+  {
+    date: today.add(2, 'days').format('YYYY-MM-DD'),
+    startTime: '12:00 pm',
+    endTime: '4:00 pm',
+  },
+  {
+    date: today.add(7, 'days').format('YYYY-MM-DD'),
+    startTime: '5:00 pm',
+    endTime: '9:00 pm',
+  },
+  {
+    date: today.add(4, 'days').format('YYYY-MM-DD'),
+    startTime: '4:00 pm',
+    endTime: '8:00 pm',
+  },
+];
+
+export const activityOptions = [
+  {
+    type: 'Indoor Futsal',
+    icon: '',
+    votesNum: 2,
+    other: {
+      image: '',
+      groupSize: '8 - 12',
+      price: '$$$',
+      nearby: 'Tangy recommends playing futsal at the All Sorts Indoor Sports Centre in Rosebery to leverage group and student discounts!',
+    },
+  },
+  {
+    type: 'Hiking',
+    icon: '',
+    votesNum: 1,
+    other: {
+      image: '',
+      groupSize: '3 - 6',
+      price: 'Free',
+      nearby: 'Tangy recommends exploring hiking routes in the Blue Mountains',
+    },
+  },
+  {
+    type: 'Board Games',
+    icon: '',
+    votesNum: 0,
+    other: {
+      image: '',
+      groupSize: '5 - 10',
+      price: '$',
+      nearby: 'Tangy recommends Double Kill Games Cafe in Haymarket',
+    },
+  },
+  {
+    type: 'Movie Night',
+    icon: '',
+    votesNum: 0,
+    other: {
+      image: '',
+      groupSize: '3 - 6',
+      price: '$',
+      nearby: 'Tangy recommends watching movies at Events Cinema George Street, which is a central location for your group',
+    },
   },
 ];

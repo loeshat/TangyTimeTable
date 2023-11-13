@@ -15,6 +15,11 @@ const Home = ({ navigation }) => {
       <TopNavBar navigation={navigation} />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text variant='bodyMedium'>All Events</Text>
+        <Button
+          onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
+        >
+          Event Finalisation Screen
+        </Button>
       </View>
     </PaperProvider>
   );
