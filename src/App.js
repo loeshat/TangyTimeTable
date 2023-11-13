@@ -83,7 +83,9 @@ const App = () => {
   );
   return (
     <NavigationContainer>
-      <RootStack.Navigator>
+      <RootStack.Navigator
+        initialRouteName='LoginRoutes'
+      >
         <RootStack.Screen
           name='Bottom Tab Bar'
           component={BottomBar}

@@ -15,12 +15,6 @@ const Home = ({ navigation }) => {
       <TopNavBar navigation={navigation} />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text variant='bodyMedium'>All Events</Text>
-        <Button
-          color={theme.colors.text}
-          onPress={() => navigation.navigate('LoginRoutes', { screen: 'Landing' })}
-        >
-          Go To Login
-        </Button>
       </View>
     </PaperProvider>
   );

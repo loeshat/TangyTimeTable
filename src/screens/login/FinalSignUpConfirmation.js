@@ -26,7 +26,7 @@ const FinalSignUpConfirmation = ({ navigation }) => {
           <Text style={[loginStyles.title, { fontSize: 35, textAlign: 'center' }]}>Congrats on your new profile!</Text>
           <TouchableOpacity
             style={[loginStyles.buttonSecondary, styles.flex]}
-            onPress={() => navigation.navigate('Events')}
+            onPress={() => navigation.navigate('Bottom Tab Bar', { screen: 'Events' })}
           >
             <Text style={loginStyles.buttonTextSecondary}>Let's get started!</Text>
             <Button icon={'arrow-right'} style={{ marginRight: -20 }} />
