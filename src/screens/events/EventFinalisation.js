@@ -69,6 +69,7 @@ const EventFinalisation = ({ route, navigation }) => {
   }
   
   // TODO: When user navigates to next screen, update event details with selected date and times
+  // TODO: If logged in user is NOT organiser, only display info about what the selected date is
   
   // Activity select controls
   const initialActivityStates = Array.from({ length: activityOptions.length }, () => false);
@@ -90,6 +91,8 @@ const EventFinalisation = ({ route, navigation }) => {
   }
 
   // TODO: When user navigates to next screen, update event details with selected activities
+  // If group vote -> store group vote data
+  // If single decider -> directly store selected event in event object
 
   // Custom location controls
   const [customLocation, setCustomLocation] = useState('');
