@@ -3,8 +3,7 @@ import { theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { 
   Button,
-  Dialog, 
-  IconButton, 
+  Card,
   PaperProvider,
   Portal,
   Snackbar, 
@@ -93,16 +92,19 @@ const EventFinalisation = ({ route, navigation }) => {
   // TODO: When user navigates to next screen, update event details with selected activities
 
   // Custom location controls
-  const [openCustomAction, setOpenActionModal] = useState(false);
-  const [customAction, setCustomAction] = useState('');
-  const closeModal = () => {
-    setCustomAction(''); // clear old input on close
-    setOpenActionModal(false);
+  const [customLocation, setCustomLocation] = useState('');
+  const handleCustomChange = (text) => {
+    setVisible(false);
+    setCustomLocation(text);
+    const chosenLocationsNum = locationStates.filter(val => val === true).length;
+    if (text && chosenLocationsNum > 0) {
+      setMessage('You already selected another location! You can only pick one final location for your event!');
+      setVisible(true);
+    }
+    setLocationDisabled((text && chosenLocationsNum > 0) || (!text && chosenLocationsNum !== 1));
   }
 
   // Location select controls
-  // TODO: If user specifies custom location, immediately navigate to confirm
-  // Save selected location as custom one and not the previously selected one (if any)
   const initialLocationStates = Array.from({ length: locationOptions.length }, () => false);
   const [locationStates, setLocationStates] = useState(initialLocationStates);
   const [locationNextDisabled, setLocationDisabled] = useState(true);
@@ -112,11 +114,15 @@ const EventFinalisation = ({ route, navigation }) => {
     newLocationStates[id] = newState;
     setLocationStates(newLocationStates);
     const chosenLocationNum = newLocationStates.filter(val => val === true).length;
-    if (chosenLocationNum !== 1) {
+    if (chosenLocationNum > 1) {
       setMessage('You can only select one location for your event!');
       setVisible(true);
     }
-    setLocationDisabled(chosenLocationNum !== 1);
+    if (customLocation && chosenLocationNum > 0) {
+      setMessage('You already added your own location! You can only pick one final location for your event!');
+      setVisible(true);
+    }
+    setLocationDisabled((customLocation && chosenLocationNum > 0) || (!customLocation && chosenLocationNum !== 1));
   }
 
   return (
@@ -135,52 +141,6 @@ const EventFinalisation = ({ route, navigation }) => {
           >
             {message}
           </Snackbar>
-        </Portal>
-        <Portal>
-          <Dialog 
-            visible={openCustomAction} 
-            onDismiss={() => setOpenActionModal(false)}
-            style={{
-              backgroundColor: '#F5F5F5',
-            }}
-          >
-            <Dialog.Title>
-              Add Your Own Location
-            </Dialog.Title>
-            <Dialog.Content>
-              <TextInput 
-                label='Location'
-                value={customAction}
-                onChangeText={text => setCustomAction(text)}
-                style={{
-                  backgroundColor: theme.colors.background,
-                }}
-              />
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button
-                mode='outlined'
-                textColor={theme.colors.text}
-                style={{
-                  borderColor: theme.colors.text,
-                }}
-                contentStyle={{
-                  width: 80,
-                }}
-                onPress={closeModal}
-              >
-                Cancel
-              </Button>
-              <Button
-                mode='contained'
-                contentStyle={{
-                  width: 80,
-                }}
-              >
-                Add
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
         </Portal>
         <ProgressSteps {...progressStyles}>
           <ProgressStep
@@ -403,15 +363,43 @@ const EventFinalisation = ({ route, navigation }) => {
                       />
                     ))
                   }
-                  <IconButton 
-                    icon='plus-circle'
-                    iconColor={theme.colors.primary}
-                    size={50}
+                  <Card
+                    mode='outlined'
                     style={{
-                      marginTop: '11%',
+                      marginRight: 20,
+                      height: 320,
+                      borderWidth: customLocation ? 1.25 : 0.1,
+                      borderColor: customLocation ? theme.colors.success : theme.colors.text,
+                      width: 320,
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
-                    onPress={() => setOpenActionModal(true)}
-                  />
+                    theme={theme}
+                  >
+                    <Card.Content>
+                      <Text
+                        variant='titleLarge'
+                        style={{
+                          color: theme.colors.success,
+                          fontWeight: '500',
+                          marginBottom: 18,
+                          textAlign: 'center',
+                        }}
+                      >
+                        Add Your Own Location
+                      </Text>
+                      <TextInput 
+                        label='Location'
+                        value={customLocation}
+                        onChangeText={handleCustomChange}
+                        style={{
+                          backgroundColor: theme.colors.background,
+                          width: 250,
+                        }}
+                        textColor={theme.colors.text}
+                      />
+                    </Card.Content>
+                  </Card>
                 </ScrollView>
               </View>
             </View>
