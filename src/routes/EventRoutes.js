@@ -7,7 +7,7 @@ import AvailabilityInput from '../screens/events/AvailabilityInput';
 import TimeInputConfirmScreen from '../screens/events/TimeInputConfirmScreen';
 import EventFinalisation from '../screens/events/EventFinalisation';
 import ViewInCalendar from '../screens/events/ViewInCalendar';
-import ReadMoreModal from '../screens/events/ReadMoreModal';
+import ReadMoreModal from '../screens/events/modals/EventReadMoreModal';
 
 const Root = createNativeStackNavigator();
 

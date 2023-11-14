@@ -3,8 +3,14 @@ import { theme } from '../styles/Theme';
 import { View } from 'react-native';
 import { Button, Card, Icon, Text } from 'react-native-paper';
 
-const ActivityPickCard = ({ type, icon, votesNum, other, onChange, navigation }) => {
-  
+const ActivityPickCard = ({ 
+  type, 
+  icon, 
+  votesNum, 
+  other, 
+  onChange, 
+  navigation 
+}) => {
   const [selected, setSelected] = useState(false);
   const toggleSelect = () => {
     setSelected(!selected);
@@ -13,8 +19,7 @@ const ActivityPickCard = ({ type, icon, votesNum, other, onChange, navigation })
   const friendsPlural = votesNum > 1 ? 'friends' : 'friend';
   const subText = votesNum > 0
                   ? `${votesNum} other ${friendsPlural} voted for this activity!`
-                  : 'Be the first person to vote for this activity!';
-                  
+                  : 'Be the first person to vote for this activity!';         
   return (
     <Card
       mode='outlined'
@@ -45,14 +50,23 @@ const ActivityPickCard = ({ type, icon, votesNum, other, onChange, navigation })
           >
             {type}
           </Text>
-          <Text
-            variant='bodyLarge'
+          <View
             style={{
-              color: theme.colors.text,
+              width: 210,
+              marginTop: 5,
+              marginBottom: 5,
             }}
           >
-            {subText}
-          </Text>
+            <Text
+              variant='bodyLarge'
+              style={{
+                color: theme.colors.text,
+                textAlign: 'center',
+              }}
+            >
+              {subText}
+            </Text>
+          </View>
         </View>
       </Card.Content>
       <Card.Actions

@@ -5,9 +5,10 @@ import { Button, PaperProvider, Portal, Snackbar, Text } from 'react-native-pape
 import { Image, ScrollView, View } from 'react-native';
 import { ProgressStep, ProgressSteps } from 'react-native-progress-steps';
 import TitleTopBar from '../../components/TitleTopBar';
-import { dateOptions, activityOptions } from '../../services/Data';
+import { dateOptions, activityOptions, locationOptions } from '../../services/Data';
 import PickTimeCard from '../../components/PickTimeCard';
 import ActivityPickCard from '../../components/ActivityCard';
+import LocationCard from '../../components/LocationCard';
 
 /** 
  * Conditional rendering based on whether the logged in user 
@@ -34,6 +35,9 @@ const EventFinalisation = ({ route, navigation }) => {
   
   // TODO: Change route to group page
   const returnToGroup = () => navigation.navigate('Events');
+
+  // TODO: Manually specify activeStep on load based on event status
+  // This can be done by setting activeStep in ProgressSteps component
 
   // Snackbar popup controls
   const [visible, setVisible] = useState(false);
@@ -79,6 +83,23 @@ const EventFinalisation = ({ route, navigation }) => {
 
   // TODO: When user navigates to next screen, update event details with selected activities
 
+  // Location select controls
+  const initialLocationStates = Array.from({ length: locationOptions.length }, () => false);
+  const [locationStates, setLocationStates] = useState(initialLocationStates);
+  const [locationNextDisabled, setLocationDisabled] = useState(true);
+  const handleLocationChange = (id, newState) => {
+    setVisible(false);
+    const newLocationStates = [...locationStates];
+    newLocationStates[id] = newState;
+    setLocationStates(newLocationStates);
+    const chosenLocationNum = newLocationStates.filter(val => val === true).length;
+    if (chosenLocationNum !== 1) {
+      setMessage('You can only select one location for your event!');
+      setVisible(true);
+    }
+    setLocationDisabled(chosenLocationNum !== 1);
+  }
+
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={returnToGroup} title={'Back to Group'} />
@@ -110,6 +131,9 @@ const EventFinalisation = ({ route, navigation }) => {
                   marginTop: '10%'
                 }]}
               >
+                {/**
+                 * Depending on event status, load info display OR actual selection
+                 */}
                 <View
                   style={[flowStyles.speechContainer, {
                     width: 180,
@@ -179,12 +203,16 @@ const EventFinalisation = ({ route, navigation }) => {
           </ProgressStep>
           <ProgressStep
             label='Activity'
+            nextBtnText='Confirm'
             nextBtnTextStyle={{ color: theme.colors.text }}
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
             nextBtnDisabled={activityNextDisabled}
           >
             <View style={{ alignItems: 'center' }}>
+              {/**
+               * Depending on event status, load info display OR actual selection
+               */}
               <View
                 style={[flowStyles.outerSpeech, {
                   marginRight: '25%', 
@@ -240,16 +268,91 @@ const EventFinalisation = ({ route, navigation }) => {
                     ))
                   }
                 </ScrollView>
+                
               </View>
             </View>
           </ProgressStep>
           <ProgressStep
             label='Location'
             nextBtnTextStyle={{ color: theme.colors.text }}
+            nextBtnDisabled={locationNextDisabled}
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
             finishBtnText='Confirm'
           >
+            <View style={{ alignItems: 'center' }}>
+              {/** Conditional rendering depending on if user is organiser */}
+              <View
+                style={[flowStyles.outerSpeech, {
+                  marginRight: '25%',
+                }]}
+              >
+                <View
+                  style={[flowStyles.speechContainer, {
+                    width: 200,
+                  }]}
+                >
+                  <Text
+                    variant='bodyLarge'
+                    style={{
+                      color: theme.colors.text,
+                    }}
+                  >
+                    {/** Replace event name with actual data */}
+                    Let's pick a location for event name!
+                  </Text>
+                </View>
+              </View>
+              <View
+                style={[flowStyles.imageContainer, {
+                  marginLeft: '25%',
+                }]}
+              >
+                <Image 
+                  source={require('../../assets/wave.png')}
+                  style={flowStyles.imageStyle}
+                />
+              </View>
+              <View
+                style={{
+                  width: '92%',
+                  alignItems: 'flex-end',
+                }}
+              >
+                <Button
+                  icon='plus'
+                  mode='contained'
+                >
+                  Add My Own
+                </Button>
+              </View>
+              <View
+                style={{
+                  marginLeft: '10%',
+                  marginTop: '4%',
+                }}
+              >
+                <ScrollView
+                  horizontal={true}
+                >
+                  {
+                    locationOptions.map((item, id) => (
+                      <LocationCard 
+                        key={id}
+                        name={item.name}
+                        rating={item.rating}
+                        numReviews={item.numReviews}
+                        suburb={item.suburb}
+                        image={item.image}
+                        other={item.other}
+                        onChange={(newState) => handleLocationChange(id, newState)}
+                        navigation={navigation}
+                      />
+                    ))
+                  }
+                </ScrollView>
+              </View>
+            </View>
           </ProgressStep>
         </ProgressSteps>
       </View>

@@ -1,6 +1,6 @@
 import React from 'react';
-import { theme } from '../../styles/Theme';
-import { Text, PaperProvider } from 'react-native-paper';
+import { theme } from '../../../styles/Theme';
+import { IconButton, Text, PaperProvider } from 'react-native-paper';
 import { Image, View } from 'react-native';
 
 const ReadMoreModal = ({ route, navigation }) => {
@@ -16,12 +16,24 @@ const ReadMoreModal = ({ route, navigation }) => {
           alignItems: 'center',
         }}
       >
+        <View
+          style={{
+            alignItems: 'flex-end',
+            width: '100%',
+          }}
+        >
+          <IconButton 
+            icon='close'
+            iconColor={theme.colors.text}
+            onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
+          />
+        </View>
         <Text
           variant='headlineMedium'
           style={{
             color: theme.colors.success,
             textAlign: 'center',
-            marginBottom: '3%',
+            marginBottom: '8%',
             fontWeight: '500',
           }}
         >
@@ -33,7 +45,7 @@ const ReadMoreModal = ({ route, navigation }) => {
             width: 375,
             height: 300,
             borderRadius: 10,
-            marginBottom: '3%',
+            marginBottom: '10%',
           }}
         />
         <View
@@ -42,7 +54,7 @@ const ReadMoreModal = ({ route, navigation }) => {
             alignItems: 'center',
             justifyContent: 'space-between',
             width: '92%',
-            marginTop: '2%',
+            marginBottom: '5%',
           }}
         >
           <View
