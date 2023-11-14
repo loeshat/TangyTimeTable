@@ -1,3 +1,4 @@
+import { useColorScheme } from 'react-native';
 import { DefaultTheme } from 'react-native-paper';
 
 /**
@@ -5,6 +6,23 @@ import { DefaultTheme } from 'react-native-paper';
  */
 export const theme = {
   ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#FF8300',
+    background: '#FFEBD0',
+    surface: '#FFFFFF',
+    text: '#5E412F',
+    disabled: '#9E9E9E',
+    success: '#79C1A9'
+  }
+}
+
+/**
+ * Inverted theme following TangyTimeTable's branding
+ */
+export const invertedTheme = {
+  ...DefaultTheme,
+  dark: true,
   colors: {
     ...DefaultTheme.colors,
     primary: '#FF8300',
