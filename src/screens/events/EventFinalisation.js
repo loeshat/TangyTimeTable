@@ -125,6 +125,11 @@ const EventFinalisation = ({ route, navigation }) => {
     setLocationDisabled((customLocation && chosenLocationNum > 0) || (!customLocation && chosenLocationNum !== 1));
   }
 
+  const onSubmit = () => {
+    // Update event details with selected location if applicable (ie. if logged in user is organiser)
+    navigation.navigate('EventRoutes', { screen: 'Completed Event Confirmation' });
+  }
+
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={returnToGroup} title={'Back to Group'} />
@@ -303,6 +308,7 @@ const EventFinalisation = ({ route, navigation }) => {
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
             finishBtnText='Confirm'
+            onSubmit={onSubmit}
           >
             <View style={{ alignItems: 'center' }}>
               {/** Conditional rendering depending on if user is organiser */}
