@@ -3,54 +3,74 @@ import { theme } from '../styles/Theme';
 import { Avatar, Card, Text } from 'react-native-paper';
 import { View } from 'react-native';
 
-const GroupCard = ({ name, membersNum }) => {
-  const memberText = membersNum === 1 ? 'member' : 'members';
+const GroupCard = ({ name, membersText }) => {
   return (
-    <View
-      style={{
-        marginTop: '2%',
-        width: '90%'
-      }}
-    >
-      <Card mode='outlined'>
-        <Card.Content
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}
-        >
+    <View>
+      <Card
+        style={{
+          backgroundColor: '#FFEBD0',
+          marginRight: 20,
+          borderRadius: 20,
+          width: 200,
+        }}
+      >
+        <Card.Content>
           <Avatar.Image 
             size={45} 
             source={require('../assets/pink_tangy.png')} 
             style={{
-              backgroundColor: '#FFFFFF'
+              backgroundColor: '#FFEBD0'
             }}
           />
           <View
             style={{
-              marginLeft: 10
+              flexDirection: 'row',
+              marginBottom: 8,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: 190,
+              paddingTop: 10,
             }}
           >
             <Text
-              variant='bodyLarge'
               style={{
                 color: theme.colors.text,
-                fontWeight: '500'
+                fontSize: 18,
+                fontWeight: '600'
               }}
-            >
-              {name}
+            > {name}
             </Text>
-            <Text
-              variant='bodyMedium'
+            <View
               style={{
-                color: theme.colors.disabled
+                marginLeft: 10,
+                alignItems: 'flex-end',
               }}
             >
-              {membersNum} {memberText}
+            </View>
+          </View>
+          
+          <View
+            style={{
+              flexDirection: 'row',
+              marginBottom: 8,
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: 190,
+              paddingTop: 10,
+            }}
+          >
+            <Text
+              style={{
+                color: theme.colors.text,
+                fontSize: 15,
+                fontWeight: '400'
+              }}
+            > {membersText}
             </Text>
           </View>
         </Card.Content>
-      </Card>
+      </Card>        
+
     </View>
   );
 }

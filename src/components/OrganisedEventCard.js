@@ -4,14 +4,7 @@ import { theme } from '../styles/Theme';
 import { Button, Card, Divider, Text } from 'react-native-paper';
 import { View, TouchableOpacity } from 'react-native';
 
-// const PickTimeCard = ({ date, startTime, endTime, onChange }) => {
-const EventCard = ({ name, desc, details }) => {
-  
-  const [select, setSelected] = useState(false);
-  const toggleSelect = () => {
-    setSelected(!select);
-    onChange(!select);
-  }
+const OrganisedEventCard = ({ name, desc }) => {
   
   return (
     <Card 
@@ -105,4 +98,4 @@ const EventCard = ({ name, desc, details }) => {
   );
 }
 
-export default EventCard;
+export default OrganisedEventCard;
