@@ -79,7 +79,7 @@ const ActivityPickCard = ({
           labelStyle={{
             color: theme.colors.text,
           }}
-          onPress={() => navigation.navigate('EventRoutes', { screen: 'Read More', params: { type: type, other: other } })}
+          onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Read More', params: { type: type, other: other } })}
         >
           Read More
         </Button>

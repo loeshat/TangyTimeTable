@@ -1,7 +1,16 @@
 import React, { useState } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
-import { Button, PaperProvider, Portal, Snackbar, Text } from 'react-native-paper';
+import { 
+  Button,
+  Dialog, 
+  IconButton, 
+  PaperProvider,
+  Portal,
+  Snackbar, 
+  Text, 
+  TextInput,
+} from 'react-native-paper';
 import { Image, ScrollView, View } from 'react-native';
 import { ProgressStep, ProgressSteps } from 'react-native-progress-steps';
 import TitleTopBar from '../../components/TitleTopBar';
@@ -83,7 +92,17 @@ const EventFinalisation = ({ route, navigation }) => {
 
   // TODO: When user navigates to next screen, update event details with selected activities
 
+  // Custom location controls
+  const [openCustomAction, setOpenActionModal] = useState(false);
+  const [customAction, setCustomAction] = useState('');
+  const closeModal = () => {
+    setCustomAction(''); // clear old input on close
+    setOpenActionModal(false);
+  }
+
   // Location select controls
+  // TODO: If user specifies custom location, immediately navigate to confirm
+  // Save selected location as custom one and not the previously selected one (if any)
   const initialLocationStates = Array.from({ length: locationOptions.length }, () => false);
   const [locationStates, setLocationStates] = useState(initialLocationStates);
   const [locationNextDisabled, setLocationDisabled] = useState(true);
@@ -116,6 +135,52 @@ const EventFinalisation = ({ route, navigation }) => {
           >
             {message}
           </Snackbar>
+        </Portal>
+        <Portal>
+          <Dialog 
+            visible={openCustomAction} 
+            onDismiss={() => setOpenActionModal(false)}
+            style={{
+              backgroundColor: '#F5F5F5',
+            }}
+          >
+            <Dialog.Title>
+              Add Your Own Location
+            </Dialog.Title>
+            <Dialog.Content>
+              <TextInput 
+                label='Location'
+                value={customAction}
+                onChangeText={text => setCustomAction(text)}
+                style={{
+                  backgroundColor: theme.colors.background,
+                }}
+              />
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                mode='outlined'
+                textColor={theme.colors.text}
+                style={{
+                  borderColor: theme.colors.text,
+                }}
+                contentStyle={{
+                  width: 80,
+                }}
+                onPress={closeModal}
+              >
+                Cancel
+              </Button>
+              <Button
+                mode='contained'
+                contentStyle={{
+                  width: 80,
+                }}
+              >
+                Add
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
         </Portal>
         <ProgressSteps {...progressStyles}>
           <ProgressStep
@@ -268,7 +333,6 @@ const EventFinalisation = ({ route, navigation }) => {
                     ))
                   }
                 </ScrollView>
-                
               </View>
             </View>
           </ProgressStep>
@@ -285,6 +349,7 @@ const EventFinalisation = ({ route, navigation }) => {
               <View
                 style={[flowStyles.outerSpeech, {
                   marginRight: '25%',
+                  marginTop: '4%',
                 }]}
               >
                 <View
@@ -306,25 +371,13 @@ const EventFinalisation = ({ route, navigation }) => {
               <View
                 style={[flowStyles.imageContainer, {
                   marginLeft: '25%',
+                  marginBottom: '2%',
                 }]}
               >
                 <Image 
                   source={require('../../assets/wave.png')}
                   style={flowStyles.imageStyle}
                 />
-              </View>
-              <View
-                style={{
-                  width: '92%',
-                  alignItems: 'flex-end',
-                }}
-              >
-                <Button
-                  icon='plus'
-                  mode='contained'
-                >
-                  Add My Own
-                </Button>
               </View>
               <View
                 style={{
@@ -350,6 +403,15 @@ const EventFinalisation = ({ route, navigation }) => {
                       />
                     ))
                   }
+                  <IconButton 
+                    icon='plus-circle'
+                    iconColor={theme.colors.primary}
+                    size={50}
+                    style={{
+                      marginTop: '11%',
+                    }}
+                    onPress={() => setOpenActionModal(true)}
+                  />
                 </ScrollView>
               </View>
             </View>

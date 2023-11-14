@@ -116,6 +116,7 @@ const LocationCard = ({
           style={{
             borderColor: theme.colors.text,
           }}
+          onPress={() => navigation.navigate('EventRoutes', { screen: 'Location Read More', params: { name: name, image: image, other: other } })}
         >
           Read More
         </Button>
