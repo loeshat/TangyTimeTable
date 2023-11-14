@@ -7,6 +7,7 @@ import AvailabilityInput from '../screens/events/AvailabilityInput';
 import TimeInputConfirmScreen from '../screens/events/TimeInputConfirmScreen';
 import EventFinalisation from '../screens/events/EventFinalisation';
 import ViewInCalendar from '../screens/events/ViewInCalendar';
+import ReadMoreModal from '../screens/events/ReadMoreModal';
 
 const Root = createNativeStackNavigator();
 
@@ -57,6 +58,11 @@ export const EventRoutes = () => {
       <Root.Screen 
         name='View in Calendar'
         component={ViewInCalendar}
+        options={{ headerShown: false, presentation: 'modal' }}
+      />
+      <Root.Screen 
+        name='Read More'
+        component={ReadMoreModal}
         options={{ headerShown: false, presentation: 'modal' }}
       />
     </Root.Navigator>

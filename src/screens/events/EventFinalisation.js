@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
-import { Button, PaperProvider, Snackbar, Text } from 'react-native-paper';
+import { Button, PaperProvider, Portal, Snackbar, Text } from 'react-native-paper';
 import { Image, ScrollView, View } from 'react-native';
 import { ProgressStep, ProgressSteps } from 'react-native-progress-steps';
 import TitleTopBar from '../../components/TitleTopBar';
-import { dateOptions } from '../../services/Data';
+import { dateOptions, activityOptions } from '../../services/Data';
 import PickTimeCard from '../../components/PickTimeCard';
+import ActivityPickCard from '../../components/ActivityCard';
 
 /** 
  * Conditional rendering based on whether the logged in user 
@@ -34,39 +35,67 @@ const EventFinalisation = ({ route, navigation }) => {
   // TODO: Change route to group page
   const returnToGroup = () => navigation.navigate('Events');
 
+  // Snackbar popup controls
+  const [visible, setVisible] = useState(false);
+  const [message, setMessage] = useState('');
+
   // Time select controls
   const initialTimeStates = Array.from({ length: dateOptions.length }, () => false);
   const [timeStates, setTimeStates] = useState(initialTimeStates);
   const [timeNextDisabled, setTimeDiabled] = useState(true);
-  const [visible, setVisible] = useState(false);
   const handleTimeChange = (id, newState) => {
+    setVisible(false);
     const newStates = [...timeStates];
     newStates[id] = newState;
     setTimeStates(newStates);
     const chosenTimesNum = newStates.filter(val => val === true).length;
     if (chosenTimesNum > 1) {
+      setMessage('You cannot select more than one event time!');
       setVisible(true);
     }
     setTimeDiabled(chosenTimesNum !== 1);
   }
   
   // TODO: When user navigates to next screen, update event details with selected date and times
+  
+  // Activity select controls
+  const initialActivityStates = Array.from({ length: activityOptions.length }, () => false);
+  const [activityStates, setActivityStates] = useState(initialActivityStates);
+  const [activityNextDisabled, setActivityDisabled] = useState(true);
+  const handleActivityChange = (id, newState) => {
+    setVisible(false);
+    const newAStates = [...activityStates];
+    newAStates[id] = newState;
+    setActivityStates(newAStates);
+    const chosenActivitiesNum = newAStates.filter(val => val === true).length;
+    // If organiser, only allow one select
+    // Otherwise, allow multiple select
+    if (chosenActivitiesNum > 1) {
+      setMessage('You cannot select more than one activity for your event!');
+      setVisible(true);
+    }
+    setActivityDisabled(chosenActivitiesNum !== 1);
+  }
+
+  // TODO: When user navigates to next screen, update event details with selected activities
 
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={returnToGroup} title={'Back to Group'} />
       <View style={flowStyles.screen}>
-        <Snackbar
-          visible={visible}
-          onDismiss={() => setVisible(false)}
-          action={{
-            label: 'Close',
-            onPress: () => setVisible(false),
-            textColor: theme.colors.primary,           
-          }}
-        >
-          You cannot select more than one event time!
-        </Snackbar>
+        <Portal>
+          <Snackbar
+            visible={visible}
+            onDismiss={() => setVisible(false)}
+            action={{
+              label: 'Close',
+              onPress: () => setVisible(false),
+              textColor: theme.colors.primary,           
+            }}
+          >
+            {message}
+          </Snackbar>
+        </Portal>
         <ProgressSteps {...progressStyles}>
           <ProgressStep
             label='Time'
@@ -153,12 +182,13 @@ const EventFinalisation = ({ route, navigation }) => {
             nextBtnTextStyle={{ color: theme.colors.text }}
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
+            nextBtnDisabled={activityNextDisabled}
           >
             <View style={{ alignItems: 'center' }}>
               <View
                 style={[flowStyles.outerSpeech, {
                   marginRight: '25%', 
-                  marginTop: '10%',
+                  marginTop: '15%',
                 }]}
               >
                 <View
@@ -187,6 +217,30 @@ const EventFinalisation = ({ route, navigation }) => {
                   style={flowStyles.imageStyle}
                 />
               </View>
+              <View
+                style={{
+                  marginLeft: '10%',
+                  marginTop: '5%'
+                }}
+              >
+                <ScrollView
+                  horizontal={true}
+                >
+                  {
+                    activityOptions.map((item, id) => (
+                      <ActivityPickCard 
+                        key={id}
+                        type={item.type}
+                        icon={item.icon}
+                        votesNum={item.votesNum}
+                        other={item.other}
+                        onChange={(newState) => handleActivityChange(id, newState)}
+                        navigation={navigation}
+                      />
+                    ))
+                  }
+                </ScrollView>
+              </View>
             </View>
           </ProgressStep>
           <ProgressStep
@@ -196,7 +250,6 @@ const EventFinalisation = ({ route, navigation }) => {
             previousBtnTextStyle={{ color: theme.colors.text }}
             finishBtnText='Confirm'
           >
-
           </ProgressStep>
         </ProgressSteps>
       </View>
