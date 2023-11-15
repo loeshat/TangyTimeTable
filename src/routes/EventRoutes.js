@@ -10,6 +10,7 @@ import ViewInCalendar from '../screens/events/ViewInCalendar';
 import ReadMoreModal from '../screens/events/modals/EventReadMoreModal';
 import LocationModal from '../screens/events/modals/LocationReadMoreModal';
 import CompletedEventConfirmScreen from '../screens/events/CompletedEventConfirm';
+import TransportOptions from '../screens/events/TransportOptions';
 
 const Root = createNativeStackNavigator();
 
@@ -71,6 +72,11 @@ export const EventRoutes = () => {
         name='Location Read More'
         component={LocationModal}
         options={{ headerShown: false, presentation: 'modal' }}
+      />
+      <Root.Screen 
+        name='Transport Options'
+        component={TransportOptions}
+        options={{ headerShown: false }}
       />
       <Root.Screen 
         name='Completed Event Confirmation'

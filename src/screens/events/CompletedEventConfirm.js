@@ -9,9 +9,6 @@ const CompletedEventConfirmScreen = ({ navigation }) => {
   // TODO: Change route to group page
   const returnToGroup = () => navigation.navigate('Events');
 
-  // TODO: Potentially use this screen to conditionally render Tangy's speech?
-  // Will be based on if logged in user is organiser + deciderType
-
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={returnToGroup} title={'Back to Group'} />
@@ -54,22 +51,6 @@ const CompletedEventConfirmScreen = ({ navigation }) => {
             marginTop: '10%',
           }}
         >
-          <Button
-            mode='contained'
-            buttonColor={theme.colors.success}
-            contentStyle={{
-              height: 60,
-            }}
-            labelStyle={{
-              fontSize: 18,
-            }}
-            style={{
-              borderRadius: 12,
-            }}
-            onPress={() => alert('This functionality is not available yet!')}
-          >
-            Add Event to Calendar
-          </Button>
           <Button
             mode='outlined'
             contentStyle={{

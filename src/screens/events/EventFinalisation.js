@@ -1,22 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { 
   Button,
   Card,
+  Dialog,
+  Icon,
   PaperProvider,
   Portal,
   Snackbar, 
   Text, 
   TextInput,
 } from 'react-native-paper';
-import { Image, ScrollView, View } from 'react-native';
+import { Image, Linking, ScrollView, View } from 'react-native';
 import { ProgressStep, ProgressSteps } from 'react-native-progress-steps';
 import TitleTopBar from '../../components/TitleTopBar';
 import { dateOptions, activityOptions, locationOptions } from '../../services/Data';
 import PickTimeCard from '../../components/PickTimeCard';
 import ActivityPickCard from '../../components/ActivityCard';
 import LocationCard from '../../components/LocationCard';
+import { headingStyle, textContainer } from './modals/LocationReadMoreModal';
 
 /** 
  * Conditional rendering based on whether the logged in user 
@@ -96,19 +99,20 @@ const EventFinalisation = ({ route, navigation }) => {
 
   // Custom location controls
   const [customLocation, setCustomLocation] = useState('');
-  const handleCustomChange = (text) => {
-    setVisible(false);
+  const [customSelect, setCustomSelect] = useState(false);
+  const handleCustomSelect = () => {
+    setCustomSelect(!customSelect);
+    handleLocationChange(locationStates.length - 1, !customSelect);
+  }
+  const handleCustomLocation = (text) => {
     setCustomLocation(text);
-    const chosenLocationsNum = locationStates.filter(val => val === true).length;
-    if (text && chosenLocationsNum > 0) {
-      setMessage('You already selected another location! You can only pick one final location for your event!');
-      setVisible(true);
+    if (text && customSelect) {
+      setLocationDisabled(false);
     }
-    setLocationDisabled((text && chosenLocationsNum > 0) || (!text && chosenLocationsNum !== 1));
   }
 
   // Location select controls
-  const initialLocationStates = Array.from({ length: locationOptions.length }, () => false);
+  const initialLocationStates = Array.from({ length: locationOptions.length + 1 }, () => false);
   const [locationStates, setLocationStates] = useState(initialLocationStates);
   const [locationNextDisabled, setLocationDisabled] = useState(true);
   const handleLocationChange = (id, newState) => {
@@ -121,15 +125,38 @@ const EventFinalisation = ({ route, navigation }) => {
       setMessage('You can only select one location for your event!');
       setVisible(true);
     }
-    if (customLocation && chosenLocationNum > 0) {
-      setMessage('You already added your own location! You can only pick one final location for your event!');
+    setLocationDisabled(chosenLocationNum !== 1);
+    if (newState && id === locationStates.length - 1 && !customLocation) {
+      setMessage('You have not provided a custom location yet!');
       setVisible(true);
+      setLocationDisabled(true);
     }
-    setLocationDisabled((customLocation && chosenLocationNum > 0) || (!customLocation && chosenLocationNum !== 1));
   }
+
+  // For travel time, if organiser, display selected location info
+  // Otherwise, display default option (ie. first option in locations array)
+  const openWebsite = useCallback(async () => {
+    const website = locationOptions[0].other.website; // modify based on scenario
+    const supported = await Linking.canOpenURL(website);
+    if (supported) {
+      await Linking.openURL(website);
+    } else {
+      console.log(`Error: Cannot open provided URL: ${website}`);
+    }
+  }, [locationOptions[0].other.website]);
+
+  // Update Calendar alert controls
+  const [openAlert, setOpenAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const handleOpenAlert = (message) => {
+    setAlertMessage(message);
+    setOpenAlert(true);
+  }
+  const handleCloseAlert = () => setOpenAlert(false);
 
   const onSubmit = () => {
     // Update event details with selected location if applicable (ie. if logged in user is organiser)
+    // Custom render based on deciderType + logged in user's permissions
     navigation.navigate('EventRoutes', { screen: 'Completed Event Confirmation' });
   }
 
@@ -150,12 +177,65 @@ const EventFinalisation = ({ route, navigation }) => {
             {message}
           </Snackbar>
         </Portal>
+        <Portal>
+          <Dialog
+            visible={openAlert} 
+            onDismiss={handleCloseAlert}
+            style={{
+              backgroundColor: theme.colors.background,
+            }}
+          >
+            <Dialog.Title
+              style={{
+                color: theme.colors.primary,
+                fontWeight: '500'
+              }}
+            >
+              Update Calendar
+            </Dialog.Title>
+            <Dialog.Content>
+              <Text
+                variant='bodyLarge'
+                style={{
+                  color: theme.colors.text,
+                }}
+              >
+                {alertMessage}
+              </Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                mode='outlined'
+                style={{
+                  borderColor: theme.colors.text,
+                  borderRadius: 10,
+                  width: 80,
+                }}
+                textColor={theme.colors.text}
+                onPress={handleCloseAlert}
+              >
+                Cancel
+              </Button>
+              <Button
+                mode='contained'
+                style={{
+                  borderRadius: 10,
+                  width: 80,
+                }}
+                onPress={handleCloseAlert}
+              >
+                Update
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
         <ProgressSteps {...progressStyles}>
           <ProgressStep
             label='Time'
             nextBtnTextStyle={{ color: theme.colors.text }}
             nextBtnDisabled={timeNextDisabled}
             nextBtnText='Confirm'
+            onNext={() => handleOpenAlert('Do you want to add the event to your group calendar?')}
           >
             <View style={{ alignItems: 'center' }}>
               <View
@@ -241,6 +321,7 @@ const EventFinalisation = ({ route, navigation }) => {
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
             nextBtnDisabled={activityNextDisabled}
+            onNext={() => handleOpenAlert('Do you want to update the calendar event with your chosen activity?')}
           >
             <View style={{ alignItems: 'center' }}>
               {/**
@@ -310,8 +391,8 @@ const EventFinalisation = ({ route, navigation }) => {
             nextBtnDisabled={locationNextDisabled}
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
-            finishBtnText='Confirm'
-            onSubmit={onSubmit}
+            nextBtnText='Confirm'
+            onNext={() => handleOpenAlert('Do you want to update the calendar event with your chosen location?')}
           >
             <View style={{ alignItems: 'center' }}>
               {/** Conditional rendering depending on if user is organiser */}
@@ -377,8 +458,8 @@ const EventFinalisation = ({ route, navigation }) => {
                     style={{
                       marginRight: 20,
                       height: 320,
-                      borderWidth: customLocation ? 1.25 : 0.1,
-                      borderColor: customLocation ? theme.colors.success : theme.colors.text,
+                      borderWidth: customSelect ? 1.25 : 0.1,
+                      borderColor: customSelect ? theme.colors.success : theme.colors.text,
                       width: 320,
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -400,7 +481,7 @@ const EventFinalisation = ({ route, navigation }) => {
                       <TextInput 
                         label='Location'
                         value={customLocation}
-                        onChangeText={handleCustomChange}
+                        onChangeText={handleCustomLocation}
                         style={{
                           backgroundColor: theme.colors.background,
                           width: 250,
@@ -408,8 +489,212 @@ const EventFinalisation = ({ route, navigation }) => {
                         textColor={theme.colors.text}
                       />
                     </Card.Content>
+                    <Card.Actions>
+                      <Button
+                        mode='contained'
+                        onPress={handleCustomSelect}
+                        buttonColor={customSelect ? theme.colors.success : theme.colors.primary}
+                      >
+                        {customSelect ? 'Selected' : 'Select'}
+                      </Button>
+                    </Card.Actions>
                   </Card>
                 </ScrollView>
+              </View>
+            </View>
+          </ProgressStep>
+          <ProgressStep
+            label='Travel Time'
+            nextBtnTextStyle={{ color: theme.colors.text }}
+            finishBtnText=''
+            previousBtnText='Back'
+            previousBtnTextStyle={{ color: theme.colors.text }}
+          >
+            <View 
+              style={{ 
+                margin: '5%',
+              }}
+            >
+              <Text
+                variant='titleLarge'
+                style={{
+                  color: theme.colors.text,
+                  marginBottom: '5%',
+                }}
+              >
+                {/** Replace with actual group name */}
+                You're off to {locationOptions[0].name} with group name!
+              </Text>
+              <Image 
+                source={{ uri: locationOptions[0].image }}
+                style={{
+                  borderRadius: 12,
+                  width: '95%',
+                  height: 200,
+                }}
+              />
+              <View 
+                style={[textContainer, {
+                  marginTop: '5%',
+                }]}
+              >
+                <Text 
+                  variant='bodyLarge'
+                  style={headingStyle}
+                >
+                  Address:
+                </Text>
+                <Text
+                  variant='bodyLarge'
+                  style={{
+                    color: theme.colors.text,
+                  }}
+                >
+                  {locationOptions[0].other.address}
+                </Text>
+              </View>
+              <View style={textContainer}>
+                <Text 
+                  variant='bodyLarge'
+                  style={headingStyle}
+                >
+                  Hours:
+                </Text>
+                <Text
+                  variant='bodyLarge'
+                  style={{
+                    color: theme.colors.text,
+                  }}
+                >
+                  {locationOptions[0].other.hours}
+                </Text>
+              </View>
+              <View style={textContainer}>
+                <Text
+                  variant='bodyLarge'
+                  style={headingStyle}
+                >
+                  Phone:
+                </Text>
+                <Text
+                  variant='bodyLarge'
+                  style={{
+                    color: theme.colors.text,
+                  }}
+                >
+                  {locationOptions[0].other.phone}
+                </Text>
+              </View>
+              <Button
+                mode='contained'
+                style={{
+                  marginTop: '2%',
+                  borderRadius: 12,
+                }}
+                onPress={openWebsite}
+              >
+                See Website
+              </Button>
+              <View
+                style={{
+                  marginTop: '8%',
+                }}
+              >
+                <Text
+                  variant='titleLarge'
+                  style={{
+                    color: theme.colors.text,
+                    fontWeight: '500',
+                    marginBottom: '3%',
+                  }}
+                >
+                  Transport Methods
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '58%'
+                    }}
+                  >
+                    <View
+                      style={{ 
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Icon 
+                        source='bus'
+                        color={theme.colors.text}
+                        size={60}
+                      />
+                      <Text
+                        variant='bodyMedium'
+                        style={{
+                          color: theme.colors.text,
+                        }}
+                      >
+                        16 min
+                      </Text>
+                    </View>
+                    <View
+                      style={{ 
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Icon 
+                        source='car'
+                        color={theme.colors.text}
+                        size={60}
+                      />
+                      <Text
+                        variant='bodyMedium'
+                        style={{
+                          color: theme.colors.text,
+                        }}
+                      >
+                        6 min
+                      </Text>
+                    </View>
+                    <View
+                      style={{ 
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Icon 
+                        source='train'
+                        color={theme.colors.text}
+                        size={60}
+                      />
+                      <Text
+                        variant='bodyMedium'
+                        style={{
+                          color: theme.colors.text,
+                        }}
+                      >
+                        15 min
+                      </Text>
+                    </View>
+                  </View>
+                  <Button
+                    mode='outlined'
+                    textColor={theme.colors.text}
+                    style={{
+                      borderColor: theme.colors.text,
+                      borderRadius: 12,
+                    }}
+                    onPress={() => navigation.navigate('EventRoutes', { screen: 'Transport Options' })}
+                  >
+                    See More
+                  </Button>
+                </View>
               </View>
             </View>
           </ProgressStep>

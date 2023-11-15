@@ -3,14 +3,14 @@ import { theme } from '../../../styles/Theme';
 import { Button, IconButton, Text, PaperProvider } from 'react-native-paper';
 import { Image, Linking, View } from 'react-native';
 
-const textContainer = {
+export const textContainer = {
   flexDirection: 'row',
   alignItems: 'flex-start',
   marginBottom: 3,
   width: '82%',
 }
 
-const headingStyle = {
+export const headingStyle = {
   color: theme.colors.text,
   fontWeight: '500',
   marginRight: 4,
