@@ -52,6 +52,21 @@ const CompletedEventConfirmScreen = ({ navigation }) => {
           }}
         >
           <Button
+            mode='contained'
+            contentStyle={{
+              height: 60,
+            }}
+            labelStyle={{
+              fontSize: 18,
+            }}
+            style={{
+              borderRadius: 12,
+            }}
+            onPress={() => alert('This functionality is not available yet!')}
+          >
+            See My Calendar
+          </Button>
+          <Button
             mode='outlined'
             contentStyle={{
               height: 60,

@@ -208,7 +208,6 @@ const EventFinalisation = ({ route, navigation }) => {
                 mode='outlined'
                 style={{
                   borderColor: theme.colors.text,
-                  borderRadius: 10,
                   width: 80,
                 }}
                 textColor={theme.colors.text}
@@ -219,7 +218,6 @@ const EventFinalisation = ({ route, navigation }) => {
               <Button
                 mode='contained'
                 style={{
-                  borderRadius: 10,
                   width: 80,
                 }}
                 onPress={handleCloseAlert}
@@ -620,7 +618,7 @@ const EventFinalisation = ({ route, navigation }) => {
                   <View
                     style={{
                       flexDirection: 'row',
-                      alignItems: 'center',
+                      alignItems: 'flex-end',
                       justifyContent: 'space-between',
                       width: '58%'
                     }}
@@ -633,7 +631,7 @@ const EventFinalisation = ({ route, navigation }) => {
                       <Icon 
                         source='bus'
                         color={theme.colors.text}
-                        size={60}
+                        size={58}
                       />
                       <Text
                         variant='bodyMedium'
@@ -660,7 +658,7 @@ const EventFinalisation = ({ route, navigation }) => {
                           color: theme.colors.text,
                         }}
                       >
-                        6 min
+                        9 min
                       </Text>
                     </View>
                     <View
@@ -669,9 +667,9 @@ const EventFinalisation = ({ route, navigation }) => {
                       }}
                     >
                       <Icon 
-                        source='train'
+                        source='walk'
                         color={theme.colors.text}
-                        size={60}
+                        size={52}
                       />
                       <Text
                         variant='bodyMedium'
@@ -679,7 +677,7 @@ const EventFinalisation = ({ route, navigation }) => {
                           color: theme.colors.text,
                         }}
                       >
-                        15 min
+                        47 min
                       </Text>
                     </View>
                   </View>
