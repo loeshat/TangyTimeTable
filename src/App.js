@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Home from './screens/Home';
 import Create from './screens/Create';
 import FriendsHome from './screens/FriendsHome';
+import Loading from './screens/Loading';
 import Profile from './screens/Profile';
 import { GroupRoutes } from './routes/GroupRoutes';
 import { EventRoutes } from './routes/EventRoutes';
@@ -33,7 +35,43 @@ const CreatePlaceholder = () => {
   );
 }
 
+const getCurrentUser = async () => {
+  try {
+    const user = await AsyncStorage.getItem('currentUser');
+    return JSON.parse(user);
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
 const App = () => {
+  const [startingScreen, setStartingScreen] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        // if user is null, then no user is logged in. otherwise, user is logged in
+        if (user === null) {
+          setStartingScreen('LoginRoutes');
+        } else {
+          setStartingScreen('Bottom Tab Bar');
+        }
+        setIsLoading(false);
+      } catch (e) {
+        console.error('Error fetching current user:', e);
+      }
+    };
+    fetchCurrentUser();
+  }, []);
+
+  // loading when setStartingScreen is still waiting to finish running
+  if (isLoading) {
+    return <Loading />;
+  }
+
   const BottomBar = () => (
     <PaperProvider theme={themeExtended}>
       <Tab.Navigator
@@ -80,11 +118,10 @@ const App = () => {
       </Tab.Navigator>
     </PaperProvider>
   );
+
   return (
     <NavigationContainer>
-      <RootStack.Navigator
-        initialRouteName='LoginRoutes'
-      >
+      <RootStack.Navigator initialRouteName={startingScreen}>
         <RootStack.Screen
           name='Bottom Tab Bar'
           component={BottomBar}
