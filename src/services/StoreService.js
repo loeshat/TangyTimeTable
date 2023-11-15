@@ -133,6 +133,17 @@ export const loginRequest = async (email, password) => {
   }
 };
 
+export const signOutRequest = async () => {
+  try {
+    await AsyncStorage.removeItem('currentUser');
+    console.log('Signing out');
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
 /**
  * Retrieve all users that exist in the TangyTimeTable database
  * @returns 
