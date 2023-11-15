@@ -4,11 +4,24 @@
 TangyTimeTable is an all-in-one event planning assistant that automatically aligns users’ schedules with their friends and suggests activities based on their shared interests. Furthermore, through personal calendar synchronisation and timely notification reminders, TangyTimeTable eliminates manual back-and-forth messaging and event coordination efforts to help users save time and gain more enjoyment from in-person socialisation.
 
 ## Usage
-To run the project, navigate to the directory and run one of the following `npm` commands:
+To run the project, navigate to the directory and run the following `npm` commands:
 - `cd src`
-- `npm run android`
-- `npm run ios`
-- `npm run web`
+- `npm install`
+- `npx expo start`, then press `i` to run the `iOS` option
+
+## Disclaimers
+As this is the beta-coded version of the TangyTimeTable prototype, some functionalities do not work yet or rely on hard-coded data. This includes:
+1. Social Media & Calendar Accounts Syncing
+  - Please use manual sign up/login for the most accurate user experience.
+  - As social media and calendar accounts synchronisation is not yet implemented, users' friends list is currently hard-coded.
+2. Time Availabilities Selection
+  - Same availabilities are applied across all displayed dates due to slow load time issues.
+3. Activity & Location Recommendations
+  - Activity and location data are currently hard-coded.
+4. Travel Time Suggestions
+  - Travel time data is currently hard-coded.
+5. Search
+  - Search is not functional yet.
 
 ## Roadmap
 - TangyTimeTable's research board can be found in this [Miro Board](https://miro.com/app/board/uXjVMhHMptI=/?share_link_id=646779823933). The board contains:
