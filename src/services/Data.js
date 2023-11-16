@@ -231,3 +231,36 @@ export const groupOptions = [
   },
 
 ];
+
+{/* Event Cards specific to the Group: ZeesteeBestees */}
+export const ZBConfirmedEvents = [
+  {
+    name: 'November Catchup',
+    desc: 'Brunch before class',
+    organiser: 'Ivina',
+  },
+];
+export const ZBPlanningEvents = [
+  {
+    name: 'Zestee Bestees Meet Up',
+    desc: 'Our group\'s monthly catchup!',
+    organiser: 'You',
+  },
+];
+export const ZBPastEvents = [
+  {
+    name: 'October Catchup',
+    desc: 'Brunch before class',
+    organiser: 'Truc',
+  },
+  {
+    name: 'September Catchup',
+    desc: 'Brunch before class',
+    organiser: 'Olivia',
+  },
+  {
+    name: 'August Catchup',
+    desc: 'Brunch before class',
+    organiser: 'Leo',
+  },
+];
