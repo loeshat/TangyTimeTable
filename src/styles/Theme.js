@@ -12,7 +12,8 @@ export const theme = {
     surface: '#FFFFFF',
     text: '#5E412F',
     disabled: '#9E9E9E',
-    success: '#79C1A9'
+    success: '#79C1A9',
+    outlineVariant: '#555555',
   }
 }
 

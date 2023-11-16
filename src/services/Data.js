@@ -228,3 +228,33 @@ export const locationOptions = [
     },
   },
 ];
+
+export const eventOptions = [
+  {
+    name: 'ZesteeBestees',
+    desc: 'Dinner and Pubcrawl',
+    details: 'Arisun | 23/11/2023 7pm'
+  },
+  {
+    name: 'Tag Friends',
+    desc: 'Social Game',
+    details: 'TBD | 2/12/2023 8:30pm'
+  },
+  {
+    name: 'Uni Scenario Group',
+    desc: 'Bowling and dinner after class',
+    details: 'STRIKE Bowling | 30/11/2023 7pm'
+  },
+];
+
+export const organisedEventOptions = [
+  {
+    name: 'Uni Scenario Group',
+    desc: 'Brunch before class',
+  },
+  {
+    name: 'ZesteeBestees',
+    desc: 'Our monthly catchup!',
+  },
+
+];
