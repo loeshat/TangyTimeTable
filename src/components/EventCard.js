@@ -4,6 +4,13 @@ import { Avatar, Card, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { getGroupDetails } from '../services/StoreService';
 
+const descTextStyle = {
+  color: theme.colors.text,
+  fontSize: 15,
+  fontWeight: '400',
+  paddingTop: 5,
+};
+
 const EventCard = ({ 
   eventId, 
   eventName, 
@@ -86,16 +93,20 @@ const EventCard = ({
             }}
           >
             <Text
-              style={{
-                  color: theme.colors.text,
-                  fontSize: 15,
-                  fontWeight: '400',
-                  paddingTop: 5,
-              }}
+              style={descTextStyle}
             >
               {details}
             </Text>
           </View>
+        }
+        {
+          status.includes('in progress')
+          &&
+          <Text
+            style={descTextStyle}
+          >
+            Event In Planning
+          </Text>
         }
       </Card.Content>
     </Card>
