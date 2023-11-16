@@ -215,3 +215,19 @@ export const organisedEventOptions = [
   },
 
 ];
+
+export const groupOptions = [
+  {
+    name: 'ZesteeBestees',
+    membersText: '4 members',
+  },
+  {
+    name: 'Uni Scenario Group',
+    membersText: '5 members',
+  },
+  {
+    name: 'Tag Friends',
+    membersText: '10 members',
+  },
+
+];
