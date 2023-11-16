@@ -4,8 +4,6 @@ import { flowStyles } from '../../styles/FlowStyles';
 import { IconButton, PaperProvider, SegmentedButtons, Text } from 'react-native-paper';
 import { Image, TouchableOpacity, View } from 'react-native';
 
-// TODO: Navigate to final confirmation screen from here!
-
 const buttonsTheme = {
   colors: {
     onSecondaryContainer: theme.colors.primary,

@@ -531,6 +531,7 @@ const EventFinalisation = ({ route, navigation }) => {
                   height: 200,
                 }}
               />
+              {/** Replace with selected details if organiser */}
               <View 
                 style={[textContainer, {
                   marginTop: '5%',

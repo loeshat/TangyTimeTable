@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { theme } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { Button, PaperProvider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
 import GroupCard from '../../components/GroupCard';
+import { getAllGroups, getCurrentUser } from '../../services/StoreService';
 
 const SelectGroupScreen = ({ navigation }) => {
   const returnHome = () => navigation.navigate('Events');
   const createNewGroup = () => navigation.navigate('GroupRoutes', { screen: 'Create New Group' });
+
+  const [groups, setGroups] = useState([]);
+  useEffect(() => {
+    getCurrentUser().then((id) => {
+      if (id !== -1) {
+        getAllGroups(id).then(res => setGroups(res));
+      }
+    })
+  }, []);
+
   return (
     <PaperProvider theme={theme}>
       <TitleTopBar backAction={returnHome} title={'Return Home'} />
@@ -48,11 +59,13 @@ const SelectGroupScreen = ({ navigation }) => {
             A New Group
           </Button>
           {
-            /** 
-             * Map list of groups that the logged in user is a part of 
-             * Will need group ID passed through for appropriate new event
-             * creation handling
-            */
+            groups.map((item, id) => (
+              <GroupCard 
+                key={id}
+                name={item.name}
+                membersNum={item.members.length}
+              />
+            ))
           }
         </View>
       </View>
