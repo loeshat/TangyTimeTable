@@ -4,6 +4,10 @@ const USERS_KEY = '@tangy_users';
 const USER_ID_KEY = '@tangy_lastUserId';
 const EVENTS_KEY = '@tangy_events';
 const GROUPS_KEY = '@tangy_groups';
+const VOTES_KEY = '@tangy_votes';
+const CURR_USER_KEY = '@tangy_current_user';
+
+// TODO: Separate key for votes storage -> store with eventId, userId and vote
 
 /**
  * Data Types Explanation:
@@ -43,20 +47,25 @@ const GROUPS_KEY = '@tangy_groups';
  *   name: string,
  *   members: array of userId's
  * }
+ * 
+ * Votes Struct:
+ * {
+ *   eventId: number,
+ *   userId: number - user who made the vote,
+ *   vote: [number] - index of activity that the user voted for,
+ * }
  */
 
 /**
  * Retrieve the last user id from async storage
  * @returns 
  */
-const getLastUserId = async () => {
+export const getLastUserId = async () => {
   try {
     const lastUserId = await AsyncStorage.getItem(USER_ID_KEY);
-    return lastUserId ? parseInt(lastUserId, 10) : 0;
+    return lastUserId ? parseInt(lastUserId, 10) : 4;
   } catch (e) {
     console.error(e);
-    // Hard coded friends list IDs take up 0 - 4
-    return 5;
   }
 };
 
@@ -100,6 +109,7 @@ export const signUpRequest = async (name, email, password) => {
     // Save the user data to AsyncStorage
     await AsyncStorage.setItem(USERS_KEY, JSON.stringify(users));
     console.log(users);
+    await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(newUserId));
     await setLastUserId(newUserId);
     return true;
   } catch (error) {
@@ -125,7 +135,28 @@ export const loginRequest = async (email, password) => {
       console.error('Invalid email or password');
       return false;
     }
-    await AsyncStorage.setItem('currentUser', JSON.stringify(user));
+    await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(user));
+    return true;
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+};
+
+export const getCurrentUser = async () => {
+  try {
+    const currUser = await AsyncStorage.getItem(CURR_USER_KEY);
+    return currUser ? Number(currUser) : -1;
+  } catch (e) {
+    console.log(`Error getting current user: ${e}`);
+    return null;
+  }
+}
+
+export const signOutRequest = async () => {
+  try {
+    await AsyncStorage.removeItem(CURR_USER_KEY);
+    console.log('Signing out');
     return true;
   } catch (e) {
     console.error(e);

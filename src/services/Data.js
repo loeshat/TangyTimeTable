@@ -1,6 +1,8 @@
 import moment from 'moment';
 import { theme } from '../styles/Theme';
 
+// This file contains all relevant hard-coded data
+
 export const FriendsList = [
   {
     name: 'Sam Nguyen',
@@ -138,14 +140,13 @@ export const dateOptions = [
   },
 ];
 
-// TODO: Get actual icon names and images
 export const activityOptions = [
   {
     type: 'Indoor Futsal',
-    icon: '',
+    icon: 'football',
     votesNum: 2,
     other: {
-      image: '',
+      image: 'https://www.topendsports.com/sport/soccer/images/soccer-indoor-boys-pixabay.jpg',
       groupSize: '8 - 12',
       price: '$$$',
       nearby: 'Tangy recommends playing futsal at the All Sorts Indoor Sports Centre in Rosebery to leverage group and student discounts!',
@@ -153,35 +154,77 @@ export const activityOptions = [
   },
   {
     type: 'Hiking',
-    icon: '',
+    icon: 'image-filter-hdr',
     votesNum: 1,
     other: {
-      image: '',
+      image: 'https://i0.wp.com/images-prod.healthline.com/hlcmsresource/images/topic_centers/2019-8/couple-hiking-mountain-climbing-1296x728-header.jpg?w=1155&h=1528',
       groupSize: '3 - 6',
       price: 'Free',
-      nearby: 'Tangy recommends exploring hiking routes in the Blue Mountains',
+      nearby: 'Tangy recommends exploring hiking routes in the Blue Mountains!',
     },
   },
   {
     type: 'Board Games',
-    icon: '',
+    icon: 'gamepad-variant-outline',
     votesNum: 0,
     other: {
-      image: '',
+      image: 'https://media.timeout.com/images/105627949/750/422/image.jpg',
       groupSize: '5 - 10',
       price: '$',
-      nearby: 'Tangy recommends Double Kill Games Cafe in Haymarket',
+      nearby: 'Tangy recommends Double Kill Games Cafe in Haymarket!',
     },
   },
   {
     type: 'Movie Night',
-    icon: '',
+    icon: 'movie-open',
     votesNum: 0,
     other: {
-      image: '',
+      image: 'https://hips.hearstapps.com/hmg-prod/images/movie-night-ideas-1608824743.jpg',
       groupSize: '3 - 6',
       price: '$',
-      nearby: 'Tangy recommends watching movies at Events Cinema George Street, which is a central location for your group',
+      nearby: 'Tangy recommends watching movies at Events Cinema George Street, which is a central location for your group!',
+    },
+  },
+];
+
+export const locationOptions = [
+  {
+    name: 'All Sorts Indoor Sports Centre',
+    rating: 4.2,
+    numReviews: 205,
+    suburb: 'Rosebery NSW',
+    image: 'https://fastly.4sqi.net/img/general/600x600/381188561_0og2tHiPFwvX9dkuqxnn9iRJlvP4x6zZwKf0LVjWhkI.jpg',
+    other: {
+      address: '12-20 Rosebery Ave, Rosebery NSW 2018',
+      hours: '6am - 8pm',
+      phone: '(02) 9469 5654',
+      website: 'https://allsortsfitness.com.au/indoor-sports/sports/',
+    },
+  },
+  {
+    name: 'Sportsworld Indoor Peakhurst',
+    rating: 4.3,
+    numReviews: 109,
+    suburb: 'Peakhurst NSW',
+    image: 'https://www.sportsworldindoor.com.au/wp-content/uploads/2020/06/soccer-1-768x512.jpg',
+    other: {
+      address: '1/707 Forest Rd, Peakhurst NSW 2210',
+      hours: '11am - 9pm',
+      phone: '(02) 9534 3100',
+      website: 'https://www.sportsworldindoor.com.au/',
+    },
+  },
+  {
+    name: 'Morris Iemma Indoor Sports Centre',
+    rating: 4.1,
+    numReviews: 107,
+    suburb: 'Riverwood NSW',
+    image: 'https://cbcity.nsw.gov.au/MIISC%20Slider/casual%20shooting%20picture.jpg?RenditionID=5',
+    other: {
+      address: '150 Belmore Rd North, Riverwood NSW 2210',
+      hours: '9am - 10pm',
+      phone: '(02) 9153 0441',
+      website: 'https://www.cbcity.nsw.gov.au/miisc',
     },
   },
 ];
