@@ -1,18 +1,14 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useState, useEffect } from 'react';
 import { theme } from '../styles/Theme';
-import { Button, Card, Divider, Text } from 'react-native-paper';
+import { Avatar, Card, Text } from 'react-native-paper';
 import { View, TouchableOpacity } from 'react-native';
+import { getGroupDetails } from '../services/StoreService';
 
-// const PickTimeCard = ({ date, startTime, endTime, onChange }) => {
-const EventCard = ({ name, desc, details }) => {
-  
-  const [select, setSelected] = useState(false);
-  const toggleSelect = () => {
-    setSelected(!select);
-    onChange(!select);
-  }
-  
+const EventCard = ({ eventName, groupId }) => {
+  const [groupName, setGroupName] = useState(null);
+  useEffect(() => {
+    getGroupDetails(groupId).then((res) => setGroupName(res.name));
+  }, [groupId]);
   return (
     <Card 
       style={{
@@ -27,18 +23,25 @@ const EventCard = ({ name, desc, details }) => {
             flexDirection: 'row',
             marginBottom: 8,
             alignItems: 'center',
-            justifyContent: 'space-between',
             width: 190,
           }}
         >
+          <Avatar.Image 
+            size={40}
+            source={require('../assets/pink_tangy.png')}
+            style={{
+              backgroundColor: theme.colors.background,
+              marginRight: 10,
+            }}
+          />
           <Text
             style={{
               color: theme.colors.text,
               fontSize: 18,
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
           >
-            {name}
+            {groupName}
           </Text>
           <View
             style={{
@@ -64,7 +67,7 @@ const EventCard = ({ name, desc, details }) => {
               fontWeight: '400',
             }}
           >
-            {desc}
+            {eventName}
           </Text>
         </View>  
 

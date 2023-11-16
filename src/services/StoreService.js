@@ -196,6 +196,23 @@ export const getAllGroups = async (userId) => {
 }
 
 /**
+ * Get all details about a given group
+ * @param {*} groupId 
+ */
+export const getGroupDetails = async (groupId) => {
+  try {
+    const allGroups = await AsyncStorage.getItem(GROUPS_KEY);
+    if (allGroups) {
+      const group = JSON.parse(allGroups).filter(group => group.groupId === groupId);
+      return group[0];
+    }
+    return {}; // Provided ID does not exist
+  } catch (e) {
+    console.log(`Failed to retrieve group details for ${groupId}: ${e}`);
+  }
+}
+
+/**
  * Create a new group and add it to the database
  * @param {Object} groupObj 
  * @returns 
@@ -287,6 +304,19 @@ export const updateEventDetails = async (eventId, eventObj) => {
     }
   } catch (e) {
     console.log(`Failed to update details for event ${eventId}: ${e}`);
+  }
+}
+
+/**
+ * Retrieve all events that exist in the TangyTimeTable database
+ * @returns 
+ */
+export const getAllEvents = async () => {
+  try {
+    const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    return allEvents ? JSON.parse(allEvents) : [];
+  } catch (e) {
+    console.log(`Failed to retrieve all events: ${e}`);
   }
 }
 

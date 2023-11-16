@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useState, useEffect } from 'react';
 import { theme } from '../styles/Theme';
-import { Button, Card, Divider, Text } from 'react-native-paper';
+import { Avatar, Card, Text } from 'react-native-paper';
 import { View } from 'react-native';
+import { getGroupDetails } from '../services/StoreService';
 
-const EventCard = ({ name, desc, details }) => {
-  
+const EventCard = ({ eventName, status, details, groupId }) => {
+  const [groupName, setGroupName] = useState(null);
+  useEffect(() => {
+    getGroupDetails(groupId).then((res) => setGroupName(res.name));
+  }, [groupId]);
   return (
     <Card 
       style={{
@@ -20,17 +23,24 @@ const EventCard = ({ name, desc, details }) => {
             flexDirection: 'row',
             marginBottom: 8,
             alignItems: 'center',
-            justifyContent: 'space-between',
             width: 190,
           }}
         >
+          <Avatar.Image 
+            size={40}
+            source={require('../assets/pink_tangy.png')}
+            style={{
+              backgroundColor: theme.colors.background,
+              marginRight: 5,
+            }}
+          />
           <Text
             style={{
               color: theme.colors.text,
               fontSize: 18,
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
-          > {name}
+          > {groupName}
           </Text>
           <View
             style={{
@@ -40,7 +50,6 @@ const EventCard = ({ name, desc, details }) => {
           >
           </View>
         </View>
-
         <View
           style={{
             marginTop: 8,
@@ -55,32 +64,32 @@ const EventCard = ({ name, desc, details }) => {
               fontSize: 15,
               fontWeight: '400',
             }}
-          >{desc}
+          >{eventName}
           </Text>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}
-        >
-          <Text
+        {
+          status.includes('upcoming')
+          &&
+          <View
             style={{
-                color: theme.colors.text,
-                fontSize: 15,
-                fontWeight: '400',
-                paddingTop: 5,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between'
             }}
           >
-            {details}
-          </Text>
-          
-        </View>
+            <Text
+              style={{
+                  color: theme.colors.text,
+                  fontSize: 15,
+                  fontWeight: '400',
+                  paddingTop: 5,
+              }}
+            >
+              {details}
+            </Text>
+          </View>
+        }
       </Card.Content>
-      <Card.Actions>
-
-      </Card.Actions>
     </Card>
   );
 }
