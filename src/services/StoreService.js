@@ -130,12 +130,11 @@ export const loginRequest = async (email, password) => {
 
     // Find the user with the matching email and password
     const user = parsedUsers.find((user) => user.email === email && user.password === password);
-
     if (!user) {
       console.error('Invalid email or password');
       return false;
     }
-    await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(user));
+    await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(user.userId));
     return true;
   } catch (e) {
     console.error(e);
@@ -143,6 +142,10 @@ export const loginRequest = async (email, password) => {
   }
 };
 
+/**
+ * Retrieves the ID of the currently logged in user
+ * @returns 
+ */
 export const getCurrentUser = async () => {
   try {
     const currUser = await AsyncStorage.getItem(CURR_USER_KEY);
@@ -153,10 +156,13 @@ export const getCurrentUser = async () => {
   }
 }
 
+/**
+ * Signs user out of platform
+ * @returns 
+ */
 export const signOutRequest = async () => {
   try {
     await AsyncStorage.removeItem(CURR_USER_KEY);
-    console.log('Signing out');
     return true;
   } catch (e) {
     console.error(e);
@@ -308,13 +314,20 @@ export const updateEventDetails = async (eventId, eventObj) => {
 }
 
 /**
- * Retrieve all events that exist in the TangyTimeTable database
+ * Retrieve all events that the logged in user belongs to
  * @returns 
  */
 export const getAllEvents = async () => {
   try {
     const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
-    return allEvents ? JSON.parse(allEvents) : [];
+    const currUserId = await getCurrentUser();
+    if (currUserId !== -1 && allEvents) {
+      const eventsArray = JSON.parse(allEvents);
+      const userGroups = await getAllGroups(currUserId);
+      const groupIds = userGroups.map(group => group.groupId);
+      return eventsArray.filter(e => groupIds.includes(e.groupId));
+    }
+    return []; // groups that the user is a part of does not have any events
   } catch (e) {
     console.log(`Failed to retrieve all events: ${e}`);
   }

@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { theme } from '../styles/Theme';
 import TopNavBar from '../components/TopBar';
 import { View, StyleSheet, ScrollView } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Button, PaperProvider, Searchbar, SegmentedButtons, Text } from 'react-native-paper';
 
 import EventCard from '../components/EventCard';
@@ -43,6 +44,7 @@ const filterButtons = [
  * @returns 
  */
 const Home = ({ navigation }) => {
+  const [currUser, setCurrUser] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const onChangeSearch = query => setSearchQuery(query);
   const [filter, setFilter] = useState('upcoming');
@@ -56,12 +58,20 @@ const Home = ({ navigation }) => {
   }
 
   useEffect(() => {
-    getAllEvents().then((res) => {
-      setAllEvents(res);
-      setEvents(res.filter(e => e.status.includes('upcoming')));
-      getCurrentUser().then((userId) => setMyEvents(res.filter(event => event.organiser === userId)));
-    });
+    getCurrentUser().then((id) => setCurrUser(id));
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (currUser !== null && currUser !== -1) {
+        getAllEvents().then((res) => {
+          setAllEvents(res);
+          setEvents(res.filter(e => e.status.includes('upcoming')));
+          setMyEvents(res.filter(e => e.organiser === currUser));
+        });
+      };
+    }, [currUser])
+  );
 
   return (
     <PaperProvider theme={theme}>
