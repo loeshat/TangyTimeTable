@@ -3,16 +3,28 @@ import { theme } from '../styles/Theme';
 import { Avatar, Card, Text } from 'react-native-paper';
 import { View } from 'react-native';
 
-const GroupCard = ({ name, membersNum }) => {
+/**
+ * This component displays key details of a group
+ * @param {*} name
+ * @param {*} membersNum
+ * @returns 
+ */
+const GroupCard = ({ name, membersNum, onPress }) => {
   const memberText = membersNum === 1 ? 'member' : 'members';
   return (
     <View
       style={{
         marginTop: '2%',
-        width: '90%'
+        width: '90%',
       }}
     >
-      <Card mode='outlined'>
+      <Card 
+        mode='contained'
+        style={{
+          backgroundColor: theme.colors.background,
+        }}
+        onPress={onPress}
+      >
         <Card.Content
           style={{
             flexDirection: 'row',
@@ -23,7 +35,7 @@ const GroupCard = ({ name, membersNum }) => {
             size={45} 
             source={require('../assets/pink_tangy.png')} 
             style={{
-              backgroundColor: '#FFFFFF'
+              backgroundColor: theme.colors.background,
             }}
           />
           <View
@@ -35,7 +47,7 @@ const GroupCard = ({ name, membersNum }) => {
               variant='bodyLarge'
               style={{
                 color: theme.colors.text,
-                fontWeight: '500'
+                fontWeight: '600',
               }}
             >
               {name}
@@ -43,7 +55,7 @@ const GroupCard = ({ name, membersNum }) => {
             <Text
               variant='bodyMedium'
               style={{
-                color: theme.colors.disabled
+                color: '#000000',
               }}
             >
               {membersNum} {memberText}

@@ -64,6 +64,7 @@ const SelectGroupScreen = ({ navigation }) => {
                 key={id}
                 name={item.name}
                 membersNum={item.members.length}
+                onPress={() => navigation.navigate('EventRoutes', { screen: 'Create New Event', params: { groupId: item.groupId }})}
               />
             ))
           }
