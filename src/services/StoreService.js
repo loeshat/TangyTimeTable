@@ -149,6 +149,7 @@ export const getCurrentUser = async () => {
     return currUser ? Number(currUser) : -1;
   } catch (e) {
     console.log(`Error getting current user: ${e}`);
+    return null;
   }
 }
 

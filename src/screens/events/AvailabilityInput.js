@@ -31,7 +31,7 @@ const AvailabilityInput = ({ route, navigation }) => {
   const handleDayPress = (day) => setSelectedDate(day.dateString);
 
   const updateEvent = () => {
-    updateEventDetails(eventId, { status: 'in progress for finalisation' });
+    updateEventDetails(eventId, { status: 'in progress for members time input' });
     navigation.navigate('EventRoutes', { screen: 'Time Confirmation Screen' });
   }
 

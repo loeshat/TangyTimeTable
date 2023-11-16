@@ -208,6 +208,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 mode='outlined'
                 style={{
                   borderColor: theme.colors.text,
+                  borderRadius: 12,
                   width: 80,
                 }}
                 textColor={theme.colors.text}
@@ -219,6 +220,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 mode='contained'
                 style={{
                   width: 80,
+                  borderRadius: 12,
                 }}
                 onPress={handleCloseAlert}
               >

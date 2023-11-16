@@ -5,8 +5,9 @@ import { View } from 'react-native';
 
 /**
  * This component displays key details of a group
- * @param {*} name
- * @param {*} membersNum
+ * @param {String} name - name of group
+ * @param {Number} membersNum - number of members in group
+ * @param {Function} onPress - function to be executed on press
  * @returns 
  */
 const GroupCard = ({ name, membersNum, onPress }) => {
