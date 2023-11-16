@@ -229,32 +229,40 @@ export const locationOptions = [
   },
 ];
 
-export const eventOptions = [
+export const defaultEvents = [
   {
-    name: 'ZesteeBestees',
-    desc: 'Dinner and Pubcrawl',
-    details: 'Arisun | 23/11/2023 7pm'
+    eventId: 0,
+    groupId: 0,
+    organiser: null, // whoever the logged in user is would be the owner
+    name: 'Monthly Catchup',
+    description: 'Casual hangout and catchups',
+    decider: 'group',
+    status: 'in progress for finalisation',
+    finalisationStage: 1,
+  }, 
+  {
+    eventId: 1,
+    groupId: 0,
+    organiser: null,
+    name: 'Sports Day',
+    description: 'One-off Sports Hangout',
+    decider: 'group',
+    status: 'in progress for finalisation',
+    finalisationStage: 3,
+    eventDate: 0, // index from dateOptions array
+    activity: 'Indoor Futsal',
   },
   {
-    name: 'Tag Friends',
-    desc: 'Social Game',
-    details: 'TBD | 2/12/2023 8:30pm'
+    eventId: 2,
+    groupId: 0,
+    organiser: 0,
+    name: 'Futsal Practice',
+    description: 'Practice for UniGames',
+    decider: 'single',
+    status: 'in progress for finalisation',
+    finalisationStage: 4,
+    eventDate: 1, // index from dateOptions array
+    activity: 'Indoor Futsal',
+    location: 0, // index from locationOptions array
   },
-  {
-    name: 'Uni Scenario Group',
-    desc: 'Bowling and dinner after class',
-    details: 'STRIKE Bowling | 30/11/2023 7pm'
-  },
-];
-
-export const organisedEventOptions = [
-  {
-    name: 'Uni Scenario Group',
-    desc: 'Brunch before class',
-  },
-  {
-    name: 'ZesteeBestees',
-    desc: 'Our monthly catchup!',
-  },
-
 ];
