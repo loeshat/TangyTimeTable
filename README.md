@@ -22,6 +22,8 @@ As this is the beta-coded version of the TangyTimeTable prototype, some function
   - Travel time data is currently hard-coded.
 5. Search
   - Search is not functional yet.
+6. Events Display
+  - Home Screen currently displays ALL events that exist on the database.
 
 ## Roadmap
 - TangyTimeTable's research board can be found in this [Miro Board](https://miro.com/app/board/uXjVMhHMptI=/?share_link_id=646779823933). The board contains:
