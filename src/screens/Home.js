@@ -154,7 +154,6 @@ const Home = ({ navigation }) => {
                   key={id}
                   eventId={item.eventId}
                   eventName={item.name}
-                  status={item.status}
                   groupId={item.groupId}
                   navigation={navigation}
                 />

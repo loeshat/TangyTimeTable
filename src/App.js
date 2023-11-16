@@ -35,6 +35,53 @@ const CreatePlaceholder = () => {
   );
 }
 
+const BottomBar = () => (
+  <PaperProvider theme={themeExtended}>
+    <Tab.Navigator
+      initialRouteName='Events'
+      activeColor='#FF8300'
+      inactiveColor='#9E9E9E'
+      barStyle={{ backgroundColor: '#F5F5F5' }}
+      screenOptions={{ headerShown: false }}
+      theme={themeExtended}
+    >
+      <Tab.Screen
+        name='Events'
+        component={Home}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name='home' color={color} size={30} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Create'
+        component={CreatePlaceholder}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name='plus' color={color} size={30} />
+          ),
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: event => {
+            event.preventDefault();
+            navigation.navigate('CreateNew');
+          }
+        })}
+      />
+      <Tab.Screen
+        name='Friends'
+        component={FriendsHome}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name='account-multiple' color={color} size={30} />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  </PaperProvider>
+);
+
 const App = () => {
   const [startingScreen, setStartingScreen] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,53 +109,6 @@ const App = () => {
   if (isLoading) {
     return <Loading />;
   }
-
-  const BottomBar = () => (
-    <PaperProvider theme={themeExtended}>
-      <Tab.Navigator
-        initialRouteName='Events'
-        activeColor='#FF8300'
-        inactiveColor='#9E9E9E'
-        barStyle={{ backgroundColor: '#F5F5F5' }}
-        screenOptions={{ headerShown: false }}
-        theme={themeExtended}
-      >
-        <Tab.Screen
-          name='Events'
-          component={Home}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name='home' color={color} size={30} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name='Create'
-          component={CreatePlaceholder}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name='plus' color={color} size={30} />
-            ),
-          }}
-          listeners={({ navigation }) => ({
-            tabPress: event => {
-              event.preventDefault();
-              navigation.navigate('CreateNew');
-            }
-          })}
-        />
-        <Tab.Screen
-          name='Friends'
-          component={FriendsHome}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name='account-multiple' color={color} size={30} />
-            ),
-          }}
-        />
-      </Tab.Navigator>
-    </PaperProvider>
-  );
 
   return (
     <NavigationContainer>

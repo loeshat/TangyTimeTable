@@ -7,7 +7,6 @@ import { getGroupDetails } from '../services/StoreService';
 const OrganisedEventCard = ({ 
   eventId, 
   eventName, 
-  status, 
   groupId,
   navigation,
 }) => {
@@ -88,7 +87,7 @@ const OrganisedEventCard = ({
               marginRight: 10,
             }}
             onPress={() => {
-              navigation.navigate('EventRoutes', { screen: 'Event Display', params: { eventId: eventId, eventName: eventName, status: status, groupName: groupName } })
+              navigation.navigate('EventRoutes', { screen: 'Event Display', params: { eventId: eventId, groupName: groupName } })
             }}
           >
             <Text style={{ color: 'white', textAlign: 'center' }}>Organise</Text>
@@ -102,9 +101,7 @@ const OrganisedEventCard = ({
               marginTop: 10, 
               marginRight: 10,
             }}
-            onPress={() => {
-              // TODO: Implement Delete button functionality
-            }}
+            onPress={() => alert('Event deletion not available yet!')}
           >
             <Text style={{ color: '#9E9E9E', textAlign: 'center' }}>Delete</Text>
           </TouchableOpacity>
