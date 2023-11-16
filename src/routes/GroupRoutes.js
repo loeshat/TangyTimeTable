@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CreateNewGroup from '../screens/groups/NewGroup';
 import ConfirmGroup from '../screens/groups/ConfirmGroup';
+import ZesteeBesteesGroup from '../screens/groups/ZesteeBesteesGroup';
 
 const Root = createNativeStackNavigator();
 
@@ -20,6 +21,11 @@ export const GroupRoutes = () => {
       <Root.Screen 
         name='Confirm Group'
         component={ConfirmGroup}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen 
+        name='ZesteeBesteesGroup'
+        component={ZesteeBesteesGroup}
         options={{ headerShown: false }}
       />
     </Root.Navigator>
