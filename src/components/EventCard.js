@@ -30,7 +30,7 @@ const EventCard = ({
         marginRight: 20,
         borderRadius: 20,
       }}
-      onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Display', params: { eventId: eventId, eventName: eventName, status: status, groupName: groupName } })}
+      onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Display', params: { eventId: eventId, groupName: groupName } })}
     >
       <Card.Content>
         <View
