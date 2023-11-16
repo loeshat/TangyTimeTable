@@ -4,7 +4,13 @@ import { Avatar, Card, Text } from 'react-native-paper';
 import { View, TouchableOpacity } from 'react-native';
 import { getGroupDetails } from '../services/StoreService';
 
-const EventCard = ({ eventName, groupId }) => {
+const OrganisedEventCard = ({ 
+  eventId, 
+  eventName, 
+  status, 
+  groupId,
+  navigation,
+}) => {
   const [groupName, setGroupName] = useState(null);
   useEffect(() => {
     getGroupDetails(groupId).then((res) => setGroupName(res.name));
@@ -82,7 +88,7 @@ const EventCard = ({ eventName, groupId }) => {
               marginRight: 10,
             }}
             onPress={() => {
-              // TODO: Implement Organise button functionality
+              navigation.navigate('EventRoutes', { screen: 'Event Display', params: { eventId: eventId, eventName: eventName, status: status, groupName: groupName } })
             }}
           >
             <Text style={{ color: 'white', textAlign: 'center' }}>Organise</Text>
@@ -108,4 +114,4 @@ const EventCard = ({ eventName, groupId }) => {
   );
 }
 
-export default EventCard;
+export default OrganisedEventCard;

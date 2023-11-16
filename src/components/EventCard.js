@@ -4,7 +4,14 @@ import { Avatar, Card, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import { getGroupDetails } from '../services/StoreService';
 
-const EventCard = ({ eventName, status, details, groupId }) => {
+const EventCard = ({ 
+  eventId, 
+  eventName, 
+  status, 
+  details, 
+  groupId, 
+  navigation,
+}) => {
   const [groupName, setGroupName] = useState(null);
   useEffect(() => {
     getGroupDetails(groupId).then((res) => setGroupName(res.name));
@@ -16,6 +23,7 @@ const EventCard = ({ eventName, status, details, groupId }) => {
         marginRight: 20,
         borderRadius: 20,
       }}
+      onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Display', params: { eventId: eventId, eventName: eventName, status: status, groupName: groupName } })}
     >
       <Card.Content>
         <View
