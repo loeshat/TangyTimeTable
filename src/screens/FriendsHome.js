@@ -29,7 +29,8 @@ const FriendsHome = ({ navigation }) => {
         >
           {
             groupOptions.map((item, id) => (
-              <TouchableOpacity onPress={() => navigation.navigate('GroupRoutes', { screen: 'Uni Scenario Group' })}>
+              <TouchableOpacity onPress={() => navigation.navigate('GroupRoutes', { screen: 'ZesteeBesteesGroup' })}>
+              {/* <TouchableOpacity> */}
                 <GroupCard 
                 key={id}
                 name={item.name} 
