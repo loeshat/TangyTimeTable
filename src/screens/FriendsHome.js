@@ -72,6 +72,7 @@ const FriendsHome = ({ navigation }) => {
                   key={id}
                   name={item.name}
                   membersNum={item.members.length}
+                  onPress={() => navigation.navigate('GroupRoutes', { screen: 'Group Display', params: { groupId: item.groupId }})}
                 />
               ))
             }

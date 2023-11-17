@@ -64,7 +64,6 @@ const EventDisplay = ({ route, navigation }) => {
       };
       navigation.navigate('EventRoutes', { screen: 'Event Time Input', params: { eventId: eventId, dates: inputDates, times: inputTimes }});
     } else if (navStatus === 'in progress for finalisation') {
-      const isOrganiser = eventObj.organiser === null;
       navigation.navigate('EventRoutes', { screen: 'Event Finalisation', params: { eventId: eventId, activeStep: eventObj.finalisationStage } });
     }
   }

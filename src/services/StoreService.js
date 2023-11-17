@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { defaultEvents, defaultGroup } from './Data';
+import { FriendsList, defaultEvents, defaultGroup } from './Data';
 
 const USERS_KEY = '@tangy_users';
 const USER_ID_KEY = '@tangy_lastUserId';
@@ -12,6 +12,7 @@ const CURR_USER_KEY = '@tangy_current_user';
  * Users Struct:
  * {
  *   userId: number,
+ *   name: string - user's full name, 
  *   email: string,
  *   password: string,
  *   image: string (to be used as uri for React Native Image component)
@@ -174,6 +175,25 @@ export const getAllUsers = async () => {
     return users ? JSON.parse(users) : [];
   } catch (e) {
     console.log(`Failed to retrieve TangyTimeTable users: ${e}`);
+  }
+}
+
+const defaultUserIds = [0, 1, 2, 3, 4];
+/**
+ * Retrieves details about a user of given ID
+ * @param {*} userId 
+ */
+export const getUserDetails = async (userId) => {
+  if (defaultUserIds.includes(userId)) return FriendsList[userId];
+  try {
+    const allUsers = await AsyncStorage.getItem(USERS_KEY);
+    if (allUsers) {
+      const userMatch = JSON.parse(allUsers).filter(user => user.userId === userId);
+      return userMatch[0];
+    }
+    return {}; // provided ID does not exist
+  } catch (e) {
+    console.log(`Failed to retrieve user ${userId}: ${e}`);
   }
 }
 
