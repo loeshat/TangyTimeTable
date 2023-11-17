@@ -5,10 +5,7 @@ const USERS_KEY = '@tangy_users';
 const USER_ID_KEY = '@tangy_lastUserId';
 const EVENTS_KEY = '@tangy_events';
 const GROUPS_KEY = '@tangy_groups';
-const VOTES_KEY = '@tangy_votes';
 const CURR_USER_KEY = '@tangy_current_user';
-
-// TODO: Separate key for votes storage -> store with eventId, userId and vote
 
 /**
  * Data Types Explanation:
@@ -49,12 +46,6 @@ const CURR_USER_KEY = '@tangy_current_user';
  *   members: array of userId's
  * }
  * 
- * Votes Struct:
- * {
- *   eventId: number,
- *   userId: number - user who made the vote,
- *   vote: [number] - index of activity that the user voted for,
- * }
  */
 
 /**

@@ -3,7 +3,7 @@ import { theme } from '../styles/Theme';
 import TopNavBar from '../components/TopBar';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { Button, PaperProvider, Searchbar, SegmentedButtons, Text } from 'react-native-paper';
+import { PaperProvider, Searchbar, SegmentedButtons, Text } from 'react-native-paper';
 
 import EventCard from '../components/EventCard';
 import OrganisedEventCard from '../components/OrganisedEventCard';
@@ -189,7 +189,7 @@ const Home = ({ navigation }) => {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     height: '85%',
     backgroundColor: '#FFFFFF',
