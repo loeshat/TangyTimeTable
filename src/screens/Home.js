@@ -67,9 +67,9 @@ const Home = ({ navigation }) => {
         getAllEvents().then((res) => {
           setAllEvents(res);
           setEvents(res.filter(e => e.status.includes('upcoming')));
-          setMyEvents(res.filter(e => e.organiser === currUser));
+          setMyEvents(res.filter(e => (e.organiser === currUser || e.organiser === null)));
         });
-      };
+      }
     }, [currUser])
   );
 
@@ -151,46 +151,45 @@ const Home = ({ navigation }) => {
             </Text>
           }
         </View>
-      {/* Organised Events Section */}
-      <View style={styles.container}>
-        <Text style={[styles.heading, { paddingTop: 60 }]}>Your Organised Events</Text>
-        <View style={{ padding: 20 }}>
-          <ScrollView
-            horizontal={true}
+        {/* Organised Events Section */}
+        <View style={styles.container}>
+          <Text style={[styles.heading, { paddingTop: 60 }]}>Your Organised Events</Text>
+          <View style={{ padding: 20 }}>
+            <ScrollView
+              horizontal={true}
+            >
+              {
+                myEvents.map((item, id) => (
+                  <OrganisedEventCard 
+                    key={id}
+                    eventId={item.eventId}
+                    eventName={item.name}
+                    groupId={item.groupId}
+                    navigation={navigation}
+                  />
+                ))
+              }
+              {
+                myEvents.length === 0
+                &&
+                <Text
+                  variant='bodyLarge'
+                  style={{
+                    color: theme.colors.text,
+                  }}
+                >
+                  You haven't organised any events yet!
+                </Text>
+              }
+            </ScrollView>
+          </View>
+          {/* For testing purposes only */}
+          <Button
+            onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
           >
-            {
-              myEvents.map((item, id) => (
-                <OrganisedEventCard 
-                  key={id}
-                  eventId={item.eventId}
-                  eventName={item.name}
-                  groupId={item.groupId}
-                  navigation={navigation}
-                />
-              ))
-            }
-            {
-              myEvents.length === 0
-              &&
-              <Text
-                variant='bodyLarge'
-                style={{
-                  color: theme.colors.text,
-                }}
-              >
-                You haven't organised any events yet!
-              </Text>
-            }
-          </ScrollView>
-        </View>  
-        
-      </View>
-        {/* For testing purposes only */}
-        <Button
-          onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
-        >
-          Event Finalisation Screen
-        </Button>
+            Event Finalisation Screen
+          </Button>
+        </View>
       </View>
     </PaperProvider>
   );

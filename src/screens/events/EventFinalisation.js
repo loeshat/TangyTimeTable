@@ -42,7 +42,7 @@ import { headingStyle, textContainer } from './modals/LocationReadMoreModal';
 */
 
 const EventFinalisation = ({ route, navigation }) => {
-  const { eventId } = route.params ?? {};
+  const { eventId, activeStep } = route.params ?? {};
   
   // TODO: Change route to group page
   const returnToGroup = () => navigation.navigate('Events');

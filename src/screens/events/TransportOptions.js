@@ -64,12 +64,30 @@ const TransportOptions = ({ navigation }) => {
           marginTop: '15%',
         }}
       >
-        <IconButton 
-          icon='arrow-left-circle'
-          iconColor={theme.colors.text}
-          size={40}
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
           onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
-        />
+        >
+          <IconButton 
+            icon='chevron-left'
+            iconColor={theme.colors.text}
+            size={40}
+            style={{
+              marginRight: 0,
+            }}
+          />
+          <Text
+            variant='bodyLarge'
+            style={{
+              color: theme.colors.text,
+            }}
+          >
+            Return
+          </Text>
+        </TouchableOpacity>
         <Text
           variant='headlineLarge'
           style={{

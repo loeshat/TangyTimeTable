@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { defaultEvents, defaultGroup } from './Data';
 
 const USERS_KEY = '@tangy_users';
 const USER_ID_KEY = '@tangy_lastUserId';
@@ -108,7 +109,7 @@ export const signUpRequest = async (name, email, password) => {
 
     // Save the user data to AsyncStorage
     await AsyncStorage.setItem(USERS_KEY, JSON.stringify(users));
-    console.log(users);
+    console.log(users); // for testing only
     await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(newUserId));
     await setLastUserId(newUserId);
     return true;
@@ -134,6 +135,7 @@ export const loginRequest = async (email, password) => {
       console.error('Invalid email or password');
       return false;
     }
+    console.log(`Current user: ${user}`);
     await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(user.userId));
     return true;
   } catch (e) {
@@ -163,6 +165,7 @@ export const getCurrentUser = async () => {
 export const signOutRequest = async () => {
   try {
     await AsyncStorage.removeItem(CURR_USER_KEY);
+    console.log('Sign out successful!');
     return true;
   } catch (e) {
     console.error(e);
@@ -193,9 +196,10 @@ export const getAllGroups = async (userId) => {
     const allGroups = await AsyncStorage.getItem(GROUPS_KEY);
     if (allGroups) {
       const userGroups = JSON.parse(allGroups).filter((group) => group.members.includes(userId));
+      userGroups.push(defaultGroup);
       return userGroups;
     }
-    return []; // User is not a part of any groups on TangyTimeTable
+    return [defaultGroup]; // User is always a part of default group
   } catch (e) {
     console.log(`Failed to retrieve groups on TangyTimeTable: ${e}`);
   }
@@ -207,6 +211,7 @@ export const getAllGroups = async (userId) => {
  */
 export const getGroupDetails = async (groupId) => {
   try {
+    if (groupId === 0) return defaultGroup;
     const allGroups = await AsyncStorage.getItem(GROUPS_KEY);
     if (allGroups) {
       const group = JSON.parse(allGroups).filter(group => group.groupId === groupId);
@@ -226,7 +231,7 @@ export const getGroupDetails = async (groupId) => {
 export const addGroup = async (groupObj) => {
   try {
     const allGroups = await AsyncStorage.getItem(GROUPS_KEY);
-    const newGroupId = allGroups ? JSON.parse(allGroups).length : 0;
+    const newGroupId = allGroups ? JSON.parse(allGroups).length + 1 : 1; // default groupId = 0
     const newGroupData = {
       groupId: newGroupId,
       name: groupObj.name,
@@ -271,7 +276,7 @@ export const getGroupEvents = async (groupId) => {
 export const addGroupEvent = async (groupId, eventObj) => {
   try {
     const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
-    const newEventId = allEvents ? JSON.parse(allEvents).length : 0;
+    const newEventId = allEvents ? JSON.parse(allEvents).length + 3 : 3;
     const newEventData = {
       eventId: newEventId,
       groupId,
@@ -325,20 +330,23 @@ export const getAllEvents = async () => {
       const eventsArray = JSON.parse(allEvents);
       const userGroups = await getAllGroups(currUserId);
       const groupIds = userGroups.map(group => group.groupId);
-      return eventsArray.filter(e => groupIds.includes(e.groupId));
+      const userEvents = eventsArray.filter(e => groupIds.includes(e.groupId));
+      return userEvents.concat(defaultEvents);
     }
-    return []; // groups that the user is a part of does not have any events
+    return defaultEvents;
   } catch (e) {
     console.log(`Failed to retrieve all events: ${e}`);
   }
 }
 
+const defaultEventIds = [0, 1, 2];
 /**
  * Retrieve details about an event of given ID
  * @param {*} eventId 
  * @returns 
  */
 export const getEvent = async (eventId) => {
+  if (defaultEventIds.includes(eventId)) return defaultEvents[eventId];
   try {
     const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
     if (allEvents) {

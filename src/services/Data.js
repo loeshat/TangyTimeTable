@@ -229,6 +229,12 @@ export const locationOptions = [
   },
 ];
 
+export const defaultGroup = {
+  groupId: 0,
+  name: 'Zestee Bestees',
+  members: [0, 1, 2, 3, 4],
+}
+
 export const defaultEvents = [
   {
     eventId: 0,

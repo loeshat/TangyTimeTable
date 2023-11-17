@@ -6,6 +6,19 @@ import { Image, View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
 import { getEvent } from '../../services/StoreService';
 
+const buttonContentStyle = {
+  height: 60,
+};
+
+const buttonLabelStyle = {
+  fontSize: 18,
+};
+
+const buttonStyle = {
+  width: '80%',
+  borderRadius: 12,
+};
+
 const EventDisplay = ({ route, navigation }) => {
   const { eventId, groupName } = route.params ?? {};
 
@@ -13,6 +26,8 @@ const EventDisplay = ({ route, navigation }) => {
   const [eventObj, setEventObj] = useState({});
   const [status, setStatus] = useState('');
   const [speech, setSpeech] = useState('');
+  const [buttonVisible, setButtonVisible] = useState(true);
+  const [buttonText, setButtonText] = useState('');
   useEffect(() => {
     getEvent(eventId).then((res) => {
       setEventObj(res);
@@ -22,23 +37,33 @@ const EventDisplay = ({ route, navigation }) => {
       setStatus(statusDisplay);
       if (res.status === 'in progress for availabilities input') {
         setSpeech(`Let's add your availabilities for this event!`);
+        setButtonText('Add My Availabilities');
       } else if (res.status === 'in progress for members time input') {
         setSpeech(`I'm still waiting for other members to submit their availabilities. You don't need to do anything yet!`);
+        setButtonText('Change My Availabilities');
       } else if (res.status === 'in progress for finalisation') {
         setSpeech(`Let's plan the final details for your event!`);
+        setButtonText('Continue Planning');
       } else {
         setSpeech(`No action required for this event!`);
+        setButtonVisible(false);
       }
     });
   }, []);
 
-  const availabilityNavigation = () => {
-    const inputDates = eventObj.inputDates;
-    const inputTimes = {
-      start: eventObj.inputStartTime,
-      end: eventObj.inputEndTime,
-    };
-    navigation.navigate('EventRoutes', { screen: 'Event Time Input', params: { eventId: eventId, dates: inputDates, times: inputTimes }});
+  const navigateAction = () => {
+    if (status === 'in progress for availabilities input'
+        || status === 'in progress for members time input') 
+    {
+      const inputDates = eventObj.inputDates;
+      const inputTimes = {
+        start: eventObj.inputStartTime,
+        end: eventObj.inputEndTime,
+      };
+      navigation.navigate('EventRoutes', { screen: 'Event Time Input', params: { eventId: eventId, dates: inputDates, times: inputTimes }});
+    } else if (status === 'in progress for finalisation') {
+      
+    }
   }
 
   return (
@@ -135,24 +160,17 @@ const EventDisplay = ({ route, navigation }) => {
           }}
         >
           {
-            status === 'in progress for availabilities input'
+            buttonVisible
             &&
             <Button
               mode='contained'
               buttonColor={theme.colors.success}
-              contentStyle={{
-                height: 60,
-              }}
-              labelStyle={{
-                fontSize: 18,
-              }}
-              style={{
-                width: '80%',
-                borderRadius: 12,
-              }}
-              onPress={availabilityNavigation}
+              contentStyle={buttonContentStyle}
+              labelStyle={buttonLabelStyle}
+              style={buttonStyle}
+              onPress={navigateAction}
             >
-              Add My Availabilities
+              {buttonText}
             </Button>
           }
         </View>

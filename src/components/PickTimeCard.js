@@ -130,6 +130,7 @@ const PickTimeCard = ({ date, startTime, endTime, onChange }) => {
                       : theme.colors.primary}
           style={{
             marginBottom: 3,
+            borderRadius: 12,
           }}
         >
           {select ? 'Selected' : 'Select'}

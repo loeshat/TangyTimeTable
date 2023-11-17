@@ -115,6 +115,7 @@ const LocationCard = ({
           }}
           style={{
             borderColor: theme.colors.text,
+            borderRadius: 12,
           }}
           onPress={() => navigation.navigate('EventRoutes', { screen: 'Location Read More', params: { name: name, image: image, other: other } })}
         >
@@ -124,6 +125,9 @@ const LocationCard = ({
           mode='contained'
           onPress={toggleSelect}
           buttonColor={selected ? theme.colors.success : theme.colors.primary}
+          style={{
+            borderRadius: 12,
+          }}
         >
           {selected ? 'Selected' : 'Select'}
         </Button>

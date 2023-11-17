@@ -79,12 +79,18 @@ const ActivityPickCard = ({
           labelStyle={{
             color: theme.colors.text,
           }}
+          style={{
+            borderRadius: 12,
+          }}
           onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Read More', params: { type: type, other: other } })}
         >
           Read More
         </Button>
         <Button
           mode='contained'
+          style={{
+            borderRadius: 12,
+          }}
           onPress={toggleSelect}
           buttonColor={selected
                       ? theme.colors.success
