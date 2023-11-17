@@ -9,7 +9,8 @@ const ActivityPickCard = ({
   votesNum, 
   other, 
   onChange, 
-  navigation 
+  navigation,
+  isDisplay,
 }) => {
   const [selected, setSelected] = useState(false);
   const toggleSelect = () => {
@@ -76,22 +77,34 @@ const ActivityPickCard = ({
       >
         <Button
           mode='outlined'
+          buttonColor='#F5F5F5'
           labelStyle={{
             color: theme.colors.text,
+          }}
+          style={{
+            borderRadius: 12,
+            marginRight: isDisplay ? 50 : 'auto',
           }}
           onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Read More', params: { type: type, other: other } })}
         >
           Read More
         </Button>
-        <Button
-          mode='contained'
-          onPress={toggleSelect}
-          buttonColor={selected
-                      ? theme.colors.success
-                      : theme.colors.primary}
-        >
-          { selected ? 'Selected' : 'Select' }
-        </Button>
+        {
+          !isDisplay
+          &&
+          <Button
+            mode='contained'
+            style={{
+              borderRadius: 12,
+            }}
+            onPress={toggleSelect}
+            buttonColor={selected
+                        ? theme.colors.success
+                        : theme.colors.primary}
+          >
+            { selected ? 'Selected' : 'Select' }
+          </Button>
+        }
       </Card.Actions>
     </Card>
   );

@@ -11,6 +11,7 @@ import ReadMoreModal from '../screens/events/modals/EventReadMoreModal';
 import LocationModal from '../screens/events/modals/LocationReadMoreModal';
 import CompletedEventConfirmScreen from '../screens/events/CompletedEventConfirm';
 import TransportOptions from '../screens/events/TransportOptions';
+import EventDisplay from '../screens/events/EventDisplay';
 
 const Root = createNativeStackNavigator();
 
@@ -81,6 +82,11 @@ export const EventRoutes = () => {
       <Root.Screen 
         name='Completed Event Confirmation'
         component={CompletedEventConfirmScreen}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen 
+        name='Event Display'
+        component={EventDisplay}
         options={{ headerShown: false }}
       />
     </Root.Navigator>

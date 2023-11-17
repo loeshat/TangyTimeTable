@@ -5,7 +5,9 @@ import { Button, PaperProvider, Text } from 'react-native-paper';
 import { Image, View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
 
-const CompletedEventConfirmScreen = ({ navigation }) => {
+const CompletedEventConfirmScreen = ({ route, navigation }) => {
+  const { speech } = route.params ?? {};
+
   // TODO: Change route to group page
   const returnToGroup = () => navigation.navigate('Events');
 
@@ -32,7 +34,7 @@ const CompletedEventConfirmScreen = ({ navigation }) => {
                 color: theme.colors.text,
               }}
             >
-              You're all set! Remember to make any necessary bookings before the event!
+              {speech}
             </Text>
           </View>
         </View>
@@ -68,6 +70,7 @@ const CompletedEventConfirmScreen = ({ navigation }) => {
           </Button>
           <Button
             mode='outlined'
+            buttonColor='#F5F5F5'
             contentStyle={{
               height: 60,
             }}

@@ -18,10 +18,14 @@ As this is the beta-coded version of the TangyTimeTable prototype, some function
   - Same availabilities are applied across all displayed dates due to slow load time issues.
 3. Activity & Location Recommendations
   - Activity and location data are currently hard-coded.
+  - To demonstrate latter parts of our event planning flow, we have hard-coded 3 events, which all users, once logged in, are automatically a part of.
+  - Note that because these events are hard-coded, any changes/planning progress made towards them will **NOT** be saved.
 4. Travel Time Suggestions
-  - Travel time data is currently hard-coded.
+  - Travel time data is currently hard-coded. This means that the final travel time suggestions are always catered towards All Sorts Indoor Sports Centre.
 5. Search
   - Search is not functional yet.
+6. Non-Functional Features/Buttons
+  - If a feature/button is not functional, an alert will be raised on click to let the user know that it is not available yet.
 
 ## Roadmap
 - TangyTimeTable's research board can be found in this [Miro Board](https://miro.com/app/board/uXjVMhHMptI=/?share_link_id=646779823933). The board contains:

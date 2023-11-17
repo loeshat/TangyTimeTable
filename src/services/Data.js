@@ -228,3 +228,51 @@ export const locationOptions = [
     },
   },
 ];
+
+export const defaultGroup = {
+  groupId: 0,
+  name: 'Zestee Bestees',
+  members: [0, 1, 2, 3, 4],
+}
+
+export const defaultEvents = [
+  {
+    eventId: 0,
+    groupId: 0,
+    organiser: null, // whoever the logged in user is would be the owner
+    name: 'Monthly Catchup',
+    description: 'Casual hangout and catchups',
+    decider: 'group',
+    status: 'in progress for finalisation',
+    finalisationStage: 0,
+    eventDate: null,
+    activity: null,
+    location: null,
+  }, 
+  {
+    eventId: 1,
+    groupId: 0,
+    organiser: null,
+    name: 'Sports Day',
+    description: 'One-off Sports Hangout',
+    decider: 'group',
+    status: 'in progress for finalisation',
+    finalisationStage: 2,
+    eventDate: 0, // index from dateOptions array
+    activity: 'Indoor Futsal',
+    location: null,
+  },
+  {
+    eventId: 2,
+    groupId: 0,
+    organiser: 0,
+    name: 'Futsal Practice',
+    description: 'Practice for UniGames',
+    decider: 'single',
+    status: 'in progress for finalisation',
+    finalisationStage: 3,
+    eventDate: 1, // index from dateOptions array
+    activity: 'Indoor Futsal',
+    location: 0, // index from locationOptions array
+  },
+];

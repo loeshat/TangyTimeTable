@@ -12,7 +12,8 @@ const LocationCard = ({
   image,
   other, 
   onChange, 
-  navigation 
+  navigation,
+  isDisplay, 
 }) => {
   const [selected, setSelected] = useState(false);
   const toggleSelect = () => {
@@ -110,23 +111,32 @@ const LocationCard = ({
       >
         <Button
           mode='outlined'
+          buttonColor='#F5F5F5'
           labelStyle={{
             color: theme.colors.text,
           }}
           style={{
             borderColor: theme.colors.text,
+            borderRadius: 12,
           }}
           onPress={() => navigation.navigate('EventRoutes', { screen: 'Location Read More', params: { name: name, image: image, other: other } })}
         >
           Read More
         </Button>
-        <Button
-          mode='contained'
-          onPress={toggleSelect}
-          buttonColor={selected ? theme.colors.success : theme.colors.primary}
-        >
-          {selected ? 'Selected' : 'Select'}
-        </Button>
+        {
+          !isDisplay
+          &&
+          <Button
+            mode='contained'
+            onPress={toggleSelect}
+            buttonColor={selected ? theme.colors.success : theme.colors.primary}
+            style={{
+              borderRadius: 12,
+            }}
+          >
+            {selected ? 'Selected' : 'Select'}
+          </Button>
+        }
       </Card.Actions>
     </Card>
   );

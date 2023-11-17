@@ -25,7 +25,7 @@ const ReadMoreModal = ({ route, navigation }) => {
           <IconButton 
             icon='close'
             iconColor={theme.colors.text}
-            onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
+            onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation', params: { activeStep: 1 } })}
           />
         </View>
         <Text

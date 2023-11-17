@@ -4,8 +4,6 @@ import { flowStyles } from '../../styles/FlowStyles';
 import { IconButton, PaperProvider, SegmentedButtons, Text } from 'react-native-paper';
 import { Image, TouchableOpacity, View } from 'react-native';
 
-// TODO: Navigate to final confirmation screen from here!
-
 const buttonsTheme = {
   colors: {
     onSecondaryContainer: theme.colors.primary,
@@ -66,12 +64,30 @@ const TransportOptions = ({ navigation }) => {
           marginTop: '15%',
         }}
       >
-        <IconButton 
-          icon='arrow-left-circle'
-          iconColor={theme.colors.text}
-          size={40}
-          onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
-        />
+        <TouchableOpacity
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+          onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation', params: { activeStep: 3 } })}
+        >
+          <IconButton 
+            icon='chevron-left'
+            iconColor={theme.colors.text}
+            size={40}
+            style={{
+              marginRight: 0,
+            }}
+          />
+          <Text
+            variant='bodyLarge'
+            style={{
+              color: theme.colors.text,
+            }}
+          >
+            Return
+          </Text>
+        </TouchableOpacity>
         <Text
           variant='headlineLarge'
           style={{
@@ -164,7 +180,11 @@ const TransportOptions = ({ navigation }) => {
                 width: 220,
                 marginRight: '8%',
               }}
-              onPress={() => navigation.navigate('EventRoutes', { screen: 'Completed Event Confirmation' })}
+              onPress={() => navigation.navigate('EventRoutes', 
+                { 
+                  screen: 'Completed Event Confirmation',
+                  params: { speech: `You're all set! Remember to make any necessary bookings before the event!` } 
+                })}
             >
               <Text
                 variant='bodyLarge'

@@ -45,7 +45,7 @@ const LocationModal = ({ route, navigation }) => {
           <IconButton 
             icon='close'
             iconColor={theme.colors.text}
-            onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
+            onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation', params: { activeStep: 2 } })}
           />
         </View>
         <Text
@@ -129,6 +129,7 @@ const LocationModal = ({ route, navigation }) => {
           onPress={handlePress}
           style={{
             width: 250,
+            borderRadius: 12,
           }}
         >
           See Website

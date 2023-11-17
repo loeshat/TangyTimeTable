@@ -49,7 +49,8 @@ const Create = ({ navigation }) => {
           }}
           style={{
             width: '70%',
-            marginTop: '5%'
+            marginTop: '5%',
+            borderRadius: 12,
           }}
           contentStyle={{
             height: 60
@@ -66,7 +67,8 @@ const Create = ({ navigation }) => {
           }}
           style={{
             width: '70%',
-            marginTop: '5%'
+            marginTop: '5%',
+            borderRadius: 12,
           }}
           contentStyle={{
             height: 60

@@ -29,8 +29,8 @@ const FriendCard = ({ name, image, isCheckbox, onChange }) => {
           marginTop: 20
         }}
       >
-        <View style={{ width: 300 }}>
-          <Card mode='outlined'>
+        <View style={{ width: isCheckbox ? 300 : '95%' }}>
+          <Card mode='contained' style={{ backgroundColor: theme.colors.background }}>
             <Card.Content
               style={{
                 flexDirection: 'row',

@@ -14,6 +14,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View } from 'react-native';
 import { getCurrentUser } from './services/StoreService';
+import { getCurrentUser } from './services/StoreService';
 
 const Tab = createMaterialBottomTabNavigator();
 const RootStack = createNativeStackNavigator();
@@ -110,42 +111,70 @@ const App = () => {
     </PaperProvider>
   );
 
-  return (
-    <NavigationContainer>
-      <RootStack.Navigator initialRouteName={startingScreen}>
-        <RootStack.Screen
-          name='Bottom Tab Bar'
-          component={BottomBar}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name='CreateNew'
-          component={Create}
-          options={{ headerShown: false, presentation: 'modal' }}
-        />
-        <RootStack.Screen
-          name='Profile'
-          component={Profile}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name='GroupRoutes'
-          component={GroupRoutes}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name='EventRoutes'
-          component={EventRoutes}
-          options={{ headerShown: false }}
-        />
-        <RootStack.Screen
-          name='LoginRoutes'
-          component={LoginRoutes}
-          options={{ headerShown: false }}
-        />
-      </RootStack.Navigator>
-    </NavigationContainer>
-  );
-}
+  const App = () => {
+    const [startingScreen, setStartingScreen] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-export default App;
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await getCurrentUser();
+        // if user is null, then no user is logged in. otherwise, user is logged in
+        if (user === null || user === -1) {
+          setStartingScreen('LoginRoutes');
+        } else {
+          setStartingScreen('Bottom Tab Bar');
+        }
+        setIsLoading(false);
+      } catch (e) {
+        console.error('Error fetching current user:', e);
+      }
+    };
+
+    useEffect(() => {
+      fetchCurrentUser();
+    }, []);
+
+    // loading when setStartingScreen is still waiting to finish running
+    if (isLoading) {
+      return <Loading />;
+    }
+
+    return (
+      <NavigationContainer>
+        <RootStack.Navigator initialRouteName={startingScreen}>
+          <RootStack.Screen
+            name='Bottom Tab Bar'
+            component={BottomBar}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen
+            name='CreateNew'
+            component={Create}
+            options={{ headerShown: false, presentation: 'modal' }}
+          />
+          <RootStack.Screen
+            name='Profile'
+            component={Profile}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen
+            name='GroupRoutes'
+            component={GroupRoutes}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen
+            name='EventRoutes'
+            component={EventRoutes}
+            options={{ headerShown: false }}
+          />
+          <RootStack.Screen
+            name='LoginRoutes'
+            component={LoginRoutes}
+            options={{ headerShown: false }}
+          />
+        </RootStack.Navigator>
+      </NavigationContainer>
+    );
+  }
+
+  export default App;

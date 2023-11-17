@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { 
@@ -20,6 +20,7 @@ import PickTimeCard from '../../components/PickTimeCard';
 import ActivityPickCard from '../../components/ActivityCard';
 import LocationCard from '../../components/LocationCard';
 import { headingStyle, textContainer } from './modals/LocationReadMoreModal';
+import { getEvent, getGroupDetails } from '../../services/StoreService';
 
 /** 
  * Conditional rendering based on whether the logged in user 
@@ -42,13 +43,25 @@ import { headingStyle, textContainer } from './modals/LocationReadMoreModal';
 */
 
 const EventFinalisation = ({ route, navigation }) => {
-  const { eventId } = route.params ?? {};
+  const { eventId, activeStep } = route.params ?? {};
+
+  // Data load and initial setup
+  const [eventObj, setEventObj] = useState({});
+  const [eventDate, setEventDate] = useState(0);
+  const [groupName, setGroupName] = useState('');
+  useEffect(() => {
+    getEvent(eventId).then((res) => {
+      setEventObj(res);
+      setEventDate(res.eventDate);
+      setTimeDiabled(res.eventDate === null);
+      setActivityDisabled(res.activity === null);
+      setLocationDisabled(res.location === null);
+      getGroupDetails(res.groupId).then((res) => setGroupName(res.name));
+    });
+  }, []);
   
   // TODO: Change route to group page
   const returnToGroup = () => navigation.navigate('Events');
-
-  // TODO: Manually specify activeStep on load based on event status
-  // This can be done by setting activeStep in ProgressSteps component
 
   // Snackbar popup controls
   const [visible, setVisible] = useState(false);
@@ -70,9 +83,12 @@ const EventFinalisation = ({ route, navigation }) => {
     }
     setTimeDiabled(chosenTimesNum !== 1);
   }
-  
-  // TODO: When user navigates to next screen, update event details with selected date and times
-  // TODO: If logged in user is NOT organiser, only display info about what the selected date is
+
+  const handleTimeNext = () => {
+    if (eventObj.organiser === null && eventObj.eventDate === null) {
+      handleOpenAlert('Do you want to add the event to your group calendar?');
+    }
+  }
   
   // Activity select controls
   const initialActivityStates = Array.from({ length: activityOptions.length }, () => false);
@@ -84,18 +100,26 @@ const EventFinalisation = ({ route, navigation }) => {
     newAStates[id] = newState;
     setActivityStates(newAStates);
     const chosenActivitiesNum = newAStates.filter(val => val === true).length;
-    // If organiser, only allow one select
-    // Otherwise, allow multiple select
-    if (chosenActivitiesNum > 1) {
+    if (eventObj.organiser === null && chosenActivitiesNum > 1) {
       setMessage('You cannot select more than one activity for your event!');
       setVisible(true);
     }
-    setActivityDisabled(chosenActivitiesNum !== 1);
+    setActivityDisabled((eventObj.organiser === null && chosenActivitiesNum !== 1) || (eventObj.organiser !== null && chosenActivitiesNum < 1));
   }
 
-  // TODO: When user navigates to next screen, update event details with selected activities
-  // If group vote -> store group vote data
-  // If single decider -> directly store selected event in event object
+  const handleActivityNext = () => {
+    if (eventObj.activity === null && eventObj.decider === 'group') {
+      navigation.navigate('EventRoutes', { 
+        screen: 'Completed Event Confirmation',
+        params: {
+          speech: `Let's wait for your friends to vote for their favourite activity! I'll let you know when they're all done!`
+        }
+      });
+    } else if (eventObj.activity === null && eventObj.decider === 'single') {
+      // Since the organiser is making all decisions, they won't need to wait for other members' input
+      handleOpenAlert('Do you want to update your calendar event with your chosen activity?');
+    }
+  }
 
   // Custom location controls
   const [customLocation, setCustomLocation] = useState('');
@@ -133,6 +157,14 @@ const EventFinalisation = ({ route, navigation }) => {
     }
   }
 
+  const handleLocationNext = () => {
+    // User is picking a location for the event and may want to update their calendar
+    // with the chosen location
+    if (eventObj.organiser === null && eventObj.location === null) {
+      handleOpenAlert('Do you want to update the calendar event with your chosen location?');
+    }
+  }
+
   // For travel time, if organiser, display selected location info
   // Otherwise, display default option (ie. first option in locations array)
   const openWebsite = useCallback(async () => {
@@ -153,12 +185,6 @@ const EventFinalisation = ({ route, navigation }) => {
     setOpenAlert(true);
   }
   const handleCloseAlert = () => setOpenAlert(false);
-
-  const onSubmit = () => {
-    // Update event details with selected location if applicable (ie. if logged in user is organiser)
-    // Custom render based on deciderType + logged in user's permissions
-    navigation.navigate('EventRoutes', { screen: 'Completed Event Confirmation' });
-  }
 
   return (
     <PaperProvider theme={theme}>
@@ -208,6 +234,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 mode='outlined'
                 style={{
                   borderColor: theme.colors.text,
+                  borderRadius: 12,
                   width: 80,
                 }}
                 textColor={theme.colors.text}
@@ -219,6 +246,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 mode='contained'
                 style={{
                   width: 80,
+                  borderRadius: 12,
                 }}
                 onPress={handleCloseAlert}
               >
@@ -227,90 +255,152 @@ const EventFinalisation = ({ route, navigation }) => {
             </Dialog.Actions>
           </Dialog>
         </Portal>
-        <ProgressSteps {...progressStyles}>
+        <ProgressSteps {...progressStyles} activeStep={activeStep}>
           <ProgressStep
             label='Time'
             nextBtnTextStyle={{ color: theme.colors.text }}
             nextBtnDisabled={timeNextDisabled}
             nextBtnText='Confirm'
-            onNext={() => handleOpenAlert('Do you want to add the event to your group calendar?')}
+            onNext={handleTimeNext}
           >
-            <View style={{ alignItems: 'center' }}>
-              <View
-                style={[flowStyles.outerSpeech, {
-                  marginRight: '25%',
-                  marginTop: '10%'
-                }]}
-              >
-                {/**
-                 * Depending on event status, load info display OR actual selection
-                 */}
+            {
+              (eventObj.organiser === null && eventObj.eventDate === null)
+              ?
+              <View style={{ alignItems: 'center' }}>
+                {/** Event Date is still pending selection */}
                 <View
-                  style={[flowStyles.speechContainer, {
-                    width: 180,
+                  style={[flowStyles.outerSpeech, {
+                    marginRight: '25%',
+                    marginTop: '10%'
                   }]}
                 >
-                  <Text
-                    variant='bodyLarge'
-                    style={{
+                  <View
+                    style={[flowStyles.speechContainer, {
+                      width: 180,
+                    }]}
+                  >
+                    <Text
+                      variant='bodyLarge'
+                      style={{
+                        color: theme.colors.text,
+                      }}
+                    >
+                      Let's pick a time for {eventObj.name}!
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={[flowStyles.imageContainer, {
+                    marginLeft: '25%'
+                  }]}
+                >
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <View
+                  style={{
+                    width: '82%',
+                    alignItems: 'flex-end',
+                    marginTop: '2%',
+                  }}
+                >
+                  <Button
+                    icon='calendar-month-outline'
+                    labelStyle={{
                       color: theme.colors.text,
                     }}
+                    onPress={() => navigation.navigate('EventRoutes', { screen: 'View in Calendar' })}
                   >
-                    {/** Change to actual event name */}
-                    Let's pick a time for your event name!
-                  </Text>
+                    View in Calendar
+                  </Button>
+                </View>
+                <View
+                  style={{
+                    marginTop: '5%',
+                    marginLeft: '15%',
+                  }}
+                >
+                  <ScrollView
+                    horizontal={true}
+                  >
+                    {
+                      dateOptions.map((item, id) => (
+                        <PickTimeCard 
+                          key={id} 
+                          date={item.date} 
+                          startTime={item.startTime}
+                          endTime={item.endTime}
+                          onChange={(newState) => handleTimeChange(id, newState)}
+                          isDisplay={false}
+                        />
+                      ))
+                    }
+                  </ScrollView>
                 </View>
               </View>
-              <View
-                style={[flowStyles.imageContainer, {
-                  marginLeft: '25%'
-                }]}
-              >
-                <Image 
-                  source={require('../../assets/wave.png')}
-                  style={flowStyles.imageStyle}
-                />
-              </View>
-              <View
-                style={{
-                  width: '82%',
-                  alignItems: 'flex-end',
-                  marginTop: '2%',
-                }}
-              >
-                <Button
-                  icon='calendar-month-outline'
-                  labelStyle={{
-                    color: theme.colors.text,
+              :
+              <View style={{ alignItems: 'center' }}>
+                {/** Event Date has been locked in */}
+                <View style={[flowStyles.outerSpeech, {
+                  marginTop: '10%'
+                }]}>
+                  <View style={[flowStyles.speechContainer, {
+                    marginRight: '18%',
+                    width: 180,
+                  }]}>
+                    <Text
+                      variant='bodyLarge'
+                      style={{
+                        color: theme.colors.text,
+                      }}
+                    >
+                      Your event date has been locked in!
+                    </Text>
+                  </View>
+                </View>
+                <View style={[flowStyles.imageContainer, {
+                  marginLeft: '28%',
+                  marginBottom: '8%',
+                }]}>
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginLeft: 21,
                   }}
-                  onPress={() => navigation.navigate('EventRoutes', { screen: 'View in Calendar' })}
                 >
-                  View in Calendar
+                  <PickTimeCard 
+                    date={dateOptions[eventDate].date}
+                    startTime={dateOptions[eventDate].startTime}
+                    endTime={dateOptions[eventDate].endTime}
+                    isDisplay={true}
+                  />
+                </View>
+                <Button
+                  mode='contained'
+                  icon='arrow-right'
+                  labelStyle={{
+                    fontSize: 18,
+                  }}
+                  contentStyle={{
+                    flexDirection: 'row-reverse',
+                    height: 60,
+                  }}
+                  style={{
+                    borderRadius: 12,
+                    marginTop: '8%',
+                  }}
+                  onPress={() => alert('This feature is not available yet!')}
+                >
+                  Suggest Date Change
                 </Button>
               </View>
-              <View
-                style={{
-                  marginTop: '5%',
-                  marginLeft: '15%',
-                }}
-              >
-                <ScrollView
-                  horizontal={true}
-                >
-                  {
-                    dateOptions.map((item, id) => (
-                      <PickTimeCard 
-                        key={id} 
-                        date={item.date} 
-                        startTime={item.startTime}
-                        endTime={item.endTime}
-                        onChange={(newState) => handleTimeChange(id, newState)}
-                      />
-                    ))
-                  }
-                </ScrollView>
-              </View>
-            </View>
+            }
           </ProgressStep>
           <ProgressStep
             label='Activity'
@@ -319,69 +409,135 @@ const EventFinalisation = ({ route, navigation }) => {
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
             nextBtnDisabled={activityNextDisabled}
-            onNext={() => handleOpenAlert('Do you want to update the calendar event with your chosen activity?')}
+            onNext={handleActivityNext}
           >
-            <View style={{ alignItems: 'center' }}>
-              {/**
-               * Depending on event status, load info display OR actual selection
-               */}
-              <View
-                style={[flowStyles.outerSpeech, {
-                  marginRight: '25%', 
-                  marginTop: '15%',
-                }]}
-              >
+            {
+              (eventObj.activity === null && eventObj.decider === 'group')
+              ?
+              <View style={{ alignItems: 'center' }}>
+                {/**
+                 * Event pending activity selection/vote
+                 */}
                 <View
-                  style={[flowStyles.speechContainer, {
-                    width: 180,
+                  style={[flowStyles.outerSpeech, {
+                    marginRight: '25%', 
+                    marginTop: '15%',
                   }]}
                 >
-                  <Text
-                    variant='bodyLarge'
-                    style={{
-                      color: theme.colors.text,
-                    }}
+                  <View
+                    style={[flowStyles.speechContainer, {
+                      width: 180,
+                    }]}
                   >
-                    {/** Replace event name with actual data from BE */}
-                    Let's pick an activity for event name!
-                  </Text>
+                    <Text
+                      variant='bodyLarge'
+                      style={{
+                        color: theme.colors.text,
+                      }}
+                    >
+                      Let's pick an activity for {eventObj.name}!
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={[flowStyles.imageContainer, {
+                    marginLeft: '25%'
+                  }]}
+                >
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginLeft: '10%',
+                    marginTop: '5%'
+                  }}
+                >
+                  <ScrollView
+                    horizontal={true}
+                  >
+                    {
+                      activityOptions.map((item, id) => (
+                        <ActivityPickCard 
+                          key={id}
+                          type={item.type}
+                          icon={item.icon}
+                          votesNum={item.votesNum}
+                          other={item.other}
+                          onChange={(newState) => handleActivityChange(id, newState)}
+                          navigation={navigation}
+                          isDisplay={false}
+                        />
+                      ))
+                    }
+                  </ScrollView>
                 </View>
               </View>
-              <View
-                style={[flowStyles.imageContainer, {
-                  marginLeft: '25%'
-                }]}
-              >
-                <Image 
-                  source={require('../../assets/wave.png')}
-                  style={flowStyles.imageStyle}
-                />
-              </View>
-              <View
-                style={{
-                  marginLeft: '10%',
-                  marginTop: '5%'
-                }}
-              >
-                <ScrollView
-                  horizontal={true}
+              :
+              <View style={{ alignItems: 'center' }}>
+                {/** Activity for Event has been locked in */}
+                <View style={[flowStyles.outerSpeech, {
+                  marginTop: '10%'
+                }]}>
+                  <View style={[flowStyles.speechContainer, {
+                    marginRight: '15%',
+                    width: 200,
+                  }]}>
+                    <Text
+                      variant='bodyLarge'
+                      style={{
+                        color: theme.colors.text,
+                      }}
+                    >
+                      Your activity has been locked in!
+                    </Text>
+                  </View>
+                </View>
+                <View style={[flowStyles.imageContainer, {
+                  marginLeft: '28%',
+                  marginBottom: '8%',
+                }]}>
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginLeft: 21,
+                  }}
                 >
-                  {
-                    activityOptions.map((item, id) => (
-                      <ActivityPickCard 
-                        key={id}
-                        type={item.type}
-                        icon={item.icon}
-                        votesNum={item.votesNum}
-                        other={item.other}
-                        onChange={(newState) => handleActivityChange(id, newState)}
-                        navigation={navigation}
-                      />
-                    ))
-                  }
-                </ScrollView>
+                  <ActivityPickCard 
+                    type={activityOptions[0].type}
+                    icon={activityOptions[0].icon}
+                    votesNum={activityOptions[0].votesNum}
+                    other={activityOptions[0].other}
+                    navigation={navigation}
+                    isDisplay={true}
+                  />
+                </View>
+                <Button
+                  mode='contained'
+                  icon='arrow-right'
+                  labelStyle={{
+                    fontSize: 18,
+                  }}
+                  contentStyle={{
+                    flexDirection: 'row-reverse',
+                    height: 50,
+                  }}
+                  style={{
+                    borderRadius: 12,
+                    marginTop: '5%',
+                  }}
+                  onPress={() => alert('This feature is not available yet!')}
+                >
+                  Change My Vote
+                </Button>
               </View>
-            </View>
+            }
           </ProgressStep>
           <ProgressStep
             label='Location'
@@ -390,116 +546,166 @@ const EventFinalisation = ({ route, navigation }) => {
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
             nextBtnText='Confirm'
-            onNext={() => handleOpenAlert('Do you want to update the calendar event with your chosen location?')}
+            onNext={handleLocationNext}
           >
-            <View style={{ alignItems: 'center' }}>
-              {/** Conditional rendering depending on if user is organiser */}
-              <View
-                style={[flowStyles.outerSpeech, {
-                  marginRight: '25%',
-                  marginTop: '4%',
-                }]}
-              >
+            {
+              (eventObj.organiser === null && eventObj.location === null)
+              ?
+              <View style={{ alignItems: 'center' }}>
+                {/** User is organiser and location has not been picked */}
                 <View
-                  style={[flowStyles.speechContainer, {
-                    width: 200,
+                  style={[flowStyles.outerSpeech, {
+                    marginRight: '25%',
+                    marginTop: '4%',
                   }]}
                 >
-                  <Text
-                    variant='bodyLarge'
-                    style={{
-                      color: theme.colors.text,
-                    }}
+                  <View
+                    style={[flowStyles.speechContainer, {
+                      width: 200,
+                    }]}
                   >
-                    {/** Replace event name with actual data */}
-                    Let's pick a location for event name!
-                  </Text>
+                    <Text
+                      variant='bodyLarge'
+                      style={{
+                        color: theme.colors.text,
+                      }}
+                    >
+                      Let's pick a location for {eventObj.name}!
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={[flowStyles.imageContainer, {
+                    marginLeft: '25%',
+                    marginBottom: '2%',
+                  }]}
+                >
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginLeft: '10%',
+                    marginTop: '4%',
+                  }}
+                >
+                  <ScrollView
+                    horizontal={true}
+                  >
+                    {
+                      locationOptions.map((item, id) => (
+                        <LocationCard 
+                          key={id}
+                          name={item.name}
+                          rating={item.rating}
+                          numReviews={item.numReviews}
+                          suburb={item.suburb}
+                          image={item.image}
+                          other={item.other}
+                          onChange={(newState) => handleLocationChange(id, newState)}
+                          navigation={navigation}
+                          isDisplay={false}
+                        />
+                      ))
+                    }
+                    <Card
+                      mode='outlined'
+                      style={{
+                        marginRight: 20,
+                        height: 320,
+                        borderWidth: customSelect ? 1.25 : 0.1,
+                        borderColor: customSelect ? theme.colors.success : theme.colors.text,
+                        width: 320,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                      theme={theme}
+                    >
+                      <Card.Content>
+                        <Text
+                          variant='titleLarge'
+                          style={{
+                            color: theme.colors.success,
+                            fontWeight: '500',
+                            marginBottom: 18,
+                            textAlign: 'center',
+                          }}
+                        >
+                          Add Your Own Location
+                        </Text>
+                        <TextInput 
+                          label='Location'
+                          value={customLocation}
+                          onChangeText={handleCustomLocation}
+                          style={{
+                            backgroundColor: theme.colors.background,
+                            width: 250,
+                          }}
+                          textColor={theme.colors.text}
+                        />
+                      </Card.Content>
+                      <Card.Actions>
+                        <Button
+                          mode='contained'
+                          onPress={handleCustomSelect}
+                          buttonColor={customSelect ? theme.colors.success : theme.colors.primary}
+                        >
+                          {customSelect ? 'Selected' : 'Select'}
+                        </Button>
+                      </Card.Actions>
+                    </Card>
+                  </ScrollView>
                 </View>
               </View>
-              <View
-                style={[flowStyles.imageContainer, {
-                  marginLeft: '25%',
-                  marginBottom: '2%',
-                }]}
-              >
-                <Image 
-                  source={require('../../assets/wave.png')}
-                  style={flowStyles.imageStyle}
-                />
-              </View>
-              <View
-                style={{
-                  marginLeft: '10%',
-                  marginTop: '4%',
-                }}
-              >
-                <ScrollView
-                  horizontal={true}
+              :
+              <View style={{ alignItems: 'center' }}>
+                {/** Location for Event has been locked in */}
+                <View style={[flowStyles.outerSpeech, {
+                  marginTop: '3%'
+                }]}>
+                  <View style={[flowStyles.speechContainer, {
+                    marginRight: '15%',
+                    width: 220,
+                  }]}>
+                    <Text
+                      variant='bodyLarge'
+                      style={{
+                        color: theme.colors.text,
+                      }}
+                    >
+                      {eventObj.name}'s location has been locked in by the organiser!
+                    </Text>
+                  </View>
+                </View>
+                <View style={[flowStyles.imageContainer, {
+                  marginLeft: '28%',
+                  marginBottom: '4%',
+                }]}>
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginLeft: 21,
+                  }}
                 >
-                  {
-                    locationOptions.map((item, id) => (
-                      <LocationCard 
-                        key={id}
-                        name={item.name}
-                        rating={item.rating}
-                        numReviews={item.numReviews}
-                        suburb={item.suburb}
-                        image={item.image}
-                        other={item.other}
-                        onChange={(newState) => handleLocationChange(id, newState)}
-                        navigation={navigation}
-                      />
-                    ))
-                  }
-                  <Card
-                    mode='outlined'
-                    style={{
-                      marginRight: 20,
-                      height: 320,
-                      borderWidth: customSelect ? 1.25 : 0.1,
-                      borderColor: customSelect ? theme.colors.success : theme.colors.text,
-                      width: 320,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                    theme={theme}
-                  >
-                    <Card.Content>
-                      <Text
-                        variant='titleLarge'
-                        style={{
-                          color: theme.colors.success,
-                          fontWeight: '500',
-                          marginBottom: 18,
-                          textAlign: 'center',
-                        }}
-                      >
-                        Add Your Own Location
-                      </Text>
-                      <TextInput 
-                        label='Location'
-                        value={customLocation}
-                        onChangeText={handleCustomLocation}
-                        style={{
-                          backgroundColor: theme.colors.background,
-                          width: 250,
-                        }}
-                        textColor={theme.colors.text}
-                      />
-                    </Card.Content>
-                    <Card.Actions>
-                      <Button
-                        mode='contained'
-                        onPress={handleCustomSelect}
-                        buttonColor={customSelect ? theme.colors.success : theme.colors.primary}
-                      >
-                        {customSelect ? 'Selected' : 'Select'}
-                      </Button>
-                    </Card.Actions>
-                  </Card>
-                </ScrollView>
+                  <LocationCard 
+                    name={locationOptions[0].name}
+                    rating={locationOptions[0].rating}
+                    numReviews={locationOptions[0].numReviews}
+                    suburb={locationOptions[0].suburb}
+                    image={locationOptions[0].image}
+                    other={locationOptions[0].other}
+                    navigation={navigation}
+                    isDisplay={true}
+                  />
+                </View>
               </View>
-            </View>
+            }
           </ProgressStep>
           <ProgressStep
             label='Travel Time'
@@ -520,8 +726,7 @@ const EventFinalisation = ({ route, navigation }) => {
                   marginBottom: '5%',
                 }}
               >
-                {/** Replace with actual group name */}
-                You're off to {locationOptions[0].name} with group name!
+                You're off to {locationOptions[0].name} with {groupName}!
               </Text>
               <Image 
                 source={{ uri: locationOptions[0].image }}
@@ -531,6 +736,7 @@ const EventFinalisation = ({ route, navigation }) => {
                   height: 200,
                 }}
               />
+              {/** Replace with selected details if organiser */}
               <View 
                 style={[textContainer, {
                   marginTop: '5%',
