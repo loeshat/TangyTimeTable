@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Home from './screens/Home';
 import Create from './screens/Create';
 import FriendsHome from './screens/FriendsHome';
@@ -14,6 +13,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View } from 'react-native';
+import { getCurrentUser } from './services/StoreService';
 
 const Tab = createMaterialBottomTabNavigator();
 const RootStack = createNativeStackNavigator();
@@ -35,16 +35,6 @@ const CreatePlaceholder = () => {
   );
 }
 
-const getCurrentUser = async () => {
-  try {
-    const user = await AsyncStorage.getItem('currentUser');
-    return JSON.parse(user);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-};
-
 const App = () => {
   const [startingScreen, setStartingScreen] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -57,7 +47,8 @@ const App = () => {
         if (user === null) {
           setStartingScreen('LoginRoutes');
         } else {
-          setStartingScreen('Bottom Tab Bar');
+          if (user.rememberMe === false) setStartingScreen('LoginRoutes');
+          else setStartingScreen('Bottom Tab Bar');
         }
         setIsLoading(false);
       } catch (e) {

@@ -24,7 +24,7 @@ const SMConfirm = ({ navigation, route }) => {
     console.log('lol cant implement');
     closeAlert();
     if (params.type === 'Login') navigation.navigate('Bottom Tab Bar', { screen: 'Events' });
-    else navigation.navigate('LoginRoutes', { screen: 'Connect Friends' });
+    else navigation.navigate('LoginRoutes', { screen: 'Confirm Details' });
   }
 
   const getImageSource = (imageName) => {
@@ -65,7 +65,7 @@ const SMConfirm = ({ navigation, route }) => {
             }}
           />
           <Text style={[loginStyles.title, { textAlign: 'center' }]}>
-            {params.type === 'Login' ? "Log in as [username]?" : "Sign up as [username]?"} </Text>
+            {params.type === 'Login' ? "Log in as [username]?" : "Sign up as John Citizen? (Placeholder Name)"} </Text>
           <TouchableOpacity
             onPress={displayAlert}
             style={styles.button}

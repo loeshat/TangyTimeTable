@@ -14,7 +14,7 @@ import SignUpTopBar from '../../components/SignUpTopBar';
  */
 
 const ConnectFriends = ({ navigation }) => {
-  const [friendStates, setFriendStates] = useState(new Array(FriendsList.length).fill(false));
+  const [friendStates, setFriendStates] = useState(new Array(FriendsList.length));
   const [confirmDisabled, setDisabled] = useState(false);
   const handleFriendChange = (id, newState) => {
     const newStates = [...friendStates];
@@ -26,7 +26,6 @@ const ConnectFriends = ({ navigation }) => {
     // doesn't work at the moment
     const newStates = new Array(FriendsList.length).fill(true);
     setFriendStates(newStates);
-    setDisabled(true);
   }
 
   const handleAddFriends = () => {

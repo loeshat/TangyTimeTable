@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from '../../styles/Theme';
 import { loginStyles } from '../../styles/LoginStyles';
-import { PaperProvider, Text, TextInput, Button, Divider } from 'react-native-paper';
+import { PaperProvider, Text, TextInput, Button, Divider, Checkbox } from 'react-native-paper';
 import SignUpTopBarTwo from '../../components/SignUpTopBarTwo';
 import { signUpRequest } from '../../services/StoreService';
 

@@ -14,7 +14,6 @@ const GROUPS_KEY = '@tangy_groups';
  *   userId: number,
  *   email: string,
  *   password: string,
- *   image: string (to be used as uri for React Native Image component)
  * }
  * 
  * Events Struct:
@@ -59,6 +58,16 @@ const getLastUserId = async () => {
     console.error(e);
     // Hard coded friends list IDs take up 0 - 4
     return 5;
+  }
+};
+
+export const getCurrentUser = async () => {
+  try {
+    const user = await AsyncStorage.getItem('currentUser');
+    return JSON.parse(user);
+  } catch (e) {
+    console.error(e);
+    return null;
   }
 };
 
@@ -114,7 +123,7 @@ export const signUpRequest = async (name, email, password) => {
  * Search through the users and approve a login request
  * @returns true or false
  */
-export const loginRequest = async (email, password) => {
+export const loginRequest = async (email, password, rememberMe) => {
   try {
     // Get the existing users
     const users = await AsyncStorage.getItem(USERS_KEY);
@@ -127,7 +136,11 @@ export const loginRequest = async (email, password) => {
       console.error('Invalid email or password');
       return false;
     }
-    await AsyncStorage.setItem('currentUser', JSON.stringify(user));
+    const loggedInUserData = {
+      ...user,
+      rememberMe,
+    }
+    await AsyncStorage.setItem('currentUser', JSON.stringify(loggedInUserData));
     return true;
   } catch (e) {
     console.error(e);
