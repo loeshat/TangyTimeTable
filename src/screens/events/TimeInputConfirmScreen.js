@@ -7,15 +7,15 @@ import { Image, View } from 'react-native';
 const TimeInputConfirmScreen = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>
-      <View style={{ alignItems: 'center', marginTop: '70%' }}>
+      <View style={{ alignItems: 'center', marginTop: '65%' }}>
         <View
           style={[flowStyles.outerSpeech, {
-            marginRight: '18%'
+            marginRight: '22%'
           }]}
         >
           <View
             style={[flowStyles.speechContainer, {
-              width: 225
+              width: 210
             }]}
           >
             <Text
@@ -41,6 +41,23 @@ const TimeInputConfirmScreen = ({ navigation }) => {
         </View>
         <Button
           mode='contained'
+          contentStyle={{
+            height: 60,
+          }}
+          labelStyle={{
+            fontSize: 18
+          }}
+          style={{
+            marginTop: '10%',
+            borderRadius: 12,
+            width: '50%',
+          }}
+          onPress={() => alert('This functionality is currently not available!')}
+        >
+          Change My Availabilities
+        </Button>
+        <Button
+          mode='contained'
           buttonColor={theme.colors.success}
           contentStyle={{
             height: 60,
@@ -50,7 +67,8 @@ const TimeInputConfirmScreen = ({ navigation }) => {
           }}
           style={{
             marginTop: '10%',
-            borderRadius: 10,
+            borderRadius: 12,
+            width: '50%',
           }}
           onPress={() => navigation.navigate('Events')}
         >

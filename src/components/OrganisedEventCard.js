@@ -1,11 +1,19 @@
-import React, { useState } from 'react';
-import moment from 'moment';
+import React, { useState, useEffect } from 'react';
 import { theme } from '../styles/Theme';
-import { Button, Card, Divider, Text } from 'react-native-paper';
+import { Avatar, Card, Text } from 'react-native-paper';
 import { View, TouchableOpacity } from 'react-native';
+import { getGroupDetails } from '../services/StoreService';
 
-const OrganisedEventCard = ({ name, desc }) => {
-  
+const OrganisedEventCard = ({ 
+  eventId, 
+  eventName, 
+  groupId,
+  navigation,
+}) => {
+  const [groupName, setGroupName] = useState(null);
+  useEffect(() => {
+    getGroupDetails(groupId).then((res) => setGroupName(res.name));
+  }, [groupId]);
   return (
     <Card 
       style={{
@@ -20,18 +28,25 @@ const OrganisedEventCard = ({ name, desc }) => {
             flexDirection: 'row',
             marginBottom: 8,
             alignItems: 'center',
-            justifyContent: 'space-between',
             width: 190,
           }}
         >
+          <Avatar.Image 
+            size={40}
+            source={require('../assets/pink_tangy.png')}
+            style={{
+              backgroundColor: theme.colors.background,
+              marginRight: 10,
+            }}
+          />
           <Text
             style={{
               color: theme.colors.text,
               fontSize: 18,
-              fontWeight: 'bold'
+              fontWeight: 'bold',
             }}
           >
-            {name}
+            {groupName}
           </Text>
           <View
             style={{
@@ -57,7 +72,7 @@ const OrganisedEventCard = ({ name, desc }) => {
               fontWeight: '400',
             }}
           >
-            {desc}
+            {eventName}
           </Text>
         </View>  
 
@@ -72,7 +87,7 @@ const OrganisedEventCard = ({ name, desc }) => {
               marginRight: 10,
             }}
             onPress={() => {
-              // TODO: Implement Organise button functionality
+              navigation.navigate('EventRoutes', { screen: 'Event Display', params: { eventId: eventId, groupName: groupName } })
             }}
           >
             <Text style={{ color: 'white', textAlign: 'center' }}>Organise</Text>
@@ -86,9 +101,7 @@ const OrganisedEventCard = ({ name, desc }) => {
               marginTop: 10, 
               marginRight: 10,
             }}
-            onPress={() => {
-              // TODO: Implement Delete button functionality
-            }}
+            onPress={() => alert('Event deletion not available yet!')}
           >
             <Text style={{ color: '#9E9E9E', textAlign: 'center' }}>Delete</Text>
           </TouchableOpacity>
