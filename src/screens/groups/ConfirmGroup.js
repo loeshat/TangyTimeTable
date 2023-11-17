@@ -73,7 +73,8 @@ const ConfirmGroup = ({ route, navigation }) => {
               width: 200
             }}
             style={{
-              marginTop: 30
+              marginTop: 30,
+              borderRadius: 12,
             }}
             onPress={planEvent}
           >
@@ -90,7 +91,8 @@ const ConfirmGroup = ({ route, navigation }) => {
               width: 200
             }}
             style={{
-              marginTop: 20
+              marginTop: 20,
+              borderRadius: 12,
             }}
           >
             See my Group

@@ -129,6 +129,7 @@ const LocationModal = ({ route, navigation }) => {
           onPress={handlePress}
           style={{
             width: 250,
+            borderRadius: 12,
           }}
         >
           See Website

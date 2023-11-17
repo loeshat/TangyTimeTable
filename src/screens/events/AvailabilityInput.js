@@ -166,6 +166,9 @@ const AvailabilityInput = ({ route, navigation }) => {
               contentStyle={{
                 flexDirection: 'row-reverse'
               }}
+              style={{
+                borderRadius: 12,
+              }}
               onPress={updateEvent}
             >
               Confirm

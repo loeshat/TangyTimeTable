@@ -41,6 +41,23 @@ const TimeInputConfirmScreen = ({ navigation }) => {
         </View>
         <Button
           mode='contained'
+          contentStyle={{
+            height: 60,
+          }}
+          labelStyle={{
+            fontSize: 18
+          }}
+          style={{
+            marginTop: '10%',
+            borderRadius: 12,
+            width: '50%',
+          }}
+          onPress={() => alert('This functionality is currently not available!')}
+        >
+          Change My Availabilities
+        </Button>
+        <Button
+          mode='contained'
           buttonColor={theme.colors.success}
           contentStyle={{
             height: 60,
@@ -50,7 +67,7 @@ const TimeInputConfirmScreen = ({ navigation }) => {
           }}
           style={{
             marginTop: '10%',
-            borderRadius: 10,
+            borderRadius: 12,
             width: '50%',
           }}
           onPress={() => navigation.navigate('Events')}
