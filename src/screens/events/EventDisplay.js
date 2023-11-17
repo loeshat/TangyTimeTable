@@ -25,12 +25,14 @@ const EventDisplay = ({ route, navigation }) => {
   // Load event object for appropriate routing
   const [eventObj, setEventObj] = useState({});
   const [status, setStatus] = useState('');
+  const [navStatus, setNavStatus] = useState('');
   const [speech, setSpeech] = useState('');
   const [buttonVisible, setButtonVisible] = useState(true);
   const [buttonText, setButtonText] = useState('');
   useEffect(() => {
     getEvent(eventId).then((res) => {
       setEventObj(res);
+      setNavStatus(res.status);
       const statusDisplay = res.status.includes('in progress') 
                             ? 'Planning In Progress' 
                             : 'No Action Required';
@@ -52,8 +54,8 @@ const EventDisplay = ({ route, navigation }) => {
   }, []);
 
   const navigateAction = () => {
-    if (status === 'in progress for availabilities input'
-        || status === 'in progress for members time input') 
+    if (navStatus === 'in progress for availabilities input'
+        || navStatus === 'in progress for members time input') 
     {
       const inputDates = eventObj.inputDates;
       const inputTimes = {
@@ -61,8 +63,9 @@ const EventDisplay = ({ route, navigation }) => {
         end: eventObj.inputEndTime,
       };
       navigation.navigate('EventRoutes', { screen: 'Event Time Input', params: { eventId: eventId, dates: inputDates, times: inputTimes }});
-    } else if (status === 'in progress for finalisation') {
-      
+    } else if (navStatus === 'in progress for finalisation') {
+      const isOrganiser = eventObj.organiser === null;
+      navigation.navigate('EventRoutes', { screen: 'Event Finalisation', params: { eventId: eventId, activeStep: eventObj.finalisationStage } });
     }
   }
 

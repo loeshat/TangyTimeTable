@@ -244,7 +244,10 @@ export const defaultEvents = [
     description: 'Casual hangout and catchups',
     decider: 'group',
     status: 'in progress for finalisation',
-    finalisationStage: 1,
+    finalisationStage: 0,
+    eventDate: null,
+    activity: null,
+    location: null,
   }, 
   {
     eventId: 1,
@@ -254,9 +257,10 @@ export const defaultEvents = [
     description: 'One-off Sports Hangout',
     decider: 'group',
     status: 'in progress for finalisation',
-    finalisationStage: 3,
+    finalisationStage: 2,
     eventDate: 0, // index from dateOptions array
     activity: 'Indoor Futsal',
+    location: null,
   },
   {
     eventId: 2,
@@ -266,7 +270,7 @@ export const defaultEvents = [
     description: 'Practice for UniGames',
     decider: 'single',
     status: 'in progress for finalisation',
-    finalisationStage: 4,
+    finalisationStage: 3,
     eventDate: 1, // index from dateOptions array
     activity: 'Indoor Futsal',
     location: 0, // index from locationOptions array

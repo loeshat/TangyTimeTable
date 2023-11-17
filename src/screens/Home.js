@@ -183,12 +183,6 @@ const Home = ({ navigation }) => {
               }
             </ScrollView>
           </View>
-          {/* For testing purposes only */}
-          <Button
-            onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
-          >
-            Event Finalisation Screen
-          </Button>
         </View>
       </View>
     </PaperProvider>

@@ -69,7 +69,7 @@ const TransportOptions = ({ navigation }) => {
             flexDirection: 'row',
             alignItems: 'center',
           }}
-          onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
+          onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation', params: { activeStep: 3 } })}
         >
           <IconButton 
             icon='chevron-left'
@@ -180,7 +180,11 @@ const TransportOptions = ({ navigation }) => {
                 width: 220,
                 marginRight: '8%',
               }}
-              onPress={() => navigation.navigate('EventRoutes', { screen: 'Completed Event Confirmation' })}
+              onPress={() => navigation.navigate('EventRoutes', 
+                { 
+                  screen: 'Completed Event Confirmation',
+                  params: { speech: `You're all set! Remember to make any necessary bookings before the event!` } 
+                })}
             >
               <Text
                 variant='bodyLarge'
