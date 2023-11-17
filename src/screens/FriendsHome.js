@@ -7,7 +7,7 @@ import TopNavBar from '../components/TopBar';
 import GroupDisplayCard from '../components/GroupDisplayCard';
 import { getAllGroups, getCurrentUser } from '../services/StoreService';
 import { FriendsList } from '../services/Data';
-import FriendCard from '../components/FriendCard';
+import FriendDisplayCard from '../components/FriendDisplayCard';
 
 /**
  * Friends 'Home' Page, containing all groups and friends list display
@@ -135,11 +135,9 @@ const FriendsHome = ({ navigation }) => {
           <ScrollView>
             {
               FriendsList.map((item, id) => (
-                <FriendCard 
+                <FriendDisplayCard 
                   key={id}
-                  name={item.name}
-                  image={item.image}
-                  isCheckbox={false}
+                  userId={item.userId}
                 />
               ))
             }

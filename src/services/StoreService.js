@@ -268,11 +268,14 @@ export const addGroup = async (groupObj) => {
 export const getGroupEvents = async (groupId) => {
   try {
     const allEvents = await AsyncStorage.getItem(EVENTS_KEY);
+    let eventsArray = allEvents ? JSON.parse(allEvents) : [];
+    // Include hard-coded events for group 0
+    if (groupId === 0) eventsArray = eventsArray.concat(defaultEvents);
     if (allEvents) {
-      const groupEvents = JSON.parse(allEvents).filter((e) => e.groupId === groupId);
+      const groupEvents = eventsArray.filter((e) => e.groupId === groupId);
       return groupEvents;
     }
-    return [];
+    return eventsArray;
   } catch (e) {
     console.log(`Failed to retrieve events for group ${groupId}: ${e}`);
   }
@@ -295,7 +298,7 @@ export const addGroupEvent = async (groupId, eventObj) => {
     };
     let newEventList = [];
     if (allEvents) {
-      newEventList = [...allEvents, newEventData];
+      newEventList = [...JSON.parse(allEvents), newEventData];
     } else {
       newEventList = [newEventData];
     }
