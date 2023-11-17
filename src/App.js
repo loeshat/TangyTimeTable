@@ -90,7 +90,7 @@ const App = () => {
     try {
       const user = await getCurrentUser();
       // if user is null, then no user is logged in. otherwise, user is logged in
-      if (user === null) {
+      if (user === null || user === -1) {
         setStartingScreen('LoginRoutes');
       } else {
         setStartingScreen('Bottom Tab Bar');

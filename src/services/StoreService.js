@@ -135,7 +135,7 @@ export const loginRequest = async (email, password) => {
       console.error('Invalid email or password');
       return false;
     }
-    console.log(`Current user: ${user}`);
+    console.log(`Current user: ${user.userId}`); // for testing only
     await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(user.userId));
     return true;
   } catch (e) {

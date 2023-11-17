@@ -4,7 +4,7 @@ import { flowStyles } from '../../styles/FlowStyles';
 import { Button, PaperProvider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
-import GroupCard from '../../components/GroupCard';
+import GroupEventCard from '../../components/GroupEventCard';
 import { getAllGroups, getCurrentUser } from '../../services/StoreService';
 
 const SelectGroupScreen = ({ navigation }) => {
@@ -60,7 +60,7 @@ const SelectGroupScreen = ({ navigation }) => {
           </Button>
           {
             groups.map((item, id) => (
-              <GroupCard 
+              <GroupEventCard
                 key={id}
                 name={item.name}
                 membersNum={item.members.length}

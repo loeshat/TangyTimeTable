@@ -10,7 +10,7 @@ import { View } from 'react-native';
  * @param {Function} onPress - function to be executed on press
  * @returns 
  */
-const GroupCard = ({ name, membersNum, onPress }) => {
+const GroupEventCard = ({ name, membersNum, onPress }) => {
   const memberText = membersNum === 1 ? 'member' : 'members';
   return (
     <View
@@ -68,4 +68,4 @@ const GroupCard = ({ name, membersNum, onPress }) => {
   );
 }
 
-export default GroupCard;
+export default GroupEventCard;
