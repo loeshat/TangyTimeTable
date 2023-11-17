@@ -250,7 +250,7 @@ export const addGroup = async (groupObj) => {
     };
     let groupList = [];
     if (allGroups) {
-      groupList = [...allGroups, newGroupData];
+      groupList = [...JSON.parse(allGroups), newGroupData];
     } else {
       groupList = [newGroupData];
     }

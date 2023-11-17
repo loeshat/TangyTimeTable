@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { theme } from '../styles/Theme';
 import { styles } from './Home';
 import { ScrollView, View } from 'react-native';
@@ -22,10 +23,14 @@ const FriendsHome = ({ navigation }) => {
     getCurrentUser().then((id) => setCurrUser(id));
   }, []);
 
-  useEffect(() => {
-    getAllGroups(currUser).then((res) => setGroups(res));
-  }, [currUser]);
-
+  useFocusEffect(
+    useCallback(() => {
+      if (currUser !== null && currUser !== -1) {
+        getAllGroups(currUser).then((res) => setGroups(res));
+      }
+    }, [currUser])
+  );
+  
   return (
     <PaperProvider theme={theme}>
       <TopNavBar navigation={navigation} />
