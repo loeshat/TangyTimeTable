@@ -18,13 +18,14 @@ const SignUp = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [hovered, setHovered] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   const handleSignUp = async () => {
     // handle sign up logic here
     console.log('handle signup');
     // check that the password and confirmPassword are the same
     if (password === confirmPassword) {
-      const success = await signUpRequest(fullName, email, password);
+      const success = await signUpRequest(fullName, email, password, rememberMe);
       if (success) {
         navigation.navigate('LoginRoutes', { screen: 'Connect Friends' });
       }
@@ -70,6 +71,13 @@ const SignUp = ({ navigation }) => {
             autoCapitalize='none'
             style={loginStyles.input}
           />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Checkbox
+              status={rememberMe ? 'checked' : 'indeterminate'}
+              onPress={() => setRememberMe(!rememberMe)}
+            />
+            <Text>Remember me</Text>
+          </View>
           <TouchableOpacity
             style={[loginStyles.buttonPrimary, { opacity: isDisabled ? 0.3 : 1 }]}
             onPress={handleSignUp}

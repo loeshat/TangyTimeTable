@@ -6,6 +6,7 @@ const USER_ID_KEY = '@tangy_lastUserId';
 const EVENTS_KEY = '@tangy_events';
 const GROUPS_KEY = '@tangy_groups';
 const CURR_USER_KEY = '@tangy_current_user';
+const CURR_USER_DATA = '@tangy_current_user_data';
 
 /**
  * Data Types Explanation:
@@ -61,26 +62,6 @@ export const getLastUserId = async () => {
   }
 };
 
-export const getCurrentUser = async () => {
-  try {
-    const user = await AsyncStorage.getItem('currentUser');
-    return JSON.parse(user);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-};
-
-export const getCurrentUser = async () => {
-  try {
-    const user = await AsyncStorage.getItem('currentUser');
-    return JSON.parse(user);
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
-};
-
 /**
  * Update the last user id and store the new one
  * @param {*} userId
@@ -98,7 +79,7 @@ const setLastUserId = async (userId) => {
  * Search through the users and approve a login request
  * @returns 
  */
-export const signUpRequest = async (name, email, password) => {
+export const signUpRequest = async (name, email, password, rememberMe) => {
   try {
     const lastUserId = await getLastUserId();
     const newUserId = lastUserId + 1;
@@ -108,6 +89,7 @@ export const signUpRequest = async (name, email, password) => {
       name: name,
       email: email,
       password: password,
+      rememberMe: rememberMe
     };
     let users = await getAllUsers();
     // check if the user's email is already in the system
@@ -122,6 +104,7 @@ export const signUpRequest = async (name, email, password) => {
     await AsyncStorage.setItem(USERS_KEY, JSON.stringify(users));
     console.log(users); // for testing only
     await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(newUserId));
+    await AsyncStorage.setItem(CURR_USER_DATA, JSON.stringify(newUser));
     await setLastUserId(newUserId);
     return true;
   } catch (error) {
@@ -150,7 +133,7 @@ export const loginRequest = async (email, password, rememberMe) => {
       ...user,
       rememberMe,
     }
-    await AsyncStorage.setItem('currentUser', JSON.stringify(loggedInUserData));
+    await AsyncStorage.setItem(CURR_USER_DATA, JSON.stringify(loggedInUserData));
     console.log(`Current user: ${user.userId}`); // for testing only
     await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(user.userId));
     return true;
@@ -175,12 +158,27 @@ export const getCurrentUser = async () => {
 }
 
 /**
+ * Retrieves the data of the currently logged in user
+ * @returns 
+ */
+export const getCurrentUserData = async () => {
+  try {
+    const user = await AsyncStorage.getItem(CURR_USER_DATA);
+    return JSON.parse(user);
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
+/**
  * Signs user out of platform
  * @returns 
  */
 export const signOutRequest = async () => {
   try {
     await AsyncStorage.removeItem(CURR_USER_KEY);
+    await AsyncStorage.removeItem(CURR_USER_DATA);
     console.log('Sign out successful!');
     return true;
   } catch (e) {
