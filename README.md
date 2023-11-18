@@ -26,6 +26,9 @@ As this is the beta-coded version of the TangyTimeTable prototype, some function
   - Search is not functional yet.
 6. Non-Functional Features/Buttons
   - If a feature/button is not functional, an alert will be raised on click to let the user know that it is not available yet.
+7. Events and Groups Display
+  - The display of groups and events on Home Screen (accessible via Events tab) and All Friends screen (accessible via Friends tab) can sometimes be laggy.
+  - When this happens, simply refresh the app to get the most accurate data.
 
 ## Roadmap
 - TangyTimeTable's research board can be found in this [Miro Board](https://miro.com/app/board/uXjVMhHMptI=/?share_link_id=646779823933). The board contains:

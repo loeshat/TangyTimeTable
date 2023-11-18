@@ -94,51 +94,53 @@ const CreateNewGroup = ({ navigation }) => {
             nextBtnTextStyle={{ color: theme.colors.text }}
             nextBtnDisabled={!name}
           >
-            <View style={{ alignItems: 'center' }}>
-              <View 
-                style={[flowStyles.outerSpeech, {
-                  marginRight: '30%',
-                  marginTop: '10%' 
-                }]}
-              >
+            <ScrollView automaticallyAdjustKeyboardInsets={true}>
+              <View style={{ alignItems: 'center' }}>
                 <View 
-                  style={[flowStyles.speechContainer, {  
-                    width: 175,
-                    marginBottom: 10,
+                  style={[flowStyles.outerSpeech, {
+                    marginRight: '30%',
+                    marginTop: '10%' 
                   }]}
                 >
-                  <Text
-                    variant='bodyLarge'
-                    style={{ color: theme.colors.text }}
+                  <View 
+                    style={[flowStyles.speechContainer, {  
+                      width: 175,
+                      marginBottom: 10,
+                    }]}
                   >
-                    Let's name your group!
-                  </Text>
+                    <Text
+                      variant='bodyLarge'
+                      style={{ color: theme.colors.text }}
+                    >
+                      Let's name your group!
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View 
-                style={[flowStyles.imageContainer, {
-                  marginLeft: '30%'
-                }]}
-              >
-                <Image 
-                  source={require('../../assets/wave.png')}
-                  style={flowStyles.imageStyle}
+                <View 
+                  style={[flowStyles.imageContainer, {
+                    marginLeft: '30%'
+                  }]}
+                >
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <TextInput 
+                  label='Group Name'
+                  mode='outlined'
+                  outlineColor={theme.colors.text}
+                  textColor={theme.colors.text}
+                  style={{ 
+                    width: '70%',
+                    marginTop: '5%',
+                    backgroundColor: theme.colors.surface
+                  }}
+                  value={name}
+                  onChangeText={e => setName(e)}
                 />
               </View>
-              <TextInput 
-                label='Group Name'
-                mode='outlined'
-                outlineColor={theme.colors.text}
-                textColor={theme.colors.text}
-                style={{ 
-                  width: '70%',
-                  marginTop: '5%',
-                  backgroundColor: theme.colors.surface
-                }}
-                value={name}
-                onChangeText={e => setName(e)}
-              />
-            </View>
+            </ScrollView>
           </ProgressStep>
           <ProgressStep 
             label='Group Members'

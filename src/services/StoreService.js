@@ -121,7 +121,7 @@ export const loginRequest = async (email, password, rememberMe) => {
   try {
     // Get the existing users
     const users = await AsyncStorage.getItem(USERS_KEY);
-    const parsedUsers = JSON.parse(users);
+    const parsedUsers = users ? JSON.parse(users) : [];
 
     // Find the user with the matching email and password
     const user = parsedUsers.find((user) => user.email === email && user.password === password);
