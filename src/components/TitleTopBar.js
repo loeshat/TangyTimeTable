@@ -1,6 +1,7 @@
 import React from 'react';
 import { theme } from '../styles/Theme';
-import { Appbar, PaperProvider } from 'react-native-paper';
+import { Image } from 'react-native';
+import { Appbar } from 'react-native-paper';
 
 /**
  * Top Navigation Bar which only contains return action and the return button's text
@@ -8,22 +9,25 @@ import { Appbar, PaperProvider } from 'react-native-paper';
  * @param {String} title
  * @returns 
  */
-const TitleTopBar = ({ backAction, title }) => {
+const TitleTopBar = ({ navigation }) => {
   return (
-    <PaperProvider theme={theme}>
-      <Appbar.Header>
-        <Appbar.BackAction 
-          onPress={backAction} 
-          color={theme.colors.text} 
-        />
-        <Appbar.Content 
-          title={title}
-          titleStyle={{ fontSize: 16 }}
-          color={theme.colors.text}
-          style={{ alignItems: 'flex-start' }} 
-        />
-      </Appbar.Header>
-    </PaperProvider>
+    <Appbar.Header
+      style={{
+        backgroundColor: theme.colors.background,
+        justifyContent: 'space-between'
+      }}
+    >
+      <Image
+        source={require('../assets/tangy_logo.png')}
+        style={{ height: 50, marginLeft: 10, marginBottom: 5 }}
+      />
+      <Appbar.Action
+        icon='account-circle'
+        size={45}
+        color={theme.colors.text}
+        onPress={() => navigation.navigate('Profile')}
+      />
+    </Appbar.Header>
   );
 }
 
