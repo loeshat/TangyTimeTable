@@ -551,114 +551,116 @@ const EventFinalisation = ({ route, navigation }) => {
             {
               (eventObj.organiser === null && eventObj.location === null)
               ?
-              <View style={{ alignItems: 'center' }}>
-                {/** User is organiser and location has not been picked */}
-                <View
-                  style={[flowStyles.outerSpeech, {
-                    marginRight: '25%',
-                    marginTop: '4%',
-                  }]}
-                >
+               <ScrollView automaticallyAdjustKeyboardInsets={true}> 
+                <View style={{ alignItems: 'center' }}>
+                  {/** User is organiser and location has not been picked */}
                   <View
-                    style={[flowStyles.speechContainer, {
-                      width: 200,
+                    style={[flowStyles.outerSpeech, {
+                      marginRight: '25%',
+                      marginTop: '4%',
                     }]}
                   >
-                    <Text
-                      variant='bodyLarge'
-                      style={{
-                        color: theme.colors.text,
-                      }}
+                    <View
+                      style={[flowStyles.speechContainer, {
+                        width: 200,
+                      }]}
                     >
-                      Let's pick a location for {eventObj.name}!
-                    </Text>
+                      <Text
+                        variant='bodyLarge'
+                        style={{
+                          color: theme.colors.text,
+                        }}
+                      >
+                        Let's pick a location for {eventObj.name}!
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[flowStyles.imageContainer, {
+                      marginLeft: '25%',
+                      marginBottom: '2%',
+                    }]}
+                  >
+                    <Image 
+                      source={require('../../assets/wave.png')}
+                      style={flowStyles.imageStyle}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      marginLeft: '10%',
+                      marginTop: '4%',
+                    }}
+                  >
+                    <ScrollView
+                      horizontal={true}
+                    >
+                      {
+                        locationOptions.map((item, id) => (
+                          <LocationCard 
+                            key={id}
+                            name={item.name}
+                            rating={item.rating}
+                            numReviews={item.numReviews}
+                            suburb={item.suburb}
+                            image={item.image}
+                            other={item.other}
+                            onChange={(newState) => handleLocationChange(id, newState)}
+                            navigation={navigation}
+                            isDisplay={false}
+                          />
+                        ))
+                      }
+                      <Card
+                        mode='outlined'
+                        style={{
+                          marginRight: 20,
+                          height: 320,
+                          borderWidth: customSelect ? 1.25 : 0.1,
+                          borderColor: customSelect ? theme.colors.success : theme.colors.text,
+                          width: 320,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                        theme={theme}
+                      >
+                        <Card.Content>
+                          <Text
+                            variant='titleLarge'
+                            style={{
+                              color: theme.colors.success,
+                              fontWeight: '500',
+                              marginBottom: 18,
+                              textAlign: 'center',
+                            }}
+                          >
+                            Add Your Own Location
+                          </Text>
+                          <TextInput 
+                            label='Location'
+                            value={customLocation}
+                            onChangeText={handleCustomLocation}
+                            style={{
+                              backgroundColor: theme.colors.background,
+                              width: 250,
+                            }}
+                            textColor={theme.colors.text}
+                          />
+                        </Card.Content>
+                        <Card.Actions>
+                          <Button
+                            mode='contained'
+                            onPress={handleCustomSelect}
+                            buttonColor={customSelect ? theme.colors.success : theme.colors.primary}
+                          >
+                            {customSelect ? 'Selected' : 'Select'}
+                          </Button>
+                        </Card.Actions>
+                      </Card>
+                    </ScrollView>
                   </View>
                 </View>
-                <View
-                  style={[flowStyles.imageContainer, {
-                    marginLeft: '25%',
-                    marginBottom: '2%',
-                  }]}
-                >
-                  <Image 
-                    source={require('../../assets/wave.png')}
-                    style={flowStyles.imageStyle}
-                  />
-                </View>
-                <View
-                  style={{
-                    marginLeft: '10%',
-                    marginTop: '4%',
-                  }}
-                >
-                  <ScrollView
-                    horizontal={true}
-                  >
-                    {
-                      locationOptions.map((item, id) => (
-                        <LocationCard 
-                          key={id}
-                          name={item.name}
-                          rating={item.rating}
-                          numReviews={item.numReviews}
-                          suburb={item.suburb}
-                          image={item.image}
-                          other={item.other}
-                          onChange={(newState) => handleLocationChange(id, newState)}
-                          navigation={navigation}
-                          isDisplay={false}
-                        />
-                      ))
-                    }
-                    <Card
-                      mode='outlined'
-                      style={{
-                        marginRight: 20,
-                        height: 320,
-                        borderWidth: customSelect ? 1.25 : 0.1,
-                        borderColor: customSelect ? theme.colors.success : theme.colors.text,
-                        width: 320,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                      theme={theme}
-                    >
-                      <Card.Content>
-                        <Text
-                          variant='titleLarge'
-                          style={{
-                            color: theme.colors.success,
-                            fontWeight: '500',
-                            marginBottom: 18,
-                            textAlign: 'center',
-                          }}
-                        >
-                          Add Your Own Location
-                        </Text>
-                        <TextInput 
-                          label='Location'
-                          value={customLocation}
-                          onChangeText={handleCustomLocation}
-                          style={{
-                            backgroundColor: theme.colors.background,
-                            width: 250,
-                          }}
-                          textColor={theme.colors.text}
-                        />
-                      </Card.Content>
-                      <Card.Actions>
-                        <Button
-                          mode='contained'
-                          onPress={handleCustomSelect}
-                          buttonColor={customSelect ? theme.colors.success : theme.colors.primary}
-                        >
-                          {customSelect ? 'Selected' : 'Select'}
-                        </Button>
-                      </Card.Actions>
-                    </Card>
-                  </ScrollView>
-                </View>
-              </View>
+              </ScrollView>
               :
               <View style={{ alignItems: 'center' }}>
                 {/** Location for Event has been locked in */}
