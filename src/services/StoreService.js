@@ -197,6 +197,7 @@ export const getAllUsers = async () => {
     return users ? JSON.parse(users) : [];
   } catch (e) {
     console.log(`Failed to retrieve TangyTimeTable users: ${e}`);
+    return [];
   }
 }
 
@@ -216,6 +217,7 @@ export const getUserDetails = async (userId) => {
     return {}; // provided ID does not exist
   } catch (e) {
     console.log(`Failed to retrieve user ${userId}: ${e}`);
+    return {};
   }
 }
 
