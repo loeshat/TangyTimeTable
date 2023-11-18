@@ -12,7 +12,7 @@ To run the project, navigate to the directory and run the following `npm` comman
 ## Disclaimers
 As this is the beta-coded version of the TangyTimeTable prototype, some functionalities do not work yet or rely on hard-coded data. This includes:
 1. Social Media & Calendar Accounts Syncing
-  - Please use manual sign up/login for the most accurate user experience.
+  - Please use manual sign up/login for the most accurate user experience. Logging in/signing up through social media can cause unexpected errors.
   - As social media and calendar accounts synchronisation is not yet implemented, users' friends list is currently hard-coded.
 2. Time Availabilities Selection
   - Same availabilities are applied across all displayed dates due to slow load time issues.

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { Image, View, ScrollView } from 'react-native';
-import { PaperProvider, Searchbar, Text, TextInput } from 'react-native-paper';
+import { PaperProvider, Searchbar, Snackbar, Portal, Text, TextInput } from 'react-native-paper';
 import TitleTopBar from '../../components/TitleTopBar';
 import FriendCard from '../../components/FriendCard';
 import WarningAlert from '../../components/Alert';
@@ -37,11 +37,15 @@ const CreateNewGroup = ({ navigation }) => {
   const [friendStates, setFriendStates] = useState(initialStates);
   const [confirmDisabled, setDisabled] = useState(true);
   const handleFriendChange = (id, newState) => {
+    if (newState) setVisibleAlert(true); // feedback to user that they added friends to group successfully
     const newStates = [...friendStates];
     newStates[id] = newState;
     setFriendStates(newStates);
     setDisabled(!newStates.some((state) => state === true));
   }
+
+  // Friends Added alert controls
+  const [visibleAlert, setVisibleAlert] = useState(false);
 
   // New Group data
   const createGroup = async () => {
@@ -71,6 +75,19 @@ const CreateNewGroup = ({ navigation }) => {
           closeAction={closeAlert}
           visible={alertOpen}
         />
+        <Portal>
+          <Snackbar
+            visible={visibleAlert}
+            onDismiss={() => setVisibleAlert(false)}
+            action={{
+              label: 'Close',
+              onPress: () => setVisibleAlert(false),
+              textColor: theme.colors.primary,
+            }}
+          >
+            Friend Added
+          </Snackbar>
+        </Portal>
         <ProgressSteps {...progressStyles}>
           <ProgressStep 
             label='Group Name'
