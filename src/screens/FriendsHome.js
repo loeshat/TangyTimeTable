@@ -126,7 +126,7 @@ const FriendsHome = ({ navigation }) => {
                 borderRadius: 10,
                 marginLeft: 2,
               }}
-              onPress={() => alert('This feature is not available yet!')}
+              onPress={() => navigation.navigate('GroupRoutes', { screen: 'Add Friends' })}
             >
               Add Friends
             </Button>
