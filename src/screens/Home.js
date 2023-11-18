@@ -66,7 +66,9 @@ const Home = ({ navigation }) => {
       if (currUser !== null && currUser !== -1) {
         getAllEvents().then((res) => {
           setAllEvents(res);
+          // upcoming filter is auto-selected on load
           setEvents(res.filter(e => e.status.includes('upcoming')));
+          // hard-coded events set organiser = null
           setMyEvents(res.filter(e => (e.organiser === currUser || e.organiser === null)));
         });
       }
