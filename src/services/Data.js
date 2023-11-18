@@ -2,7 +2,7 @@ import moment from 'moment';
 import { theme } from '../styles/Theme';
 
 // This file contains all relevant hard-coded data
-
+// Hard-coded friends list to be displayed for all users
 export const FriendsList = [
   {
     name: 'Sam Nguyen',
@@ -31,6 +31,7 @@ export const FriendsList = [
   }
 ];
 
+// Default activity categories for activity category selection in event planning
 export const ActivityCategories = [
   {
     label: 'Dining Out / Eating',
@@ -58,6 +59,8 @@ export const ActivityCategories = [
   },
 ];
 
+// Hard-coded dates and schedules for event time selection and
+// "View in Calendar" option
 const today = moment();
 const date1 = today.add(2, 'days').format('YYYY-MM-DD');
 const date2 = today.add(4, 'days').format('YYYY-MM-DD');
@@ -117,6 +120,7 @@ export const calendarDisplay = {
   ],
 };
 
+// Hard-coded date options for event finalisation
 export const dateOptions = [
   {
     date: date1,
@@ -140,6 +144,7 @@ export const dateOptions = [
   },
 ];
 
+// Hard-coded activity options for event finalisation
 export const activityOptions = [
   {
     type: 'Indoor Futsal',
@@ -187,6 +192,7 @@ export const activityOptions = [
   },
 ];
 
+// Hard-coded location options for event finalisation
 export const locationOptions = [
   {
     name: 'All Sorts Indoor Sports Centre',
@@ -229,12 +235,16 @@ export const locationOptions = [
   },
 ];
 
+// Default group that all users will be a part of
+// This is so that we can set up default events
 export const defaultGroup = {
   groupId: 0,
   name: 'Zestee Bestees',
   members: [0, 1, 2, 3, 4],
 }
 
+// Default event options for full event planning flow demonstration
+// Any planning progress made towards these events will not be saved
 export const defaultEvents = [
   {
     eventId: 0,
