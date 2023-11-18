@@ -22,26 +22,12 @@ import LocationCard from '../../components/LocationCard';
 import { headingStyle, textContainer } from './modals/LocationReadMoreModal';
 import { getEvent, getGroupDetails } from '../../services/StoreService';
 
-/** 
- * Conditional rendering based on whether the logged in user 
- * is the event organiser and/or if event decision type is single
- * or group.
- * 
- * If logged in user is the event organiser:
- * - Let them pick time
- * else if decision type is group:
- * - go straight to activity screen -> then wait for others to vote
- * else (single decider and not organiser):
- * - screen says pending organiser actions
- * 
- * If decision type is group:
- * - Vote for activity then wait for others to vote
- * else:
- * - Immediately pick activity for event
- * - Then user can go straight to picking a location
- * 
-*/
-
+/**
+ * Event Finalisation workflow
+ * @param {*} route
+ * @param {*} navigation
+ * @returns 
+ */
 const EventFinalisation = ({ route, navigation }) => {
   const { eventId, activeStep } = route.params ?? {};
 
