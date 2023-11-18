@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { theme } from '../../styles/Theme';
-import { flowStyles } from '../../styles/FlowStyles';
-import { Avatar, Button, IconButton, PaperProvider, Text } from 'react-native-paper';
+import { PaperProvider, Text, Snackbar } from 'react-native-paper';
 import { View, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
 import FriendDisplayCard from '../../components/FriendDisplayCard';
@@ -11,9 +10,6 @@ import FriendCard from '../../components/FriendCard';
 
 
 const AddFriends = ({ route, navigation }) => {
-    // Friends list search handling - note that search is NOT functional
-  const [searchQuery, setSearchQuery] = useState('');
-  const onChangeSearch = query => setSearchQuery(query);
 
   // Friend selection state handling
   const initialStates = Array.from({ length: FriendsList.length }, () => false);
@@ -53,7 +49,11 @@ const AddFriends = ({ route, navigation }) => {
                         Send to
                     </Text>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('Friends')}
+                        
+                        onPress={() => {
+                            alert('Friend request(s) sent!')
+                            navigation.navigate('Friends')
+                        }}
                     >
                         <Text style={styles.buttonText}> Add </Text>
                     </TouchableOpacity>
