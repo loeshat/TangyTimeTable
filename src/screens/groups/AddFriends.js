@@ -29,10 +29,6 @@ const AddFriends = ({ route, navigation }) => {
 	return (
 		<PaperProvider theme={theme}>
             <View style={styles.page}>
-                {/* <TitleTopBar
-                    backAction={() => navigation.navigate('Friends')}
-                    title={'See All Groups'}
-                /> */}
                 <View style={styles.container1}>
                     <Text style={styles.title}>
                         Add Friends
