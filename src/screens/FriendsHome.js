@@ -6,7 +6,6 @@ import { Button, PaperProvider, Text } from 'react-native-paper';
 
 import { groupOptions } from '../services/Data';
 import GroupCard from '../components/GroupCard';
-import OrganisedEventCard from '../components/OrganisedEventCard';
 
 /**
  * Friends 'Home' Page, containing all groups and friends list display
@@ -30,7 +29,6 @@ const FriendsHome = ({ navigation }) => {
           {
             groupOptions.map((item, id) => (
               <TouchableOpacity onPress={() => navigation.navigate('GroupRoutes', { screen: 'ZesteeBesteesGroup' })}>
-              {/* <TouchableOpacity> */}
                 <GroupCard 
                 key={id}
                 name={item.name} 

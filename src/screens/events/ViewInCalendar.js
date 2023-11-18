@@ -6,7 +6,6 @@ import { CalendarProvider, ExpandableCalendar, TimelineList } from 'react-native
 import { calendarDisplay } from '../../services/Data';
 
 const ViewInCalendar = ({ navigation }) => {
-  // TODO: Work out why marked dates is not working
   const marked = Object.keys(calendarDisplay).map(
     date => ({ [date]: 
       { 

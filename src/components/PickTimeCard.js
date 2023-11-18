@@ -4,7 +4,7 @@ import { theme } from '../styles/Theme';
 import { Button, Card, Divider, Text } from 'react-native-paper';
 import { View } from 'react-native';
 
-const PickTimeCard = ({ date, startTime, endTime, onChange }) => {
+const PickTimeCard = ({ date, startTime, endTime, onChange, isDisplay }) => {
   const dateMoment = moment(date, 'YYYY-MM-DD');
   const dayOfWeek = dateMoment.format('dddd');
   const formattedDate = dateMoment.format('DD/MM/YYYY');
@@ -122,18 +122,23 @@ const PickTimeCard = ({ date, startTime, endTime, onChange }) => {
         </View>
       </Card.Content>
       <Card.Actions>
-        <Button
-          mode='contained'
-          onPress={toggleSelect}
-          buttonColor={select 
-                      ? theme.colors.success 
-                      : theme.colors.primary}
-          style={{
-            marginBottom: 3,
-          }}
-        >
-          {select ? 'Selected' : 'Select'}
-        </Button>
+        {
+          !isDisplay
+          &&
+          <Button
+            mode='contained'
+            onPress={toggleSelect}
+            buttonColor={select 
+                        ? theme.colors.success 
+                        : theme.colors.primary}
+            style={{
+              marginBottom: 3,
+              borderRadius: 12,
+            }}
+          >
+            {select ? 'Selected' : 'Select'}
+          </Button>
+        }
       </Card.Actions>
     </Card>
   );

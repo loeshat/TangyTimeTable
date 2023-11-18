@@ -3,74 +3,67 @@ import { theme } from '../styles/Theme';
 import { Avatar, Card, Text } from 'react-native-paper';
 import { View } from 'react-native';
 
-const GroupCard = ({ name, membersText }) => {
+/**
+ * This component displays key details of a group
+ * @param {String} name - name of group
+ * @param {Number} membersNum - number of members in group
+ * @param {Function} onPress - function to be executed on press
+ * @returns 
+ */
+const GroupCard = ({ name, membersNum, onPress }) => {
+  const memberText = membersNum === 1 ? 'member' : 'members';
   return (
-    <View>
-      <Card
+    <View
+      style={{
+        marginTop: '2%',
+        width: '90%',
+      }}
+    >
+      <Card 
+        mode='contained'
         style={{
-          backgroundColor: '#FFEBD0',
-          marginRight: 20,
-          borderRadius: 20,
-          width: 200,
+          backgroundColor: theme.colors.background,
         }}
+        onPress={onPress}
       >
-        <Card.Content>
+        <Card.Content
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}
+        >
           <Avatar.Image 
             size={45} 
             source={require('../assets/pink_tangy.png')} 
             style={{
-              backgroundColor: '#FFEBD0'
+              backgroundColor: theme.colors.background,
             }}
           />
           <View
             style={{
-              flexDirection: 'row',
-              marginBottom: 8,
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: 190,
-              paddingTop: 10,
+              marginLeft: 10
             }}
           >
             <Text
+              variant='bodyLarge'
               style={{
                 color: theme.colors.text,
-                fontSize: 18,
-                fontWeight: '600'
-              }}
-            > {name}
-            </Text>
-            <View
-              style={{
-                marginLeft: 10,
-                alignItems: 'flex-end',
+                fontWeight: '600',
               }}
             >
-            </View>
-          </View>
-          
-          <View
-            style={{
-              flexDirection: 'row',
-              marginBottom: 8,
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              width: 190,
-              paddingTop: 10,
-            }}
-          >
+              {name}
+            </Text>
             <Text
+              variant='bodyMedium'
               style={{
-                color: theme.colors.text,
-                fontSize: 15,
-                fontWeight: '400'
+                color: '#000000',
               }}
-            > {membersText}
+            >
+              {membersNum} {memberText}
             </Text>
           </View>
         </Card.Content>
-      </Card>        
-
+      </Card>
     </View>
   );
 }

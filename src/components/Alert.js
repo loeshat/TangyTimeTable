@@ -49,7 +49,8 @@ const WarningAlert = ({
             mode='outlined'
             textColor={theme.colors.text}
             style={{
-              borderColor: theme.colors.text
+              borderColor: theme.colors.text,
+              borderRadius: 12,
             }}
             contentStyle={{
               width: 80
@@ -62,6 +63,9 @@ const WarningAlert = ({
             mode='contained'
             contentStyle={affirmContentStyle}
             onPress={affirmAction}
+            style={{
+              borderRadius: 12,
+            }}
           >
             {affirmText}
           </Button>

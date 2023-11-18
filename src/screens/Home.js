@@ -1,14 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { theme } from '../styles/Theme';
 import TopNavBar from '../components/TopBar';
-import { View, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Button, PaperProvider, Text } from 'react-native-paper';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import { Button, PaperProvider, Searchbar, SegmentedButtons, Text } from 'react-native-paper';
 
-import { eventOptions, organisedEventOptions } from '../services/Data';
 import EventCard from '../components/EventCard';
 import OrganisedEventCard from '../components/OrganisedEventCard';
+import { getAllEvents, getCurrentUser } from '../services/StoreService';
 
+const filterTheme = {
+  colors: {
+    secondaryContainer: theme.colors.success,
+    primary: theme.colors.success,
+    outline: theme.colors.disabled,
+  },
+};
 
+const filterButtons = [
+  {
+    value: 'upcoming',
+    label: 'Upcoming',
+    checkedColor: theme.colors.surface,
+    uncheckedColor: theme.colors.disabled,
+  },
+  {
+    value: 'in progress',
+    label: 'In Progress',
+    checkedColor: theme.colors.surface,
+    uncheckedColor: theme.colors.disabled,
+  },
+  {
+    value: 'past',
+    label: 'Past',
+    checkedColor: theme.colors.surface,
+    uncheckedColor: theme.colors.disabled,
+  },
+];
 
 /**
  * Main Events page, containing filters for upcoming, in progress and past events
@@ -16,81 +44,146 @@ import OrganisedEventCard from '../components/OrganisedEventCard';
  * @returns 
  */
 const Home = ({ navigation }) => {
+  const [currUser, setCurrUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const onChangeSearch = query => setSearchQuery(query);
+  const [filter, setFilter] = useState('upcoming');
+  const [allEvents, setAllEvents] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [myEvents, setMyEvents] = useState([]);
+  const handleFilterChange = (val) => {
+    setFilter(val);
+    const filteredEvents = allEvents.filter(e => e.status.includes(val));
+    setEvents(filteredEvents);
+  }
+
+  useEffect(() => {
+    getCurrentUser().then((id) => setCurrUser(id));
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      if (currUser !== null && currUser !== -1) {
+        getAllEvents().then((res) => {
+          setAllEvents(res);
+          setEvents(res.filter(e => e.status.includes('upcoming')));
+          setMyEvents(res.filter(e => (e.organiser === currUser || e.organiser === null)));
+        });
+      }
+    }, [currUser])
+  );
+
   return (
     <PaperProvider theme={theme}>
       <TopNavBar navigation={navigation} />
-
       {/* Events Section */}
       <View style={styles.container}>
-        <Text style={styles.heading}>Events</Text>
-        <View style={{ padding: 20, width: '80%' }}>
-          
-          {/* Tabs */}
-          <View style={styles.eventsTabsContainer}>
-            {/* TODO: implement routes for different tab views */}
-            <TouchableOpacity 
-              style={styles.selectedEventsTab}
-              onPress={() => navigation.navigate('HomeRoutes', { screen: 'Upcoming Events' })}>
-              <Text style={{ color: 'white' }}>Upcoming</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.unselectedEventsTab}
-              onPress={() => navigation.navigate('HomeRoutes', { screen: 'In Progress Events' })}>
-              <Text style={{ color: '#9E9E9E' }}>In Progress</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-              style={styles.unselectedEventsTab}
-              onPress={() => navigation.navigate('HomeRoutes', { screen: 'Past Events' })}>
-              <Text style={{ color: '#9E9E9E' }}>Past</Text>
-            </TouchableOpacity>
-          </View>
+        <View
+          style={{
+            marginLeft: 20,
+            marginTop: 15,
+          }}
+        >
+          <Searchbar 
+            placeholder='Search...'
+            onChangeText={onChangeSearch}
+            value={searchQuery}
+            style={{
+              backgroundColor: theme.colors.background,
+              width: '95%',
+            }}
+            inputStyle={{
+              color: theme.colors.text,
+            }}
+            theme={theme}
+          />
         </View>
-
+        <Text style={styles.heading}>Events</Text>
+        <View
+          style={{
+            width: '80%',
+            marginLeft: 20,
+            marginTop: 10,
+          }}
+        >
+          {/* Tabs */}
+          <SegmentedButtons 
+            value={filter}
+            onValueChange={handleFilterChange}
+            buttons={filterButtons}
+            theme={filterTheme}
+          />
+        </View>
         {/* Event Cards */}
-        <View style={{ padding: 20}}>
+        <View
+          style={{
+            marginLeft: 20,
+            marginTop: 20,
+          }}
+        >
           <ScrollView
             horizontal={true}
           >
             {
-              eventOptions.map((item, id) => (
+              events.map((item, id) => (
                 <EventCard 
                   key={id}
-                  name={item.name} 
-                  desc={item.desc} 
-                  details={item.details}
+                  eventId={item.eventId}
+                  eventName={item.name}
+                  status={item.status}
+                  details={`${item.location} | ${item.eventDate} ${item.startTime}`}
+                  groupId={item.groupId}
+                  navigation={navigation}
                 />
               ))
             }
           </ScrollView>
+          {
+            events.length === 0
+            &&
+            <Text
+              variant='bodyLarge'
+              style={{
+                color: theme.colors.text,
+              }}
+            >
+              You don't have any {filter} events!
+            </Text>
+          }
         </View>
-
-      
-      {/* Organised Events Section */}
-      <View style={styles.container}>
-        <Text style={[styles.heading, { paddingTop: 60 }]}>Your Organised Events</Text>
-        <View style={{ padding: 20}}>
-          <ScrollView
-            horizontal={true}
-          >
-            {
-              eventOptions.map((item, id) => (
-                <OrganisedEventCard 
-                  key={id}
-                  name={item.name} 
-                  desc={item.desc} 
-                />
-              ))
-            }
-          </ScrollView>
-        </View>  
-        
-      </View>
-        {/* For testing purposes only */}
-        <Button
-          onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}
-        >
-          Event Finalisation Screen
-        </Button>
+        {/* Organised Events Section */}
+        <View style={styles.container}>
+          <Text style={[styles.heading, { paddingTop: 60 }]}>Your Organised Events</Text>
+          <View style={{ padding: 20 }}>
+            <ScrollView
+              horizontal={true}
+            >
+              {
+                myEvents.map((item, id) => (
+                  <OrganisedEventCard 
+                    key={id}
+                    eventId={item.eventId}
+                    eventName={item.name}
+                    groupId={item.groupId}
+                    navigation={navigation}
+                  />
+                ))
+              }
+              {
+                myEvents.length === 0
+                &&
+                <Text
+                  variant='bodyLarge'
+                  style={{
+                    color: theme.colors.text,
+                  }}
+                >
+                  You haven't organised any events yet!
+                </Text>
+              }
+            </ScrollView>
+          </View>
+        </View>
       </View>
     </PaperProvider>
   );
@@ -98,7 +191,8 @@ const Home = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 5,
+    height: '85%',
+    backgroundColor: '#FFFFFF',
   },
   cardsContainer: {
     paddingLeft: 20,
@@ -111,29 +205,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingLeft: 20,
   },
-  eventsTabsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'left',
-  },
-  selectedEventsTab: {
-    backgroundColor: '#79C1A9',
-    padding: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  unselectedEventsTab: {
-    backgroundColor: '#EAEAEA',
-    padding: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }, 
 });
 
 export default Home;
