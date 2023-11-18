@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { theme } from '../styles/Theme';
 import { styles } from './Home';
 import { ScrollView, View } from 'react-native';
@@ -7,7 +8,7 @@ import TopNavBar from '../components/TopBar';
 import GroupDisplayCard from '../components/GroupDisplayCard';
 import { getAllGroups, getCurrentUser } from '../services/StoreService';
 import { FriendsList } from '../services/Data';
-import FriendCard from '../components/FriendCard';
+import FriendDisplayCard from '../components/FriendDisplayCard';
 
 /**
  * Friends 'Home' Page, containing all groups and friends list display
@@ -22,10 +23,14 @@ const FriendsHome = ({ navigation }) => {
     getCurrentUser().then((id) => setCurrUser(id));
   }, []);
 
-  useEffect(() => {
-    getAllGroups(currUser).then((res) => setGroups(res));
-  }, [currUser]);
-
+  useFocusEffect(
+    useCallback(() => {
+      if (currUser !== null && currUser !== -1) {
+        getAllGroups(currUser).then((res) => setGroups(res));
+      }
+    }, [currUser])
+  );
+  
   return (
     <PaperProvider theme={theme}>
       <TopNavBar navigation={navigation} />
@@ -135,11 +140,9 @@ const FriendsHome = ({ navigation }) => {
           <ScrollView>
             {
               FriendsList.map((item, id) => (
-                <FriendCard 
+                <FriendDisplayCard 
                   key={id}
-                  name={item.name}
-                  image={item.image}
-                  isCheckbox={false}
+                  userId={item.userId}
                 />
               ))
             }

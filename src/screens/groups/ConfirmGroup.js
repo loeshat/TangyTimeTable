@@ -94,6 +94,7 @@ const ConfirmGroup = ({ route, navigation }) => {
               marginTop: 20,
               borderRadius: 12,
             }}
+            onPress={() => navigation.navigate('GroupRoutes', { screen: 'Group Display', params: { groupId: groupId }})}
           >
             See my Group
           </Button>

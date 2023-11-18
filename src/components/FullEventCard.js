@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { theme } from '../styles/Theme';
 import { Card, Text } from 'react-native-paper';
 import { View, TouchableOpacity } from 'react-native';
-import { getGroupDetails, getUserDetails } from '../services/StoreService';
+import { getCurrentUser, getGroupDetails, getUserDetails } from '../services/StoreService';
 
 const pillStyle = {
   backgroundColor: theme.colors.success,
@@ -31,11 +31,19 @@ const FullEventCard = ({
 
   useEffect(() => {
     getGroupDetails(groupId).then(group => setGroupName(group.name));
-    getUserDetails(organiser).then(user => setOrganiserName(user.name));
+    if (organiser !== null) {
+      getUserDetails(organiser).then(user => setOrganiserName(user.name));
+    } else {
+      getCurrentUser().then((id) => {
+        getUserDetails(id).then(user => setOrganiserName(user.name));
+      });
+    }
   }, []);
 
   return (
-    <View>
+    <View
+      style={{ marginRight: 20 }}
+    >
       <Card
         mode='contained'
         style={{
