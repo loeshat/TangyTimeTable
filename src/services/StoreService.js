@@ -235,6 +235,7 @@ export const getAllGroups = async (userId) => {
     return [defaultGroup]; // User is always a part of default group
   } catch (e) {
     console.log(`Failed to retrieve groups on TangyTimeTable: ${e}`);
+    return [defaultGroup];
   }
 }
 
@@ -253,6 +254,7 @@ export const getGroupDetails = async (groupId) => {
     return {}; // Provided ID does not exist
   } catch (e) {
     console.log(`Failed to retrieve group details for ${groupId}: ${e}`);
+    return {};
   }
 }
 
@@ -300,6 +302,7 @@ export const getGroupEvents = async (groupId) => {
     return eventsArray;
   } catch (e) {
     console.log(`Failed to retrieve events for group ${groupId}: ${e}`);
+    return [];
   }
 }
 
@@ -372,6 +375,7 @@ export const getAllEvents = async () => {
     return defaultEvents;
   } catch (e) {
     console.log(`Failed to retrieve all events: ${e}`);
+    return [];
   }
 }
 
@@ -394,6 +398,7 @@ export const getEvent = async (eventId) => {
     return [];
   } catch (e) {
     console.log(`Failed to get event details for event ${eventId}: ${e}`);
+    return {};
   }
 }
 
