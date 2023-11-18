@@ -20,11 +20,10 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     // handle login logic here
-    const success = await loginRequest(email, password);
+    const success = await loginRequest(email, password, rememberMe);
     if (success) {
       navigation.navigate('Bottom Tab Bar', { screen: 'Events' });
     }
-    // TODO: remember me functionality
   };
 
   const isDisabled = !email || !password;
@@ -50,6 +49,7 @@ const Login = ({ navigation }) => {
             autoCapitalize='none'
             secureTextEntry
             style={loginStyles.input}
+            textContentType='oneTimeCode'
           />
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

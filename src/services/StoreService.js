@@ -6,6 +6,7 @@ const USER_ID_KEY = '@tangy_lastUserId';
 const EVENTS_KEY = '@tangy_events';
 const GROUPS_KEY = '@tangy_groups';
 const CURR_USER_KEY = '@tangy_current_user';
+const CURR_USER_DATA = '@tangy_current_user_data';
 
 /**
  * Data Types Explanation:
@@ -15,7 +16,6 @@ const CURR_USER_KEY = '@tangy_current_user';
  *   name: string - user's full name, 
  *   email: string,
  *   password: string,
- *   image: string (to be used as uri for React Native Image component)
  * }
  * 
  * Events Struct:
@@ -79,7 +79,7 @@ const setLastUserId = async (userId) => {
  * Search through the users and approve a login request
  * @returns 
  */
-export const signUpRequest = async (name, email, password) => {
+export const signUpRequest = async (name, email, password, rememberMe) => {
   try {
     const lastUserId = await getLastUserId();
     const newUserId = lastUserId + 1;
@@ -89,6 +89,7 @@ export const signUpRequest = async (name, email, password) => {
       name: name,
       email: email,
       password: password,
+      rememberMe: rememberMe
     };
     let users = await getAllUsers();
     // check if the user's email is already in the system
@@ -103,6 +104,7 @@ export const signUpRequest = async (name, email, password) => {
     await AsyncStorage.setItem(USERS_KEY, JSON.stringify(users));
     console.log(users); // for testing only
     await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(newUserId));
+    await AsyncStorage.setItem(CURR_USER_DATA, JSON.stringify(newUser));
     await setLastUserId(newUserId);
     return true;
   } catch (error) {
@@ -115,7 +117,7 @@ export const signUpRequest = async (name, email, password) => {
  * Search through the users and approve a login request
  * @returns true or false
  */
-export const loginRequest = async (email, password) => {
+export const loginRequest = async (email, password, rememberMe) => {
   try {
     // Get the existing users
     const users = await AsyncStorage.getItem(USERS_KEY);
@@ -127,6 +129,11 @@ export const loginRequest = async (email, password) => {
       console.error('Invalid email or password');
       return false;
     }
+    const loggedInUserData = {
+      ...user,
+      rememberMe,
+    }
+    await AsyncStorage.setItem(CURR_USER_DATA, JSON.stringify(loggedInUserData));
     console.log(`Current user: ${user.userId}`); // for testing only
     await AsyncStorage.setItem(CURR_USER_KEY, JSON.stringify(user.userId));
     return true;
@@ -151,12 +158,27 @@ export const getCurrentUser = async () => {
 }
 
 /**
+ * Retrieves the data of the currently logged in user
+ * @returns 
+ */
+export const getCurrentUserData = async () => {
+  try {
+    const user = await AsyncStorage.getItem(CURR_USER_DATA);
+    return JSON.parse(user);
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+};
+
+/**
  * Signs user out of platform
  * @returns 
  */
 export const signOutRequest = async () => {
   try {
     await AsyncStorage.removeItem(CURR_USER_KEY);
+    await AsyncStorage.removeItem(CURR_USER_DATA);
     console.log('Sign out successful!');
     return true;
   } catch (e) {
@@ -175,6 +197,7 @@ export const getAllUsers = async () => {
     return users ? JSON.parse(users) : [];
   } catch (e) {
     console.log(`Failed to retrieve TangyTimeTable users: ${e}`);
+    return [];
   }
 }
 
@@ -194,6 +217,7 @@ export const getUserDetails = async (userId) => {
     return {}; // provided ID does not exist
   } catch (e) {
     console.log(`Failed to retrieve user ${userId}: ${e}`);
+    return {};
   }
 }
 
@@ -213,6 +237,7 @@ export const getAllGroups = async (userId) => {
     return [defaultGroup]; // User is always a part of default group
   } catch (e) {
     console.log(`Failed to retrieve groups on TangyTimeTable: ${e}`);
+    return [defaultGroup];
   }
 }
 
@@ -231,6 +256,7 @@ export const getGroupDetails = async (groupId) => {
     return {}; // Provided ID does not exist
   } catch (e) {
     console.log(`Failed to retrieve group details for ${groupId}: ${e}`);
+    return {};
   }
 }
 
@@ -278,6 +304,7 @@ export const getGroupEvents = async (groupId) => {
     return eventsArray;
   } catch (e) {
     console.log(`Failed to retrieve events for group ${groupId}: ${e}`);
+    return [];
   }
 }
 
@@ -350,6 +377,7 @@ export const getAllEvents = async () => {
     return defaultEvents;
   } catch (e) {
     console.log(`Failed to retrieve all events: ${e}`);
+    return [];
   }
 }
 
@@ -372,6 +400,7 @@ export const getEvent = async (eventId) => {
     return [];
   } catch (e) {
     console.log(`Failed to get event details for event ${eventId}: ${e}`);
+    return {};
   }
 }
 

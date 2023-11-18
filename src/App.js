@@ -13,7 +13,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View } from 'react-native';
-import { getCurrentUser } from './services/StoreService';
+import { getCurrentUserData } from './services/StoreService';
 
 const Tab = createMaterialBottomTabNavigator();
 const RootStack = createNativeStackNavigator();
@@ -35,75 +35,81 @@ const CreatePlaceholder = () => {
   );
 }
 
-const BottomBar = () => (
-  <PaperProvider theme={themeExtended}>
-    <Tab.Navigator
-      initialRouteName='Events'
-      activeColor='#FF8300'
-      inactiveColor='#9E9E9E'
-      barStyle={{ backgroundColor: '#F5F5F5' }}
-      screenOptions={{ headerShown: false }}
-      theme={themeExtended}
-    >
-      <Tab.Screen
-        name='Events'
-        component={Home}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name='home' color={color} size={30} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Create'
-        component={CreatePlaceholder}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name='plus' color={color} size={30} />
-          ),
-        }}
-        listeners={({ navigation }) => ({
-          tabPress: event => {
-            event.preventDefault();
-            navigation.navigate('CreateNew');
-          }
-        })}
-      />
-      <Tab.Screen
-        name='Friends'
-        component={FriendsHome}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name='account-multiple' color={color} size={30} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  </PaperProvider>
-);
-
 const App = () => {
   const [startingScreen, setStartingScreen] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchCurrentUser = async () => {
-    try {
-      const user = await getCurrentUser();
-      // if user is null, then no user is logged in. otherwise, user is logged in
-      if (user === null || user === -1) {
-        setStartingScreen('LoginRoutes');
-      } else {
-        setStartingScreen('Bottom Tab Bar');
-      }
-      setIsLoading(false);
-    } catch (e) {
-      console.error('Error fetching current user:', e);
-    }
-  };
-
   useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await getCurrentUserData();
+        console.log(user);
+        // if user is null, then no user is logged in. otherwise, user is logged in
+        if (user === null) {
+          setStartingScreen('LoginRoutes');
+        } else {
+          if (user.rememberMe === false) setStartingScreen('LoginRoutes');
+          else setStartingScreen('Bottom Tab Bar');
+        }
+        setIsLoading(false);
+      } catch (e) {
+        console.error('Error fetching current user:', e);
+      }
+    };
     fetchCurrentUser();
   }, []);
+
+  // loading when setStartingScreen is still waiting to finish running
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  const BottomBar = () => (
+    <PaperProvider theme={themeExtended}>
+      <Tab.Navigator
+        initialRouteName='Events'
+        activeColor='#FF8300'
+        inactiveColor='#9E9E9E'
+        barStyle={{ backgroundColor: '#F5F5F5' }}
+        screenOptions={{ headerShown: false }}
+        theme={themeExtended}
+      >
+        <Tab.Screen
+          name='Events'
+          component={Home}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name='home' color={color} size={30} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name='Create'
+          component={CreatePlaceholder}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name='plus' color={color} size={30} />
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            tabPress: event => {
+              event.preventDefault();
+              navigation.navigate('CreateNew');
+            }
+          })}
+        />
+        <Tab.Screen
+          name='Friends'
+          component={FriendsHome}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name='account-multiple' color={color} size={30} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+    </PaperProvider>
+  );
 
   // loading when setStartingScreen is still waiting to finish running
   if (isLoading) {
