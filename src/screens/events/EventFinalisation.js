@@ -60,8 +60,7 @@ const EventFinalisation = ({ route, navigation }) => {
     });
   }, []);
   
-  // TODO: Change route to group page
-  const returnToGroup = () => navigation.navigate('Events');
+  const returnToGroup = () => navigation.navigate('Event Display', { eventId: eventId, groupName: groupName });
 
   // Snackbar popup controls
   const [visible, setVisible] = useState(false);
