@@ -47,6 +47,7 @@ const WarningAlert = ({
         <Dialog.Actions>
           <Button
             mode='outlined'
+            accessibilityLabel='cancel-button'
             textColor={theme.colors.text}
             style={{
               borderColor: theme.colors.text,
@@ -61,6 +62,7 @@ const WarningAlert = ({
           </Button>
           <Button
             mode='contained'
+            accessibilityLabel='alert-affirm-action-button'
             contentStyle={affirmContentStyle}
             onPress={affirmAction}
             style={{
