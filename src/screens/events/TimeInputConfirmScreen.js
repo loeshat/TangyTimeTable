@@ -50,7 +50,7 @@ const TimeInputConfirmScreen = ({ navigation }) => {
           style={{
             marginTop: '10%',
             borderRadius: 12,
-            width: '50%',
+            width: '65%',
           }}
           onPress={() => alert('This functionality is currently not available!')}
         >
@@ -66,9 +66,9 @@ const TimeInputConfirmScreen = ({ navigation }) => {
             fontSize: 18
           }}
           style={{
-            marginTop: '10%',
+            marginTop: '8%',
             borderRadius: 12,
-            width: '50%',
+            width: '65%',
           }}
           onPress={() => navigation.navigate('Events')}
         >

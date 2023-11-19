@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CreateNewGroup from '../screens/groups/NewGroup';
 import ConfirmGroup from '../screens/groups/ConfirmGroup';
 import GroupDisplay from '../screens/groups/GroupDisplay';
+import AddFriends from '../screens/groups/AddFriends';
 
 const Root = createNativeStackNavigator();
 
@@ -26,6 +27,11 @@ export const GroupRoutes = () => {
       <Root.Screen 
         name='Group Display'
         component={GroupDisplay}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen 
+        name='Add Friends'
+        component={AddFriends}
         options={{ headerShown: false }}
       />
     </Root.Navigator>
