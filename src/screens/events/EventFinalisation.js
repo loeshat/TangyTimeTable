@@ -97,7 +97,9 @@ const EventFinalisation = ({ route, navigation }) => {
       navigation.navigate('EventRoutes', { 
         screen: 'Completed Event Confirmation',
         params: {
-          speech: `Let's wait for your friends to vote for their favourite activity! I'll let you know when they're all done!`
+          speech: `Let's wait for your friends to vote for their favourite activity! I'll let you know when they're all done!`,
+          eventId: eventId,
+          groupName: groupName,
         }
       });
     } else if (eventObj.activity === null && eventObj.decider === 'single') {
@@ -881,7 +883,7 @@ const EventFinalisation = ({ route, navigation }) => {
                       borderColor: theme.colors.text,
                       borderRadius: 12,
                     }}
-                    onPress={() => navigation.navigate('EventRoutes', { screen: 'Transport Options' })}
+                    onPress={() => navigation.navigate('EventRoutes', { screen: 'Transport Options', params: { eventId: eventId, groupName: groupName } })}
                   >
                     See More
                   </Button>

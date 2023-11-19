@@ -20,7 +20,9 @@ const imageStyle = {
   borderRadius: 12,
 }
 
-const TransportOptions = ({ navigation }) => {
+const TransportOptions = ({ route, navigation }) => {
+  const { eventId, groupName } = route.params ?? {};
+
   const [value, setValue] = useState('bus');
   const [speech, setSpeech] = useState('Taking a Bus will take 16 minutes!');
   const handleValueChange = (val) => {
@@ -183,7 +185,11 @@ const TransportOptions = ({ navigation }) => {
               onPress={() => navigation.navigate('EventRoutes', 
                 { 
                   screen: 'Completed Event Confirmation',
-                  params: { speech: `You're all set! Remember to make any necessary bookings before the event!` } 
+                  params: { 
+                    speech: `You're all set! Remember to make any necessary bookings before the event!`,
+                    eventId: eventId,
+                    groupName: groupName,
+                  }
                 })}
             >
               <Text
