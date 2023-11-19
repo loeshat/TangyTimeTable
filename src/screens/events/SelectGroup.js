@@ -40,6 +40,7 @@ const SelectGroupScreen = ({ navigation }) => {
             Create New Event with...
           </Text>
           <Button
+            accessibilityLabel='create-new-group-navigation-button'
             icon='plus'
             mode='contained'
             contentStyle={{

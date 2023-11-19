@@ -201,6 +201,7 @@ const CreateNewEvent = ({ route, navigation }) => {
                 />
               </View>
               <Button
+                accessibilityLabel='single-decider-select'
                 mode='contained'
                 contentStyle={{
                   height: 60,
@@ -219,6 +220,7 @@ const CreateNewEvent = ({ route, navigation }) => {
                 Just Me
               </Button>
               <Button
+                accessibilityLabel='group-vote-select'
                 mode='contained'
                 contentStyle={{
                   height: 60,

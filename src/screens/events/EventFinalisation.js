@@ -219,6 +219,7 @@ const EventFinalisation = ({ route, navigation }) => {
             <Dialog.Actions>
               <Button
                 mode='outlined'
+                accessibilityLabel='cancel-alert-button'
                 style={{
                   borderColor: theme.colors.text,
                   borderRadius: 12,
@@ -230,6 +231,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 Cancel
               </Button>
               <Button
+                accessibilityLabel='update-button'
                 mode='contained'
                 style={{
                   width: 80,
@@ -295,6 +297,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 >
                   <Button
                     icon='calendar-month-outline'
+                    accessibilityLabel='view-in-calendar-button'
                     labelStyle={{
                       color: theme.colors.text,
                     }}
@@ -370,6 +373,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 </View>
                 <Button
                   mode='contained'
+                  accessibilityLabel='suggest-date-change-button'
                   icon='arrow-right'
                   labelStyle={{
                     fontSize: 18,
@@ -507,6 +511,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 </View>
                 <Button
                   mode='contained'
+                  accessibilityLabel='change-activity-vote-button'
                   icon='arrow-right'
                   labelStyle={{
                     fontSize: 18,
@@ -636,6 +641,7 @@ const EventFinalisation = ({ route, navigation }) => {
                         </Card.Content>
                         <Card.Actions>
                           <Button
+                            accessibilityLabel='custom-location-select-toggle-button'
                             mode='contained'
                             onPress={handleCustomSelect}
                             buttonColor={customSelect ? theme.colors.success : theme.colors.primary}
@@ -780,6 +786,7 @@ const EventFinalisation = ({ route, navigation }) => {
               </View>
               <Button
                 mode='contained'
+                accessibilityLabel='see-website-button'
                 style={{
                   marginTop: '2%',
                   borderRadius: 12,
@@ -878,6 +885,7 @@ const EventFinalisation = ({ route, navigation }) => {
                   </View>
                   <Button
                     mode='outlined'
+                    accessibilityLabel='see-more-transport-options-button'
                     textColor={theme.colors.text}
                     style={{
                       borderColor: theme.colors.text,

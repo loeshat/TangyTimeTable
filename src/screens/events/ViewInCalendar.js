@@ -29,6 +29,7 @@ const ViewInCalendar = ({ navigation }) => {
           }}
         >
           <IconButton 
+            accessibilityLabel='close-modal-button'
             icon='close'
             iconColor={theme.colors.text}
             onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation' })}

@@ -40,6 +40,7 @@ const TimeInputConfirmScreen = ({ navigation }) => {
           />
         </View>
         <Button
+          accessibilityLabel='change-availabilities-navigation-button'
           mode='contained'
           contentStyle={{
             height: 60,
@@ -57,6 +58,7 @@ const TimeInputConfirmScreen = ({ navigation }) => {
           Change My Availabilities
         </Button>
         <Button
+          accessibilityLabel='return-home-button'
           mode='contained'
           buttonColor={theme.colors.success}
           contentStyle={{

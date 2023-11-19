@@ -67,6 +67,7 @@ const EventTimeInput = ({ route, navigation }) => {
           </View>
           <Button
             mode='contained'
+            accessibilityLabel='sync-calendar-navigation-button'
             contentStyle={{
               height: 60
             }}
@@ -84,6 +85,7 @@ const EventTimeInput = ({ route, navigation }) => {
           </Button>
           <Button
             mode='contained'
+            accessibilityLabel='manual-availability-input-navigation-button'
             buttonColor={theme.colors.success}
             contentStyle={{
               height: 60

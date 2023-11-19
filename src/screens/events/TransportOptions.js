@@ -74,6 +74,7 @@ const TransportOptions = ({ route, navigation }) => {
           onPress={() => navigation.navigate('EventRoutes', { screen: 'Event Finalisation', params: { activeStep: 3 } })}
         >
           <IconButton 
+            accessibilityLabel='return-button'
             icon='chevron-left'
             iconColor={theme.colors.text}
             size={40}

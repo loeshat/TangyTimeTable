@@ -129,6 +129,7 @@ const GroupDisplay = ({ route, navigation }) => {
               }}
             >
               <Button
+                accessibilityLabel='create-event-button'
                 icon='plus'
                 mode='contained'
                 buttonColor={theme.colors.success}
@@ -286,6 +287,7 @@ const GroupDisplay = ({ route, navigation }) => {
                 }}
               >
                 <IconButton 
+                  accessibilityLabel='search-button'
                   icon='magnify'
                   mode='contained'
                   size={25}
@@ -296,6 +298,7 @@ const GroupDisplay = ({ route, navigation }) => {
                   }}
                 />
                 <Button
+                  accessibilityLabel='add-group-members-button'
                   mode='contained'
                   buttonColor={theme.colors.success}
                   style={{
@@ -330,6 +333,7 @@ const GroupDisplay = ({ route, navigation }) => {
           &&
           <View style={styles.editContainer}>
             <Button
+              accessibilityLabel='change-group-name-button'
               mode='contained'
               buttonColor={theme.colors.success}
               contentStyle={{
@@ -347,6 +351,7 @@ const GroupDisplay = ({ route, navigation }) => {
               Change Group Name
             </Button>
             <Button
+              accessibilityLabel='delete-group-button'
               mode='contained'
               contentStyle={{
                 height: 50,

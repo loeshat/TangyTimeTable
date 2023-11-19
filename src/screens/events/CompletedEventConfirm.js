@@ -54,6 +54,7 @@ const CompletedEventConfirmScreen = ({ route, navigation }) => {
         >
           <Button
             mode='contained'
+            accessibilityLabel='see-calendar-button'
             contentStyle={{
               height: 60,
             }}
@@ -69,6 +70,7 @@ const CompletedEventConfirmScreen = ({ route, navigation }) => {
           </Button>
           <Button
             mode='outlined'
+            accessibilityLabel='return-home-button'
             buttonColor='#F5F5F5'
             contentStyle={{
               height: 60,
