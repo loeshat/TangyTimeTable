@@ -135,6 +135,7 @@ const GroupDisplay = ({ route, navigation }) => {
                 style={{
                   marginRight: '5%',
                   width: '32%',
+                  borderRadius: 10,
                 }}
                 onPress={() => navigation.navigate('EventRoutes', { screen: 'Create New Event', params: { groupId: groupId }})}
               >
@@ -331,6 +332,12 @@ const GroupDisplay = ({ route, navigation }) => {
             <Button
               mode='contained'
               buttonColor={theme.colors.success}
+              contentStyle={{
+                height: 50,
+              }}
+              labelStyle={{
+                fontSize: 16,
+              }}
               style={{
                 width: '85%',
                 borderRadius: 10,
@@ -341,9 +348,15 @@ const GroupDisplay = ({ route, navigation }) => {
             </Button>
             <Button
               mode='contained'
+              contentStyle={{
+                height: 50,
+              }}
+              labelStyle={{
+                fontSize: 16,
+              }}
               style={{
                 width: '85%',
-                marginTop: '3%',
+                marginTop: '4%',
                 borderRadius: 10,
               }}
               onPress={() => alert('This feature is not available yet!')}

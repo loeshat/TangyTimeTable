@@ -15,7 +15,7 @@ const GroupEventCard = ({ name, membersNum, onPress }) => {
   return (
     <View
       style={{
-        marginTop: '2%',
+        marginTop: 20,
         width: '90%',
       }}
     >
