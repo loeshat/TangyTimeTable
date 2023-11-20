@@ -120,7 +120,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName={'Language'}>
+      <RootStack.Navigator initialRouteName={startingScreen}>
         <RootStack.Screen
           name='Bottom Tab Bar'
           component={BottomBar}
