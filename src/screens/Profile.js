@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { theme } from '../styles/Theme';
 import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { PaperProvider, Text, Button, IconButton, Avatar } from 'react-native-paper';
-import TitleTopBar from '../components/TitleTopBar';
+import ProfileTitleTopBar from '../components/ProfileTitleTopBar';
 import { signOutRequest } from '../services/StoreService';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { loginStyles } from '../styles/LoginStyles';
@@ -41,7 +41,7 @@ const Profile = ({ navigation }) => {
 
   return (
     <PaperProvider theme={theme}>
-      <TitleTopBar navigation={navigation} />
+      <ProfileTitleTopBar navigation={navigation} />
       <View style={{ display: 'flex', alignItems: 'center', backgroundColor: '#FFFFFF' }}>
         <View style={{ padding: 20, width: '90%' }}>
           <Avatar.Image size={150} style={{ backgroundColor: '#FFFFFF', marginBottom: 20, alignSelf: 'center' }} source={require('../assets/pink_tangy.png')} />
