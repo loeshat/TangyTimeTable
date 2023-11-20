@@ -1,27 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { theme } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { Button, PaperProvider, Text } from 'react-native-paper';
 import { Image, View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
-import WarningAlert from '../../components/Alert';
 
 // For the user to add their own availabilities during event
 // planning process
 
-// TODO: Remove warning alert from here and work on conditional rendering
-// from user clicking on event
-
 const EventTimeInput = ({ route, navigation }) => {
   const { eventId, dates, times } = route.params ?? {};
-
-  const [alertOpen, setAlertOpen] = useState(false);
-  const openAlert = () => setAlertOpen(true);
-  const closeAlert = () => setAlertOpen(false);
-  const returnHome = () => {
-    closeAlert();
-    navigation.navigate('Events');
-  }
 
   const inputNav = (inputType) => {
     navigation.navigate(
@@ -32,7 +20,7 @@ const EventTimeInput = ({ route, navigation }) => {
           type: inputType,
           eventId: eventId, 
           dates: dates, 
-          times: times 
+          times: times, 
         } 
       }
     );
@@ -40,19 +28,10 @@ const EventTimeInput = ({ route, navigation }) => {
 
   return (
     <PaperProvider theme={theme}>
-      <TitleTopBar backAction={openAlert} title={'Return Home'} />
+      <TitleTopBar backAction={() => navigation.navigate('Events')} title={'Return Home'} />
       <View
         style={flowStyles.screen}
       >
-        <WarningAlert 
-          description={'You will lose all your event planning progress! Are you sure?'}
-          affirmText={'Return Home'}
-          affirmAction={returnHome}
-          affirmContentStyle={{ width: 125 }}
-          cancelAction={closeAlert}
-          closeAction={closeAlert}
-          visible={alertOpen}
-        />
         <View
           style={{ alignItems: 'center' }}
         >
@@ -88,6 +67,7 @@ const EventTimeInput = ({ route, navigation }) => {
           </View>
           <Button
             mode='contained'
+            accessibilityLabel='sync-calendar-navigation-button'
             contentStyle={{
               height: 60
             }}
@@ -105,6 +85,7 @@ const EventTimeInput = ({ route, navigation }) => {
           </Button>
           <Button
             mode='contained'
+            accessibilityLabel='manual-availability-input-navigation-button'
             buttonColor={theme.colors.success}
             contentStyle={{
               height: 60

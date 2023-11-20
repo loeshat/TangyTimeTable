@@ -64,6 +64,7 @@ const ConfirmGroup = ({ route, navigation }) => {
             />
           </View>
           <Button
+            accessibilityLabel='new-event-navigation-button'
             mode='contained'
             labelStyle={{ 
               fontSize: 20
@@ -73,13 +74,15 @@ const ConfirmGroup = ({ route, navigation }) => {
               width: 200
             }}
             style={{
-              marginTop: 30
+              marginTop: 30,
+              borderRadius: 12,
             }}
             onPress={planEvent}
           >
             Plan an Event
           </Button>
           <Button
+            accessibilityLabel='see-group-navigation-button'
             mode='contained'
             buttonColor={theme.colors.success}
             labelStyle={{ 
@@ -90,8 +93,10 @@ const ConfirmGroup = ({ route, navigation }) => {
               width: 200
             }}
             style={{
-              marginTop: 20
+              marginTop: 20,
+              borderRadius: 12,
             }}
+            onPress={() => navigation.navigate('GroupRoutes', { screen: 'Group Display', params: { groupId: groupId }})}
           >
             See my Group
           </Button>

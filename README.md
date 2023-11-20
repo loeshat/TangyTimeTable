@@ -4,11 +4,31 @@
 TangyTimeTable is an all-in-one event planning assistant that automatically aligns users’ schedules with their friends and suggests activities based on their shared interests. Furthermore, through personal calendar synchronisation and timely notification reminders, TangyTimeTable eliminates manual back-and-forth messaging and event coordination efforts to help users save time and gain more enjoyment from in-person socialisation.
 
 ## Usage
-To run the project, navigate to the directory and run one of the following `npm` commands:
+To run the project, navigate to the directory and run the following `npm` commands:
 - `cd src`
-- `npm run android`
-- `npm run ios`
-- `npm run web`
+- `npm install`
+- `npx expo start`, then press `i` to run the `iOS` option
+
+## Disclaimers
+As this is the beta-coded version of the TangyTimeTable prototype, some functionalities do not work yet or rely on hard-coded data. This includes:
+1. Social Media & Calendar Accounts Syncing
+  - Please use manual sign up/login for the most accurate user experience. Logging in/signing up through social media can cause unexpected errors.
+  - As social media and calendar accounts synchronisation is not yet implemented, users' friends list is currently hard-coded.
+2. Time Availabilities Selection
+  - Same availabilities are applied across all displayed dates due to slow load time issues.
+3. Activity & Location Recommendations
+  - Activity and location data are currently hard-coded.
+  - To demonstrate latter parts of our event planning flow, we have hard-coded 3 events, which all users, once logged in, are automatically a part of.
+  - Note that because these events are hard-coded, any changes/planning progress made towards them will **NOT** be saved.
+4. Travel Time Suggestions
+  - Travel time data is currently hard-coded. This means that the final travel time suggestions are always catered towards All Sorts Indoor Sports Centre.
+5. Search
+  - Search is not functional yet.
+6. Non-Functional Features/Buttons
+  - If a feature/button is not functional, an alert will be raised on click to let the user know that it is not available yet.
+7. Events and Groups Display
+  - The display of groups and events on Home Screen (accessible via Events tab) and All Friends screen (accessible via Friends tab) can sometimes be laggy.
+  - When this happens, simply refresh the app to get the most accurate data.
 
 ## Roadmap
 - TangyTimeTable's research board can be found in this [Miro Board](https://miro.com/app/board/uXjVMhHMptI=/?share_link_id=646779823933). The board contains:

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { theme, progressStyles } from '../../styles/Theme';
-import { Image, View } from 'react-native';
+import { Image, View, ScrollView } from 'react-native';
 import { Button, PaperProvider, Text, TextInput } from 'react-native-paper';
 import TitleTopBar from '../../components/TitleTopBar';
 import WarningAlert from '../../components/Alert';
 import { flowStyles } from '../../styles/FlowStyles';
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps';
-import { addGroupEvent, clearEvents } from '../../services/StoreService';
+import { addGroupEvent, getCurrentUser } from '../../services/StoreService';
 
 /**
  * Display a list of groups, allowing user to select a group to plan an event with
@@ -31,13 +31,13 @@ const CreateNewEvent = ({ route, navigation }) => {
 
   // Create first part of event
   const createEvent = async (deciderType) => {
-    await clearEvents();
-    // TODO: Add ID of currently logged in user as the organiser
+    const organiserId = await getCurrentUser();
     const eventBody = {
       name: name,
       description: description,
       decider: deciderType,
       status: 'in progress',
+      organiser: organiserId,
     }
     addGroupEvent(groupId, eventBody).then((eventId) => {
       console.log(groupId, eventId, eventBody);
@@ -64,49 +64,51 @@ const CreateNewEvent = ({ route, navigation }) => {
             nextBtnTextStyle={{ color: theme.colors.text }}
             nextBtnDisabled={!name}
           >
-            <View style={{ alignItems: 'center' }}>
-              <View
-                style={[flowStyles.outerSpeech, {
-                  marginTop: '30%'
-                }]}
-              >
+            <ScrollView automaticallyAdjustKeyboardInsets={true}>
+              <View style={{ alignItems: 'center' }}>
                 <View
-                  style={[flowStyles.speechContainer, {
-                    marginRight: '15%'
+                  style={[flowStyles.outerSpeech, {
+                    marginTop: '30%'
                   }]}
                 >
-                  <Text
-                    variant='bodyLarge'
-                    style={{ color: theme.colors.text }}
+                  <View
+                    style={[flowStyles.speechContainer, {
+                      marginRight: '15%'
+                    }]}
                   >
-                    Let's name your event!
-                  </Text>
+                    <Text
+                      variant='bodyLarge'
+                      style={{ color: theme.colors.text }}
+                    >
+                      Let's name your event!
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View
-                style={[flowStyles.imageContainer, {
-                  marginLeft: '20%'
-                }]}
-              >
-                <Image 
-                  source={require('../../assets/wave.png')}
-                  style={flowStyles.imageStyle}
+                <View
+                  style={[flowStyles.imageContainer, {
+                    marginLeft: '20%'
+                  }]}
+                >
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <TextInput 
+                  label='Event Name'
+                  mode='outlined'
+                  outlineColor={theme.colors.text}
+                  textColor={theme.colors.text}
+                  style={{
+                    width: '70%',
+                    marginTop: '5%',
+                    backgroundColor: theme.colors.surface
+                  }}
+                  value={name}
+                  onChangeText={e => setName(e)}
                 />
               </View>
-              <TextInput 
-                label='Event Name'
-                mode='outlined'
-                outlineColor={theme.colors.text}
-                textColor={theme.colors.text}
-                style={{
-                  width: '70%',
-                  marginTop: '5%',
-                  backgroundColor: theme.colors.surface
-                }}
-                value={name}
-                onChangeText={e => setName(e)}
-              />
-            </View>
+            </ScrollView>
           </ProgressStep>
           <ProgressStep
             label='Event Details'
@@ -115,49 +117,51 @@ const CreateNewEvent = ({ route, navigation }) => {
             nextBtnDisabled={!description}
             nextBtnTextStyle={{ color: theme.colors.text }}
           >
-            <View style={{ alignItems: 'center' }}>
-              <View
-                style={[flowStyles.outerSpeech, {
-                  marginTop: '30%'
-                }]}
-              >
+            <ScrollView automaticallyAdjustKeyboardInsets={true}>
+              <View style={{ alignItems: 'center' }}>
                 <View
-                  style={[flowStyles.speechContainer, {
-                    marginRight: '15%'
+                  style={[flowStyles.outerSpeech, {
+                    marginTop: '30%'
                   }]}
                 >
-                  <Text
-                    variant='bodyLarge'
-                    style={{ color: theme.colors.text }}
+                  <View
+                    style={[flowStyles.speechContainer, {
+                      marginRight: '15%'
+                    }]}
                   >
-                    What's your event about?
-                  </Text>
+                    <Text
+                      variant='bodyLarge'
+                      style={{ color: theme.colors.text }}
+                    >
+                      What's your event about?
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View
-                style={[flowStyles.imageContainer, {
-                  marginLeft: '20%'
-                }]}
-              >
-                <Image 
-                  source={require('../../assets/wave.png')}
-                  style={flowStyles.imageStyle}
+                <View
+                  style={[flowStyles.imageContainer, {
+                    marginLeft: '20%'
+                  }]}
+                >
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <TextInput 
+                  label='Event Description'
+                  mode='outlined'
+                  outlineColor={theme.colors.text}
+                  textColor={theme.colors.text}
+                  style={{
+                    width: '70%',
+                    marginTop: '5%',
+                    backgroundColor: theme.colors.surface
+                  }}
+                  value={description}
+                  onChangeText={(e) => setDescription(e)}
                 />
               </View>
-              <TextInput 
-                label='Event Description'
-                mode='outlined'
-                outlineColor={theme.colors.text}
-                textColor={theme.colors.text}
-                style={{
-                  width: '70%',
-                  marginTop: '5%',
-                  backgroundColor: theme.colors.surface
-                }}
-                value={description}
-                onChangeText={(e) => setDescription(e)}
-              />
-            </View>
+            </ScrollView>
           </ProgressStep>
           <ProgressStep
             label='Decision Maker'
@@ -197,6 +201,7 @@ const CreateNewEvent = ({ route, navigation }) => {
                 />
               </View>
               <Button
+                accessibilityLabel='single-decider-select'
                 mode='contained'
                 contentStyle={{
                   height: 60,
@@ -215,6 +220,7 @@ const CreateNewEvent = ({ route, navigation }) => {
                 Just Me
               </Button>
               <Button
+                accessibilityLabel='group-vote-select'
                 mode='contained'
                 contentStyle={{
                   height: 60,

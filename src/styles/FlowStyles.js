@@ -11,14 +11,14 @@ export const flowStyles = StyleSheet.create({
     borderColor: theme.colors.text,
     borderWidth: 1,
     borderRadius: 10,
-    padding: 10, 
+    padding: 10,
   },
   outerSpeech: {
     width: '100%',
     alignItems: 'flex-end'
   },
   imageContainer: {
-    alignItems: 'flex-start', 
+    alignItems: 'flex-start',
     width: '100%',
   },
   imageStyle: {

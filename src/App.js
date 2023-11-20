@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Home from './screens/Home';
 import Create from './screens/Create';
 import FriendsHome from './screens/FriendsHome';
+import Loading from './screens/Loading';
 import Profile from './screens/profile/Profile';
 import Settings from './screens/Settings/Settings';
 import { GroupRoutes } from './routes/GroupRoutes';
 import { EventRoutes } from './routes/EventRoutes';
+import { LoginRoutes } from './routes/LoginRoutes';
 import { SettingsRoutes } from './routes/SettingsRoutes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { MD3LightTheme as DefaultTheme, PaperProvider, Text } from 'react-native-paper';
@@ -13,6 +15,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View } from 'react-native';
+import { getCurrentUserData } from './services/StoreService';
 import { useFonts } from 'expo-font';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -45,12 +48,33 @@ const CreatePlaceholder = () => {
 }
 
 const App = () => {
-  const [fontsLoaded] = useFonts({
-    'Josefin-Sans': require('./assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf'),
-    'Josefin-Sans-Bold': require('./assets/fonts/Josefin_Sans/static/JosefinSans-Bold.ttf'),
-    'Pixelfy-Sans': require('./assets/fonts/Pixelify_Sans/static/PixelifySans-Regular.ttf'),
-    'Pixelfy-Sans-Bold': require('./assets/fonts/Pixelify_Sans/static/PixelifySans-Bold.ttf'),
-  });
+  const [startingScreen, setStartingScreen] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const user = await getCurrentUserData();
+        console.log(user);
+        // if user is null, then no user is logged in. otherwise, user is logged in
+        if (user === null) {
+          setStartingScreen('LoginRoutes');
+        } else {
+          if (user.rememberMe === false) setStartingScreen('LoginRoutes');
+          else setStartingScreen('Bottom Tab Bar');
+        }
+        setIsLoading(false);
+      } catch (e) {
+        console.error('Error fetching current user:', e);
+      }
+    };
+    fetchCurrentUser();
+  }, []);
+
+  // loading when setStartingScreen is still waiting to finish running
+  if (isLoading) {
+    return <Loading />;
+  }
 
   const BottomBar = () => (
     <PaperProvider theme={themeExtended}>
@@ -62,7 +86,7 @@ const App = () => {
         screenOptions={{ headerShown: false }}
         theme={themeExtended}
       >
-        <Tab.Screen 
+        <Tab.Screen
           name='Events'
           component={Home}
           options={{
@@ -71,7 +95,7 @@ const App = () => {
             ),
           }}
         />
-        <Tab.Screen 
+        <Tab.Screen
           name='Create'
           component={CreatePlaceholder}
           options={{
@@ -86,7 +110,7 @@ const App = () => {
             }
           })}
         />
-        <Tab.Screen 
+        <Tab.Screen
           name='Friends'
           component={FriendsHome}
           options={{
@@ -99,45 +123,45 @@ const App = () => {
     </PaperProvider>
   );
 
+  // loading when setStartingScreen is still waiting to finish running
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <NavigationContainer>
-        <RootStack.Navigator>
-          <RootStack.Screen 
-            name='Bottom Tab Bar'
-            component={BottomBar}
-            options={{ headerShown: false }}
-          />
-          <RootStack.Screen 
-            name='CreateNew'
-            component={Create}
-            options={{ headerShown: false, presentation: 'modal' }}
-          />
-          <RootStack.Screen 
-            name='Profile'
-            component={Profile}
-            options={{ headerShown: false }}
-          />        
-          <RootStack.Screen 
-            name='GroupRoutes'
-            component={GroupRoutes}
-            options={{ headerShown: false }}
-          />
-          <RootStack.Screen 
-            name='EventRoutes'
-            component={EventRoutes}
-            options={{ headerShown: false }}
-          />
-          <RootStack.Screen 
-            name='Settings'
-            component={Settings}
-            options={{ headerShown: false }}
-          />
-          <RootStack.Screen 
-            name='SettingsRoutes'
-            component={SettingsRoutes}
-            options={{ headerShown: false }}
-          />
-        </RootStack.Navigator>
+      <RootStack.Navigator initialRouteName={startingScreen}>
+        <RootStack.Screen
+          name='Bottom Tab Bar'
+          component={BottomBar}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='CreateNew'
+          component={Create}
+          options={{ headerShown: false, presentation: 'modal' }}
+        />
+        <RootStack.Screen
+          name='Profile'
+          component={Profile}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='GroupRoutes'
+          component={GroupRoutes}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='EventRoutes'
+          component={EventRoutes}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='LoginRoutes'
+          component={LoginRoutes}
+          options={{ headerShown: false }}
+        />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }

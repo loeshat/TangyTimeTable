@@ -21,24 +21,24 @@ const FriendCard = ({ name, image, isCheckbox, onChange }) => {
   }
   return (
     <PaperProvider theme={theme}>
-      <View 
-        style={{ 
-          flexDirection: 'row', 
-          alignItems: 'center', 
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
           justifyContent: 'space-between',
-          marginTop: 20 
+          marginTop: 20
         }}
       >
-        <View style={{ width: 300 }}>
-          <Card mode='outlined'>
-            <Card.Content 
-              style={{ 
+        <View style={{ width: isCheckbox ? 300 : '95%' }}>
+          <Card mode='contained' style={{ backgroundColor: theme.colors.background }}>
+            <Card.Content
+              style={{
                 flexDirection: 'row',
                 alignItems: 'center',
               }}
             >
               <Avatar.Image size={40} source={{ uri: image }} />
-              <Text 
+              <Text
                 variant='bodyLarge'
                 style={{
                   marginLeft: 10
@@ -52,10 +52,11 @@ const FriendCard = ({ name, image, isCheckbox, onChange }) => {
         {
           isCheckbox
           &&
-          <CheckBox 
+          <CheckBox
             checked={checked}
             onPress={toggleCheck}
             checkedColor={theme.colors.success}
+            style={{ backgroundColor: "#f2f2f2" }}
           />
         }
       </View>

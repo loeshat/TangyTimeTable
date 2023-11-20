@@ -3,9 +3,15 @@ import CreateNewEvent from '../screens/events/NewEvent';
 import SelectGroupScreen from '../screens/events/SelectGroup';
 import NewEventPlan from '../screens/events/EventPlan';
 import EventTimeInput from '../screens/events/EventTimeInput';
-import NewEventDecider from '../screens/events/EventDecider';
 import AvailabilityInput from '../screens/events/AvailabilityInput';
 import TimeInputConfirmScreen from '../screens/events/TimeInputConfirmScreen';
+import EventFinalisation from '../screens/events/EventFinalisation';
+import ViewInCalendar from '../screens/events/ViewInCalendar';
+import ReadMoreModal from '../screens/events/modals/EventReadMoreModal';
+import LocationModal from '../screens/events/modals/LocationReadMoreModal';
+import CompletedEventConfirmScreen from '../screens/events/CompletedEventConfirm';
+import TransportOptions from '../screens/events/TransportOptions';
+import EventDisplay from '../screens/events/EventDisplay';
 
 const Root = createNativeStackNavigator();
 
@@ -50,7 +56,37 @@ export const EventRoutes = () => {
       />
       <Root.Screen 
         name='Event Finalisation'
-        component={NewEventDecider}
+        component={EventFinalisation}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen 
+        name='View in Calendar'
+        component={ViewInCalendar}
+        options={{ headerShown: false, presentation: 'modal' }}
+      />
+      <Root.Screen 
+        name='Event Read More'
+        component={ReadMoreModal}
+        options={{ headerShown: false, presentation: 'modal' }}
+      />
+      <Root.Screen 
+        name='Location Read More'
+        component={LocationModal}
+        options={{ headerShown: false, presentation: 'modal' }}
+      />
+      <Root.Screen 
+        name='Transport Options'
+        component={TransportOptions}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen 
+        name='Completed Event Confirmation'
+        component={CompletedEventConfirmScreen}
+        options={{ headerShown: false }}
+      />
+      <Root.Screen 
+        name='Event Display'
+        component={EventDisplay}
         options={{ headerShown: false }}
       />
     </Root.Navigator>
