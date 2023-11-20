@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { theme } from '../styles/Theme';
 import { View } from 'react-native';
 import { PaperProvider, Text, Button } from 'react-native-paper';
-import TitleTopBar from '../components/TitleTopBar';
+import DoubleTitleTopBar from '../components/DoubleTitleTopBar';
 import { signOutRequest } from '../services/StoreService';
 
 /**

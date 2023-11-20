@@ -49,18 +49,15 @@ const ChangePassword = ({ navigation }) => {
 
     const handleChangePassword = () => {
         if (missingPassword) {
-            console.log('case 1: missing password');
             displayMissingAlert();
             return;
         }
 
         if (mismatchingPasswords) {
-            console.log("case 2: mismatching passwords");
             displayMismatchingAlert();
             return;
         }
 
-        console.log("case 3: success");
         displayAlert();
         return;
     };

@@ -3,7 +3,7 @@ import Home from './screens/Home';
 import Create from './screens/Create';
 import FriendsHome from './screens/FriendsHome';
 import Loading from './screens/Loading';
-import Profile from './screens/profile/Profile';
+import Profile from './screens/Profile';
 import Settings from './screens/Settings/Settings';
 import { GroupRoutes } from './routes/GroupRoutes';
 import { EventRoutes } from './routes/EventRoutes';
