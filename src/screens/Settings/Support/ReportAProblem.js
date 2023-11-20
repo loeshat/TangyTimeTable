@@ -2,21 +2,28 @@ import React, { useState } from "react";
 import TitleTopBar from "../../../components/TitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
-import { View, Text, Pressable, StyleSheet, TextInput, Alert } from "react-native";
+import WarningAlert from '../../../components/Alert';
+import { View, Text, Pressable, StyleSheet, TextInput, ScrollView } from "react-native";
 
 const ReportAProblem = ({ navigation }) => {
     const [problemDescription, setProblemDescription] = useState('');
     const [inputHeight, setInputHeight] = useState(40);
-    const [alert, setAlert] = useState(false);
+    
+    const [alertOpen, setAlertOpen] = useState(false);
+    const displayAlert = () => setAlertOpen(true);
+    const closeAlert = () => setAlertOpen(false);
 
-    const handleSubmit = () => {
-        Alert.alert('Success', 'Problem reported successfully!', [{ text: 'OK' }]);
+    const submitChanges = () => {
         setProblemDescription('');
+        closeAlert();
+        navigation.navigate('Settings');
     };
 
-    const handleContentSizeChange = (contentWidth, contentHeight) => {
+    const handleContentSizeChange = (contentHeight) => {
         setInputHeight(contentHeight);
     };
+
+    const isSubmitDisabled = problemDescription.trim() === '';
 
     return (
         <PaperProvider theme={theme}>
@@ -24,26 +31,41 @@ const ReportAProblem = ({ navigation }) => {
                 backAction={() => navigation.navigate('Settings')}
                 title={'Return to Settings'}
             />
+            <WarningAlert
+                description={`You are submitting a report.`}
+                affirmText={'Submit'}
+                affirmAction={submitChanges}
+                affirmContentStyle={{ width: 125 }}
+                cancelAction={closeAlert}
+                closeAction={closeAlert}
+                visible={alertOpen}
+            />
+            
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>Report a Problem</Text>
+                <ScrollView automaticallyAdjustKeyboardInsets={true}>
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={[styles.input, { height: Math.max(40, inputHeight) }]}
+                            placeholder="What went wrong?"
+                            multiline
+                            numberOfLines={5}
+                            value={problemDescription}
+                            onChangeText={(text) => setProblemDescription(text)}
+                            onContentSizeChange={(e) =>
+                                handleContentSizeChange(e.nativeEvent.contentSize.height)
+                            }
+                        />  
 
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={[styles.input, { height: Math.max(40, inputHeight) }]}
-                        placeholder="What went wrong?"
-                        multiline
-                        numberOfLines={5}
-                        value={problemDescription}
-                        onChangeText={(text) => setProblemDescription(text)}
-                        onContentSizeChange={(e) =>
-                            handleContentSizeChange(e.nativeEvent.contentSize.width, e.nativeEvent.contentSize.height)
-                        }
-                    />  
-
-                    <Pressable style={styles.button} onPress={handleSubmit}>
-                        <Text style={styles.buttonText}>Submit Report</Text>
-                    </Pressable>
-                </View>
+                        <Pressable
+                            style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }, styles.button, isSubmitDisabled && styles.disabledButton]}
+                            onPress={!isSubmitDisabled ? displayAlert : null}
+                            disabled={isSubmitDisabled}
+                        >
+                            <Text style={styles.buttonText}>Submit Report</Text>
+                        </Pressable>
+                    </View>
+                </ScrollView>
             </View>
         </PaperProvider>
     );
@@ -62,7 +84,7 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         backgroundColor: theme.colors.surface,
-        padding:25,
+        padding: 25,
         paddingVertical: 30,
         borderRadius: 30,
     },
@@ -84,6 +106,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#F5F5F5",
         padding: 10,
         paddingHorizontal: 20,
+        fontSize: 17,
     },
     button: {
         backgroundColor: theme.colors.success,
@@ -96,6 +119,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "bold",
         padding: 5,
+    },
+    disabledButton: {
+        backgroundColor: theme.colors.disabled,
     },
 });
 

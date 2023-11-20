@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import TitleTopBar from "../../../components/TitleTopBar";
+import React, { useState, useEffect } from "react";
+import TitleTopBarDark from "../../../components/TitleTopBarDark";
 import { PaperProvider } from "react-native-paper";
-import { theme } from "../../../styles/Theme";
+import { theme, invertedTheme } from "../../../styles/Theme";
 import { View, Text, Switch, StyleSheet } from "react-native";
 
 
@@ -9,6 +9,13 @@ const AppearencePreferences = ({ navigation }) => {
     const [darkMode, setDarkMode] = useState(false);
     const [highContrastMode, setHighContrastMode] = useState(false);
     const [gifsAndAnimations, setGifsAndAnimations] = useState(true);
+    const [displayTheme, setDisplayTheme] = useState(theme);
+
+    // const isDark = highContrastMode === invertedTheme;
+
+    useEffect(() => {
+      setDisplayTheme(highContrastMode ? invertedTheme : theme);
+  }, [highContrastMode]);
 
     const toggleSwitch = (option) => {
         switch (option) {
@@ -17,10 +24,6 @@ const AppearencePreferences = ({ navigation }) => {
             break;
           case 'highContrastMode':
             setHighContrastMode(!highContrastMode);
-            if (!highContrastMode) {
-                navigation.navigate('SettingsRoutes', { screen: 'HighContrast' });
-                setHighContrastMode(false);
-            }
             break;
           case 'gifsAndAnimations':
             setGifsAndAnimations(!gifsAndAnimations);
@@ -29,15 +32,50 @@ const AppearencePreferences = ({ navigation }) => {
             break;
         }
     };
+    const OptionToggle = ({ label, value, onToggle }) => {
+      return (
+        <View
+          style={[
+            highContrastMode && styles.notificationOptionDark,
+            styles.notificationOption,
+            { backgroundColor: value ? displayTheme.colors.APbuttonOn : displayTheme.colors.APbuttonOff },
+          ]}
+        >
+          <Text
+            style={[
+              styles.optionText,
+              { color: value? displayTheme.colors.APtextOn : displayTheme.colors.APtextOff, fontWeight: value ? "bold" : "normal" },
+            ]}
+          >
+            {label}
+          </Text>
+          <Switch
+            value={value}
+            onValueChange={onToggle}
+            trackColor={{ true: displayTheme.colors.APtrackOn, false: displayTheme.colors.APtrackOff }}
+            thumbColor={value ? displayTheme.colors.APthumbOn : displayTheme.colors.APthumbOff}
+          />
+        </View>
+      );
+    };
 
     return (
-        <PaperProvider theme={theme}>
-            <TitleTopBar
+        <PaperProvider theme={displayTheme}>
+            {highContrastMode ? 
+              <TitleTopBarDark
+                  backAction={() => navigation.navigate('Settings')}
+                  title={'Return to Settings'}
+                  darkTheme={true}
+              /> : 
+              <TitleTopBarDark
                 backAction={() => navigation.navigate('Settings')}
                 title={'Return to Settings'}
+                darkTheme={false}
             />
-            <View style={styles.contentContainer}>
-                <Text style={styles.title}>Update Appearence Preferences</Text>
+            }
+            
+            <View style={highContrastMode ? styles.contentContainerDark : styles.contentContainer}>
+                <Text style={highContrastMode ? styles.titleDark : styles.title}>Update Appearence Preferences</Text>
                 <OptionToggle
                     label="Dark Mode"
                     value={darkMode}
@@ -60,20 +98,6 @@ const AppearencePreferences = ({ navigation }) => {
     );
 }
 
-const OptionToggle = ({ label, value, onToggle }) => {
-    return (
-      <View style={[styles.notificationOption, { backgroundColor: value ? theme.colors.background : theme.colors.surface }]}>
-        <Text style={[styles.optionText, { color: theme.colors.text, fontWeight: value ? "bold" : "normal" }]}>{label}</Text>
-        <Switch
-          value={value}
-          onValueChange={onToggle}
-          trackColor={{ false: theme.colors.disabled, true: theme.colors.primary }}
-          thumbColor={value ? '#fff' : '#fff'}
-        />
-      </View>
-    );
-};
-
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -83,6 +107,12 @@ const styles = StyleSheet.create({
     contentContainer: {
         flex: 6,
         padding: 20,
+        backgroundColor: theme.colors.APbackground,
+    },
+    contentContainerDark: {
+      flex: 6,
+      padding: 20,
+      backgroundColor: invertedTheme.colors.background,
     },
     notificationOption: {
       flexDirection: 'row',
@@ -93,8 +123,17 @@ const styles = StyleSheet.create({
       borderRadius: 10,
       marginBottom: 20,
     },
+    notificationOptionDark: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      backgroundColor: invertedTheme.colors.surface,
+      padding: 15,
+      borderRadius: 10,
+      marginBottom: 20,
+    },
     optionText: {
-      fontSize: 16,
+      fontSize: 18,
     },
     title: {
         fontSize: 30,
@@ -103,6 +142,13 @@ const styles = StyleSheet.create({
         padding: 10,
         color: theme.colors.text,
     },
+    titleDark: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      marginBottom: 16,
+      padding: 10,
+      color: invertedTheme.colors.text,
+  },
 });
 
 export default AppearencePreferences;

@@ -1,5 +1,4 @@
-import { useColorScheme } from 'react-native';
-import { DefaultTheme } from 'react-native-paper';
+import { DefaultTheme, DarkTheme } from 'react-native-paper';
 
 /**
  * Standardised theme following TangyTimeTable's branding
@@ -15,6 +14,16 @@ export const theme = {
     disabled: '#9E9E9E',
     success: '#79C1A9',
     outlineVariant: '#555555',
+
+    APbackground: '#D6D6D6',
+    APtextOn:'#5E412F',
+    APtextOff: '#5E412F',
+    APbuttonOn: '#FFEBD0',
+    APbuttonOff: '#FFFFFF',
+    APtrackOn: '#FF8300',
+    APtrackOff:'#D6D6D6',
+    APthumbOn: '#FFFFFF',
+    APthumbOff:'#FFFFFF',
   }
 }
 
@@ -22,16 +31,24 @@ export const theme = {
  * Inverted theme following TangyTimeTable's branding
  */
 export const invertedTheme = {
-  ...DefaultTheme,
-  dark: true,
+  ...DarkTheme,
   colors: {
-    ...DefaultTheme.colors,
+    ...DarkTheme.colors,
     primary: '#FF8300',
-    background: '#FFEBD0',
-    surface: '#FFFFFF',
-    text: '#5E412F',
+    background: '#4b4848',
+    surface: '#4b4848',
+    text: '#FFEBD0',
     disabled: '#9E9E9E',
-    success: '#79C1A9'
+    success: '#79C1A9',
+
+    APtextOn:'#5E412F',
+    APtextOff: '#FFFFFF',
+    APbuttonOn: '#FFEBD0',
+    APbuttonOff: '#9E9E9E',
+    APtrackOn: '#4b4848',
+    APtrackOff:'#D6D6D6',
+    APthumbOn: '#FF8300',
+    APthumbOff:'#4b4848',
   }
 }
 

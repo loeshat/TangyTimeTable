@@ -1,20 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import TitleTopBar from "../../../components/TitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import WarningAlert from '../../../components/Alert';
 
 const consentTextParagraph = 'At TangyTimeTable, we value your privacy and are committed to protecting your personal information. By using our app, you consent to the collection, use, and sharing of your data as described in our Privacy Policy.';
-
 const privacyTextParagraph = 'Welcome to TangyTimeTable. This Privacy Policy applies to related services. We are committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, share, and otherwise process the personal information of users, and other individuals in connection with our platform. If you do no agree with this policy, you should not use the platform.';
 
 const ConsentAndPrivacy = ({ navigation }) => {
+    const [alertOpen, setAlertOpen] = useState(false);
+    const displayAlert = () => setAlertOpen(true);
+    const closeAlert = () => setAlertOpen(false);
+
+    const approveAction = () => {
+        closeAlert();
+        navigation.navigate('Settings');
+    };
+
     return (
         <PaperProvider theme={theme}>
             <TitleTopBar
                 backAction={() => navigation.navigate('Settings')}
                 title={'Return to Settings'}
             />
+            <WarningAlert
+                description={`You are being redirected to Tangy's website!`}
+                affirmText={'Keep Going'}
+                affirmAction={approveAction}
+                affirmContentStyle={{ width: 125 }}
+                cancelAction={closeAlert}
+                closeAction={closeAlert}
+                visible={alertOpen}
+            />
+
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>Consent Policy</Text>
                 <View style={styles.paragraphContainer}>
@@ -22,7 +41,10 @@ const ConsentAndPrivacy = ({ navigation }) => {
                         {consentTextParagraph}
                     </Text>
 
-                    <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }, styles.button]}>
+                    <Pressable
+                        style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }, styles.button]}
+                        onPress={displayAlert}
+                    >
                         <Text style={styles.buttonText}>Read More</Text>
                     </Pressable>
                 </View>
@@ -33,7 +55,10 @@ const ConsentAndPrivacy = ({ navigation }) => {
                         {privacyTextParagraph}
                     </Text>
 
-                    <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }, styles.button]}>
+                    <Pressable
+                        style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }, styles.button]}
+                        onPress={displayAlert}
+                    >
                         <Text style={styles.buttonText}>Read More</Text>
                     </Pressable>
                 </View>

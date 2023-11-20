@@ -1,47 +1,63 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { PaperProvider, Title, Button } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { PaperProvider, Title } from 'react-native-paper';
 import TitleTopBar from '../../../components/TitleTopBar';
 import { theme } from '../../../styles/Theme';
 import { Picker } from '@react-native-picker/picker';
-import * as Font from 'expo-font';
+import WarningAlert from '../../../components/Alert';
+import { useFonts, Inter_400Regular } from '@expo-google-fonts/inter';
+import { Raleway_400Regular } from '@expo-google-fonts/raleway';
+import { Lusitana_400Regular } from '@expo-google-fonts/lusitana';
+import { Jost_400Regular } from '@expo-google-fonts/jost';
 
 const TextSizeAndFont = ({ navigation }) => {
-  const [selectedFontSize, setSelectedFontSize] = useState('medium');
-  const [selectedFontFamily, setSelectedFontFamily] = useState('sans-serif');
+  const [selectedFontSize, setSelectedFontSize] = useState('Medium');
+  const [selectedFontFamily, setSelectedFontFamily] = useState('Inter_400Regular');
+  const [selectedFont, setSelectedFont] = useState('Inter');
 
-  Font.loadAsync({
-    'Josefin-Sans': require('./assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf'),
-    'Josefin-Sans-Bold': require('./assets/fonts/Josefin_Sans/static/JosefinSans-Bold.ttf'),
-    'Pixelfy-Sans': require('./assets/fonts/Pixelify_Sans/static/PixelifySans-Regular.ttf'),
-    'Pixelfy-Sans-Bold': require('./assets/fonts/Pixelify_Sans/static/PixelifySans-Bold.ttf'),
+  const isButtonDisabled = selectedFontSize === 'Medium' && selectedFontFamily === 'Inter_400Regular';
+
+  const [alertOpen, setAlertOpen] = useState(false);
+  const displayAlert = () => setAlertOpen(true);
+  const closeAlert = () => setAlertOpen(false);
+
+  const [fontsLoaded] = useFonts({
+    Inter_400Regular,
+    Raleway_400Regular,
+    Lusitana_400Regular,
+    Jost_400Regular,
   });
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   const handleFontSizeChange = (itemValue) => {
     setSelectedFontSize(itemValue);
   };
 
+
   const handleFontFamilyChange = (itemValue) => {
     setSelectedFontFamily(itemValue);
+    setSelectedFont(itemValue.replace('_400Regular', ''));
   };
 
   const getSelectedValueFontSize = () => {
     switch (selectedFontSize) {
-      case 'small':
+      case 'Small':
         return 10;
-      case 'medium':
+      case 'Medium':
         return 16;
-      case 'large':
+      case 'Large':
         return 25;
       default:
         return 16;
     }
   };
 
-  const handleSubmit = () => {
-    // Handle the submission of text size and font changes
-    console.log('Text size:', selectedFontSize);
-    console.log('Font family:', selectedFontFamily);
+  const submitChanges = () => {
+    closeAlert();
+    navigation.navigate('Settings');
   };
 
   return (
@@ -49,6 +65,15 @@ const TextSizeAndFont = ({ navigation }) => {
       <TitleTopBar
         backAction={() => navigation.navigate('Settings')}
         title={'Return to Settings'}
+      />
+      <WarningAlert
+        description={`You are updating your text prefrences.`}
+        affirmText={'Confirm'}
+        affirmAction={submitChanges}
+        affirmContentStyle={{ width: 125 }}
+        cancelAction={closeAlert}
+        closeAction={closeAlert}
+        visible={alertOpen}
       />
       <View style={styles.contentContainer}>
         <Title style={styles.title}>Update Text Size:</Title>
@@ -60,9 +85,9 @@ const TextSizeAndFont = ({ navigation }) => {
               itemStyle={styles.pickerItem}
               onValueChange={handleFontSizeChange}
             >
-              <Picker.Item label="Small" value="small" />
-              <Picker.Item label="Medium" value="medium" />
-              <Picker.Item label="Large" value="large" />
+              <Picker.Item label="Small" value="Small" />
+              <Picker.Item label="Medium" value="Medium" />
+              <Picker.Item label="Large" value="Large" />
             </Picker>
           </View>
           <View style={styles.selectedTextContainer}>
@@ -81,23 +106,28 @@ const TextSizeAndFont = ({ navigation }) => {
                 itemStyle={styles.pickerItem}
                 onValueChange={handleFontFamilyChange}
                 >
-                <Picker.Item label="Sans-serif" value="sans-serif" />
-                <Picker.Item label="Josefin-Sans" value="Josefin-Sans" />
-                <Picker.Item label="Pixelfy-Sans" value="Pixelfy-Sans" />
+                  <Picker.Item label="Inter" value="Inter_400Regular" />
+                  <Picker.Item label="Raleway" value="Raleway_400Regular" />
+                  <Picker.Item label="Lusitana" value="Lusitana_400Regular" />
+                  <Picker.Item label="Jost" value="Jost_400Regular" />
                 </Picker>
             </View>
             <Text style={[styles.selectedValue, { fontFamily: selectedFontFamily }]}>
-              {selectedFontFamily}
+              {selectedFont}
             </Text>     
         </View>
 
-        <Button
-          mode="contained"
-          onPress={handleSubmit}
-          style={styles.submitButton}
+        <Pressable 
+          style={({ pressed }) => [
+            { opacity: pressed ? 0.5 : 1 },
+            styles.submitButton,
+            isButtonDisabled && styles.disabledButton
+            ]}
+          onPress={!isButtonDisabled ? displayAlert : null}
+          disabled={isButtonDisabled}
         >
-          Save Changes
-        </Button>
+            <Text style={styles.submitText} >Save Changes</Text>
+        </Pressable>
       </View>
     </PaperProvider>
   );
@@ -127,7 +157,7 @@ const styles = StyleSheet.create({
   },
   pickerWheel: {
     flex: 3,
-    height: 150, // Adjust the height as needed
+    height: 150,
     borderWidth: 1,
     borderColor: theme.colors.primary,
     borderRadius: 5,
@@ -155,10 +185,22 @@ const styles = StyleSheet.create({
   selectedValue: {
     marginLeft: 10,
     color: theme.colors.text,
+    fontSize: 20,
   },
   submitButton: {
-    backgroundColor: theme.colors.primary,
-    marginTop: 20,
+    backgroundColor: theme.colors.success,
+    padding: 10,
+    alignItems: "center",
+    borderRadius: 30,
+  },
+  submitText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: 'bold',
+    padding: 5,
+  },
+  disabledButton: {
+    backgroundColor: theme.colors.disabled,
   },
 });
 

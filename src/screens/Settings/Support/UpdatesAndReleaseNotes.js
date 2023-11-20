@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import TitleTopBar from "../../../components/TitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import WarningAlert from '../../../components/Alert';
 
 const releaseNotesTitle = 'Release Notes - Version 2.0.1 (October 1, 2023)';
 const releaseNotesParagraph1 = 'In this latest update of TangyTimeTable, we have focused on enhancing your experience and addressing important improvements. Here is what is new:';
@@ -10,12 +11,30 @@ const releaseNotesParagraph2 = 'We have fixed a bug that caused occasional crash
 const releaseNotesSubtitle = 'Bug Fixes:';
 
 const UpdatesAndReleaseNotes = ({ navigation }) => {
+    const [alertOpen, setAlertOpen] = useState(false);
+    const displayAlert = () => setAlertOpen(true);
+    const closeAlert = () => setAlertOpen(false);
+
+    const approveAction = () => {
+        closeAlert();
+    };
+
     return (
         <PaperProvider theme={theme}>
             <TitleTopBar
                 backAction={() => navigation.navigate('Settings')}
                 title={'Return to Settings'}
             />
+            <WarningAlert
+                description={`You are being redirected to Tangy's website!`}
+                affirmText={'Keep Going'}
+                affirmAction={approveAction}
+                affirmContentStyle={{ width: 125 }}
+                cancelAction={closeAlert}
+                closeAction={closeAlert}
+                visible={alertOpen}
+            />
+
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>App Version</Text>
                 <View style={styles.versionTextContainer}>
@@ -43,7 +62,10 @@ const UpdatesAndReleaseNotes = ({ navigation }) => {
                         </Text>
                     </View>
 
-                    <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }, styles.button]}>
+                    <Pressable
+                        style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }, styles.button]}
+                        onPress={displayAlert}
+                    >
                         <Text style={styles.buttonText}>Read More</Text>
                     </Pressable>
                 </View>

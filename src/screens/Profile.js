@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { theme } from '../styles/Theme';
 import { View } from 'react-native';
 import { PaperProvider, Text, Button } from 'react-native-paper';
@@ -12,6 +12,14 @@ import { signOutRequest } from '../services/StoreService';
  * @returns 
  */
 const Profile = ({ navigation }) => {
+  const [userId, setUserId] = useState(null);
+  const [name, setName] = useState("");
+  const [profilePic, setProfilePic] = useState("");
+  const [location, setLocation] = useState("");
+  const [friends, setFriends] = useState([]);
+  const [interests, setInterests] = useState([]);
+  const [connectedAccounts, setConnectedAccounts] = useState([]);
+
   const handleSignOut = async () => {
     const success = await signOutRequest();
     if (success) {
@@ -24,7 +32,11 @@ const Profile = ({ navigation }) => {
 
   return (
     <PaperProvider theme={theme}>
-      <TitleTopBar backAction={() => navigation.navigate('Events')} title={'Return Home'} />
+      <DoubleTitleTopBar 
+        backAction={() => navigation.navigate('Events')}
+        backActiontitle={'Return Home'}
+        forwardAction={() => navigation.navigate('Settings')}
+      />
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text variant='bodyMedium'>Profile Screen</Text>
         <Button

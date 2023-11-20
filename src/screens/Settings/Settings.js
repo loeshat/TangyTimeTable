@@ -70,7 +70,8 @@ const Settings = ({ navigation }) => {
                     style={styles.searchbar}
                     elevation={1}
                 />
-                <ScrollView style={styles.scrollContainer}>
+                <Divider style={styles.divider} />
+                <ScrollView style={styles.scrollContainer} automaticallyAdjustKeyboardInsets={true}>
                     {Object.entries(groupByCategory(filteredSettings)).map(([category, subheadings], index) => (
                         <Card key={index} style={styles.card} theme={{ colors: { outline: 'transparent' },}}>
                             <Card.Content>
@@ -148,7 +149,15 @@ const styles = StyleSheet.create({
     subheading: {
         fontSize: 15,
         marginLeft: 30,
-    }
+    },
+    divider: {
+        marginTop: 10,
+        padding: 1,
+        width: "91%",
+        marginLeft: 16,
+        borderRadius: 10,
+        backgroundColor: theme.colors.text,
+    },
 });
 
 export default Settings;

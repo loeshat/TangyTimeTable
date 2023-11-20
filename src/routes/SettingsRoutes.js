@@ -30,7 +30,7 @@ export const SettingsRoutes = () => {
     return (
         <Root.Navigator>
             <Root.Screen
-                name='ChangeSyncedCalender'
+                name='ChangeSyncedCalendar'
                 component={ChangeSyncedCalendar}
                 options={{ headerShown: false }}
             />

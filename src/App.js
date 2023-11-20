@@ -10,25 +10,15 @@ import { EventRoutes } from './routes/EventRoutes';
 import { LoginRoutes } from './routes/LoginRoutes';
 import { SettingsRoutes } from './routes/SettingsRoutes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { MD3LightTheme as DefaultTheme, PaperProvider, Text } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, MD3DarkTheme as InvertedTheme, PaperProvider, Text } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View } from 'react-native';
 import { getCurrentUserData } from './services/StoreService';
-import { useFonts } from 'expo-font';
 
 const Tab = createMaterialBottomTabNavigator();
 const RootStack = createNativeStackNavigator();
-
-const fetchFonts = () => {
-  return Font.loadAsync({
-    'Josefin-Sans': require('./assets/fonts/Josefin_Sans/static/JosefinSans-Regular.ttf'),
-    'Josefin-Sans-Bold': require('./assets/fonts/Josefin_Sans/static/JosefinSans-Bold.ttf'),
-    'Pixelfy-Sans': require('./assets/fonts/Pixelify_Sans/static/PixelifySans-Regular.ttf'),
-    'Pixelfy-Sans-Bold': require('./assets/fonts/Pixelify_Sans/static/PixelifySans-Bold.ttf'),
-  });
-};
 
 const themeExtended = {
   ...DefaultTheme,
@@ -130,7 +120,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName={startingScreen}>
+      <RootStack.Navigator initialRouteName={'Language'}>
         <RootStack.Screen
           name='Bottom Tab Bar'
           component={BottomBar}
@@ -159,6 +149,16 @@ const App = () => {
         <RootStack.Screen
           name='LoginRoutes'
           component={LoginRoutes}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='Settings'
+          component={Settings}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='SettingsRoutes'
+          component={SettingsRoutes}
           options={{ headerShown: false }}
         />
       </RootStack.Navigator>

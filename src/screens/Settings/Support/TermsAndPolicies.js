@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import TitleTopBar from "../../../components/TitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import WarningAlert from '../../../components/Alert';
 
 const TermsParagraph1 = 'Welcome to TangyTimeTable! By using our app, you agree to comply with and be bound by the following terms and conditions. Please review these terms carefully. If you do not agree to these terms, please do not use the app.';
 const TermsParagraph2Title = '1. User Obligations: ';
@@ -11,12 +12,30 @@ const TermsParagraph3Title = '2. Privacy and Data Usage: ';
 const TermsParagraph3 = 'Our app data usage and privacy practices are governed by our Privacy Policy. By using the app, you consent to the collection, use, and sharing of your data as described in that policy.';
 
 const TermsAndPolicies = ({ navigation }) => {
+    const [alertOpen, setAlertOpen] = useState(false);
+    const displayAlert = () => setAlertOpen(true);
+    const closeAlert = () => setAlertOpen(false);
+
+    const approveAction = () => {
+        closeAlert();
+    };
+
     return (
         <PaperProvider theme={theme}>
             <TitleTopBar
                 backAction={() => navigation.navigate('Settings')}
                 title={'Return to Settings'}
             />
+            <WarningAlert
+                description={`You are being redirected to Tangy's website!`}
+                affirmText={'Keep Going'}
+                affirmAction={approveAction}
+                affirmContentStyle={{ width: 125 }}
+                cancelAction={closeAlert}
+                closeAction={closeAlert}
+                visible={alertOpen}
+            />
+            
             <View style={styles.contentContainer}>
                 <Text style={styles.title}>Terms of Use</Text>
                 <View style={styles.paragraphContainer}>
@@ -42,7 +61,10 @@ const TermsAndPolicies = ({ navigation }) => {
                         </Text>
                     </View>
 
-                    <Pressable style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }, styles.button]}>
+                    <Pressable
+                        style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }, styles.button]}
+                        onPress={displayAlert}
+                    >
                         <Text style={styles.buttonText}>Read More</Text>
                     </Pressable>
                 </View>
