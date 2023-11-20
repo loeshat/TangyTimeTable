@@ -111,6 +111,7 @@ const LocationCard = ({
       >
         <Button
           mode='outlined'
+          accessibilityLabel={`${name}-location-read-more-button`}
           buttonColor='#F5F5F5'
           labelStyle={{
             color: theme.colors.text,
@@ -128,6 +129,7 @@ const LocationCard = ({
           &&
           <Button
             mode='contained'
+            accessibilityLabel='select-toggle-button'
             onPress={toggleSelect}
             buttonColor={selected ? theme.colors.success : theme.colors.primary}
             style={{

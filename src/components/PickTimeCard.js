@@ -127,6 +127,7 @@ const PickTimeCard = ({ date, startTime, endTime, onChange, isDisplay }) => {
           &&
           <Button
             mode='contained'
+            accessibilityLabel='select-toggle-button'
             onPress={toggleSelect}
             buttonColor={select 
                         ? theme.colors.success 

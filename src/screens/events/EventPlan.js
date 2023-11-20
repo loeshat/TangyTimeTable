@@ -3,7 +3,7 @@ import moment from 'moment';
 import { calendarTheme, theme, progressStyles } from '../../styles/Theme';
 import { flowStyles } from '../../styles/FlowStyles';
 import { PaperProvider, Text, TextInput, HelperText } from 'react-native-paper';
-import { Image, View } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
 import WarningAlert from '../../components/Alert';
 import { ProgressStep, ProgressSteps } from 'react-native-progress-steps';
@@ -238,109 +238,111 @@ const NewEventPlan = ({ route, navigation }) => {
             previousBtnText='Back'
             previousBtnTextStyle={{ color: theme.colors.text }}
           >
-            <View style={{ alignItems: 'center' }}>
-              <View
-                style={[flowStyles.outerSpeech, {
-                  marginTop: '15%'
-                }]}
-              >
+            <ScrollView automaticallyAdjustKeyboardInsets={true}>
+              <View style={{ alignItems: 'center' }}>
                 <View
-                  style={[flowStyles.speechContainer, {
-                    width: 200,
-                    marginRight: '15%',
+                  style={[flowStyles.outerSpeech, {
+                    marginTop: '15%'
                   }]}
                 >
-                  <Text
-                    variant='bodyLarge'
-                    style={{
-                      color: theme.colors.text,
-                    }}
-                  >
-                    Any activity plans for the event?
-                  </Text>
-                </View>
-              </View>
-              <View
-                style={[flowStyles.imageContainer, {
-                  marginLeft: '25%'
-                }]}
-              >
-                <Image 
-                  source={require('../../assets/wave.png')}
-                  style={flowStyles.imageStyle}
-                />
-              </View>
-              <View
-                style={{
-                  marginTop: '5%'
-                }}
-              >
-                <Text
-                  variant='bodyLarge'
-                  style={{
-                    color: theme.colors.text,
-                    fontWeight: '500',
-                    marginBottom: '2%'
-                  }}
-                >
-                  Select an Activity Category
-                </Text>
-                <Dropdown 
-                  maxHeight={200}
-                  data={ActivityCategories}
-                  labelField='label'
-                  valueField='value'
-                  placeholder='Activity Category'
-                  value={activity}
-                  onChange={(e) => setActivity(e.value)}
-                  style={{
-                    padding: 12,
-                    height: 50,
-                    borderColor: theme.colors.text,
-                    color: theme.colors.text,
-                    backgroundColor: theme.colors.background,
-                    borderWidth: 0.5,
-                    borderRadius: 5,
-                    width: 300,
-                    elevation: 2,
-                  }}
-                />
-                {
-                  activity === 'Other'
-                  &&
                   <View
-                    style={{
-                      marginTop: '10%'
-                    }}
+                    style={[flowStyles.speechContainer, {
+                      width: 200,
+                      marginRight: '15%',
+                    }]}
                   >
                     <Text
                       variant='bodyLarge'
                       style={{
                         color: theme.colors.text,
-                        fontWeight: '500',
                       }}
                     >
-                      Add your Own Activity
+                      Any activity plans for the event?
                     </Text>
-                    <TextInput 
-                      mode='outlined'
-                      value={customActivity}
-                      label='Custom Activity'
-                      onChangeText={text => setCustomActivity(text)}
-                      style={{
-                        backgroundColor: theme.colors.surface,
-                        marginTop: '1%',
-                      }}
-                    />
-                    <HelperText
-                      type='info'
-                    >
-                      If no preference, type "No Preference"
-                    </HelperText>
                   </View>
-                }
+                </View>
+                <View
+                  style={[flowStyles.imageContainer, {
+                    marginLeft: '25%'
+                  }]}
+                >
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginTop: '5%'
+                  }}
+                >
+                  <Text
+                    variant='bodyLarge'
+                    style={{
+                      color: theme.colors.text,
+                      fontWeight: '500',
+                      marginBottom: '2%'
+                    }}
+                  >
+                    Select an Activity Category
+                  </Text>
+                  <Dropdown 
+                    maxHeight={200}
+                    data={ActivityCategories}
+                    labelField='label'
+                    valueField='value'
+                    placeholder='Activity Category'
+                    value={activity}
+                    onChange={(e) => setActivity(e.value)}
+                    style={{
+                      padding: 12,
+                      height: 50,
+                      borderColor: theme.colors.text,
+                      color: theme.colors.text,
+                      backgroundColor: theme.colors.background,
+                      borderWidth: 0.5,
+                      borderRadius: 5,
+                      width: 300,
+                      elevation: 2,
+                    }}
+                  />
+                  {
+                    activity === 'Other'
+                    &&
+                    <View
+                      style={{
+                        marginTop: '10%'
+                      }}
+                    >
+                      <Text
+                        variant='bodyLarge'
+                        style={{
+                          color: theme.colors.text,
+                          fontWeight: '500',
+                        }}
+                      >
+                        Add your Own Activity
+                      </Text>
+                      <TextInput 
+                        mode='outlined'
+                        value={customActivity}
+                        label='Custom Activity'
+                        onChangeText={text => setCustomActivity(text)}
+                        style={{
+                          backgroundColor: theme.colors.surface,
+                          marginTop: '1%',
+                        }}
+                      />
+                      <HelperText
+                        type='info'
+                      >
+                        If no preference, type "No Preference"
+                      </HelperText>
+                    </View>
+                  }
+                </View>
               </View>
-            </View>
+            </ScrollView>
           </ProgressStep>
           <ProgressStep
             label='Location'
@@ -351,69 +353,71 @@ const NewEventPlan = ({ route, navigation }) => {
             previousBtnTextStyle={{ color: theme.colors.text }}
             onSubmit={updateEvent}
           >
-            <View style={{ alignItems: 'center' }}>
-              <View
-                style={[flowStyles.outerSpeech, {
-                  marginTop: '22%'
-                }]}
-              >
+            <ScrollView automaticallyAdjustKeyboardInsets={true}>
+              <View style={{ alignItems: 'center' }}>
                 <View
-                  style={[flowStyles.speechContainer, {
-                    width: 225,
-                    marginRight: '10%'
+                  style={[flowStyles.outerSpeech, {
+                    marginTop: '22%'
                   }]}
+                >
+                  <View
+                    style={[flowStyles.speechContainer, {
+                      width: 225,
+                      marginRight: '10%'
+                    }]}
+                  >
+                    <Text
+                      variant='bodyLarge'
+                      style={{
+                        color: theme.colors.text,
+                      }}
+                    >
+                      Any location preferences for the event?
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  style={[flowStyles.imageContainer, {
+                    marginLeft: '20%'
+                  }]}
+                >
+                  <Image 
+                    source={require('../../assets/wave.png')}
+                    style={flowStyles.imageStyle}
+                  />
+                </View>
+                <View
+                  style={{
+                    marginTop: '10%'
+                  }}
                 >
                   <Text
                     variant='bodyLarge'
                     style={{
                       color: theme.colors.text,
+                      fontWeight: '500',
                     }}
                   >
-                    Any location preferences for the event?
+                    Add your Location Preference
                   </Text>
+                  <TextInput 
+                    mode='outlined'
+                    style={{
+                      backgroundColor: theme.colors.surface,
+                      marginTop: '1%',
+                    }}
+                    value={location}
+                    label='Location'
+                    onChangeText={text => setLocation(text)}
+                  />
+                  <HelperText
+                    type='info'
+                  >
+                    If no preference, type "No Preference"
+                  </HelperText>
                 </View>
               </View>
-              <View
-                style={[flowStyles.imageContainer, {
-                  marginLeft: '20%'
-                }]}
-              >
-                <Image 
-                  source={require('../../assets/wave.png')}
-                  style={flowStyles.imageStyle}
-                />
-              </View>
-              <View
-                style={{
-                  marginTop: '10%'
-                }}
-              >
-                <Text
-                  variant='bodyLarge'
-                  style={{
-                    color: theme.colors.text,
-                    fontWeight: '500',
-                  }}
-                >
-                  Add your Location Preference
-                </Text>
-                <TextInput 
-                  mode='outlined'
-                  style={{
-                    backgroundColor: theme.colors.surface,
-                    marginTop: '1%',
-                  }}
-                  value={location}
-                  label='Location'
-                  onChangeText={text => setLocation(text)}
-                />
-                <HelperText
-                  type='info'
-                >
-                  If no preference, type "No Preference"
-                </HelperText>
-              </View>
-            </View>
+            </ScrollView>
           </ProgressStep>
         </ProgressSteps>
       </View>

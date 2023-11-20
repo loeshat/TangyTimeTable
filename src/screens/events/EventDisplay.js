@@ -91,6 +91,7 @@ const EventDisplay = ({ route, navigation }) => {
         >
           <Button
             icon='account-group'
+            accessibilityLabel='group-display'
             textColor={theme.colors.text}
             labelStyle={{
               fontSize: 18,
@@ -98,14 +99,12 @@ const EventDisplay = ({ route, navigation }) => {
             style={{
               marginTop: '2%',
             }}
-            onPress={() => {
-              /** TODO: Take the user to group screen */
-            }}
           >
             {groupName}
           </Button>
           <Button
             icon='list-status'
+            accessibilityLabel='event-status-display'
             textColor={theme.colors.text}
             labelStyle={{
               fontSize: 18,
@@ -166,6 +165,7 @@ const EventDisplay = ({ route, navigation }) => {
             &&
             <Button
               mode='contained'
+              accessibilityLabel={`${buttonText}-button`}
               buttonColor={theme.colors.success}
               contentStyle={buttonContentStyle}
               labelStyle={buttonLabelStyle}

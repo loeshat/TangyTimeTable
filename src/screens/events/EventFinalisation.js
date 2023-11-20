@@ -22,26 +22,12 @@ import LocationCard from '../../components/LocationCard';
 import { headingStyle, textContainer } from './modals/LocationReadMoreModal';
 import { getEvent, getGroupDetails } from '../../services/StoreService';
 
-/** 
- * Conditional rendering based on whether the logged in user 
- * is the event organiser and/or if event decision type is single
- * or group.
- * 
- * If logged in user is the event organiser:
- * - Let them pick time
- * else if decision type is group:
- * - go straight to activity screen -> then wait for others to vote
- * else (single decider and not organiser):
- * - screen says pending organiser actions
- * 
- * If decision type is group:
- * - Vote for activity then wait for others to vote
- * else:
- * - Immediately pick activity for event
- * - Then user can go straight to picking a location
- * 
-*/
-
+/**
+ * Event Finalisation workflow
+ * @param {*} route
+ * @param {*} navigation
+ * @returns 
+ */
 const EventFinalisation = ({ route, navigation }) => {
   const { eventId, activeStep } = route.params ?? {};
 
@@ -60,8 +46,7 @@ const EventFinalisation = ({ route, navigation }) => {
     });
   }, []);
   
-  // TODO: Change route to group page
-  const returnToGroup = () => navigation.navigate('Events');
+  const returnToGroup = () => navigation.navigate('Event Display', { eventId: eventId, groupName: groupName });
 
   // Snackbar popup controls
   const [visible, setVisible] = useState(false);
@@ -112,7 +97,9 @@ const EventFinalisation = ({ route, navigation }) => {
       navigation.navigate('EventRoutes', { 
         screen: 'Completed Event Confirmation',
         params: {
-          speech: `Let's wait for your friends to vote for their favourite activity! I'll let you know when they're all done!`
+          speech: `Let's wait for your friends to vote for their favourite activity! I'll let you know when they're all done!`,
+          eventId: eventId,
+          groupName: groupName,
         }
       });
     } else if (eventObj.activity === null && eventObj.decider === 'single') {
@@ -232,6 +219,7 @@ const EventFinalisation = ({ route, navigation }) => {
             <Dialog.Actions>
               <Button
                 mode='outlined'
+                accessibilityLabel='cancel-alert-button'
                 style={{
                   borderColor: theme.colors.text,
                   borderRadius: 12,
@@ -243,6 +231,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 Cancel
               </Button>
               <Button
+                accessibilityLabel='update-button'
                 mode='contained'
                 style={{
                   width: 80,
@@ -308,6 +297,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 >
                   <Button
                     icon='calendar-month-outline'
+                    accessibilityLabel='view-in-calendar-button'
                     labelStyle={{
                       color: theme.colors.text,
                     }}
@@ -383,6 +373,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 </View>
                 <Button
                   mode='contained'
+                  accessibilityLabel='suggest-date-change-button'
                   icon='arrow-right'
                   labelStyle={{
                     fontSize: 18,
@@ -520,6 +511,7 @@ const EventFinalisation = ({ route, navigation }) => {
                 </View>
                 <Button
                   mode='contained'
+                  accessibilityLabel='change-activity-vote-button'
                   icon='arrow-right'
                   labelStyle={{
                     fontSize: 18,
@@ -551,114 +543,117 @@ const EventFinalisation = ({ route, navigation }) => {
             {
               (eventObj.organiser === null && eventObj.location === null)
               ?
-              <View style={{ alignItems: 'center' }}>
-                {/** User is organiser and location has not been picked */}
-                <View
-                  style={[flowStyles.outerSpeech, {
-                    marginRight: '25%',
-                    marginTop: '4%',
-                  }]}
-                >
+               <ScrollView automaticallyAdjustKeyboardInsets={true}> 
+                <View style={{ alignItems: 'center' }}>
+                  {/** User is organiser and location has not been picked */}
                   <View
-                    style={[flowStyles.speechContainer, {
-                      width: 200,
+                    style={[flowStyles.outerSpeech, {
+                      marginRight: '25%',
+                      marginTop: '4%',
                     }]}
                   >
-                    <Text
-                      variant='bodyLarge'
-                      style={{
-                        color: theme.colors.text,
-                      }}
+                    <View
+                      style={[flowStyles.speechContainer, {
+                        width: 200,
+                      }]}
                     >
-                      Let's pick a location for {eventObj.name}!
-                    </Text>
+                      <Text
+                        variant='bodyLarge'
+                        style={{
+                          color: theme.colors.text,
+                        }}
+                      >
+                        Let's pick a location for {eventObj.name}!
+                      </Text>
+                    </View>
+                  </View>
+                  <View
+                    style={[flowStyles.imageContainer, {
+                      marginLeft: '25%',
+                      marginBottom: '2%',
+                    }]}
+                  >
+                    <Image 
+                      source={require('../../assets/wave.png')}
+                      style={flowStyles.imageStyle}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      marginLeft: '10%',
+                      marginTop: '4%',
+                    }}
+                  >
+                    <ScrollView
+                      horizontal={true}
+                    >
+                      {
+                        locationOptions.map((item, id) => (
+                          <LocationCard 
+                            key={id}
+                            name={item.name}
+                            rating={item.rating}
+                            numReviews={item.numReviews}
+                            suburb={item.suburb}
+                            image={item.image}
+                            other={item.other}
+                            onChange={(newState) => handleLocationChange(id, newState)}
+                            navigation={navigation}
+                            isDisplay={false}
+                          />
+                        ))
+                      }
+                      <Card
+                        mode='outlined'
+                        style={{
+                          marginRight: 20,
+                          height: 320,
+                          borderWidth: customSelect ? 1.25 : 0.1,
+                          borderColor: customSelect ? theme.colors.success : theme.colors.text,
+                          width: 320,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                        theme={theme}
+                      >
+                        <Card.Content>
+                          <Text
+                            variant='titleLarge'
+                            style={{
+                              color: theme.colors.success,
+                              fontWeight: '500',
+                              marginBottom: 18,
+                              textAlign: 'center',
+                            }}
+                          >
+                            Add Your Own Location
+                          </Text>
+                          <TextInput 
+                            label='Location'
+                            value={customLocation}
+                            onChangeText={handleCustomLocation}
+                            style={{
+                              backgroundColor: theme.colors.background,
+                              width: 250,
+                            }}
+                            textColor={theme.colors.text}
+                          />
+                        </Card.Content>
+                        <Card.Actions>
+                          <Button
+                            accessibilityLabel='custom-location-select-toggle-button'
+                            mode='contained'
+                            onPress={handleCustomSelect}
+                            buttonColor={customSelect ? theme.colors.success : theme.colors.primary}
+                          >
+                            {customSelect ? 'Selected' : 'Select'}
+                          </Button>
+                        </Card.Actions>
+                      </Card>
+                    </ScrollView>
                   </View>
                 </View>
-                <View
-                  style={[flowStyles.imageContainer, {
-                    marginLeft: '25%',
-                    marginBottom: '2%',
-                  }]}
-                >
-                  <Image 
-                    source={require('../../assets/wave.png')}
-                    style={flowStyles.imageStyle}
-                  />
-                </View>
-                <View
-                  style={{
-                    marginLeft: '10%',
-                    marginTop: '4%',
-                  }}
-                >
-                  <ScrollView
-                    horizontal={true}
-                  >
-                    {
-                      locationOptions.map((item, id) => (
-                        <LocationCard 
-                          key={id}
-                          name={item.name}
-                          rating={item.rating}
-                          numReviews={item.numReviews}
-                          suburb={item.suburb}
-                          image={item.image}
-                          other={item.other}
-                          onChange={(newState) => handleLocationChange(id, newState)}
-                          navigation={navigation}
-                          isDisplay={false}
-                        />
-                      ))
-                    }
-                    <Card
-                      mode='outlined'
-                      style={{
-                        marginRight: 20,
-                        height: 320,
-                        borderWidth: customSelect ? 1.25 : 0.1,
-                        borderColor: customSelect ? theme.colors.success : theme.colors.text,
-                        width: 320,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                      theme={theme}
-                    >
-                      <Card.Content>
-                        <Text
-                          variant='titleLarge'
-                          style={{
-                            color: theme.colors.success,
-                            fontWeight: '500',
-                            marginBottom: 18,
-                            textAlign: 'center',
-                          }}
-                        >
-                          Add Your Own Location
-                        </Text>
-                        <TextInput 
-                          label='Location'
-                          value={customLocation}
-                          onChangeText={handleCustomLocation}
-                          style={{
-                            backgroundColor: theme.colors.background,
-                            width: 250,
-                          }}
-                          textColor={theme.colors.text}
-                        />
-                      </Card.Content>
-                      <Card.Actions>
-                        <Button
-                          mode='contained'
-                          onPress={handleCustomSelect}
-                          buttonColor={customSelect ? theme.colors.success : theme.colors.primary}
-                        >
-                          {customSelect ? 'Selected' : 'Select'}
-                        </Button>
-                      </Card.Actions>
-                    </Card>
-                  </ScrollView>
-                </View>
-              </View>
+              </ScrollView>
               :
               <View style={{ alignItems: 'center' }}>
                 {/** Location for Event has been locked in */}
@@ -791,6 +786,7 @@ const EventFinalisation = ({ route, navigation }) => {
               </View>
               <Button
                 mode='contained'
+                accessibilityLabel='see-website-button'
                 style={{
                   marginTop: '2%',
                   borderRadius: 12,
@@ -889,12 +885,13 @@ const EventFinalisation = ({ route, navigation }) => {
                   </View>
                   <Button
                     mode='outlined'
+                    accessibilityLabel='see-more-transport-options-button'
                     textColor={theme.colors.text}
                     style={{
                       borderColor: theme.colors.text,
                       borderRadius: 12,
                     }}
-                    onPress={() => navigation.navigate('EventRoutes', { screen: 'Transport Options' })}
+                    onPress={() => navigation.navigate('EventRoutes', { screen: 'Transport Options', params: { eventId: eventId, groupName: groupName } })}
                   >
                     See More
                   </Button>

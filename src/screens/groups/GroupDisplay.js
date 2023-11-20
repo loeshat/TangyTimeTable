@@ -129,12 +129,14 @@ const GroupDisplay = ({ route, navigation }) => {
               }}
             >
               <Button
+                accessibilityLabel='create-event-button'
                 icon='plus'
                 mode='contained'
                 buttonColor={theme.colors.success}
                 style={{
                   marginRight: '5%',
                   width: '32%',
+                  borderRadius: 10,
                 }}
                 onPress={() => navigation.navigate('EventRoutes', { screen: 'Create New Event', params: { groupId: groupId }})}
               >
@@ -285,6 +287,7 @@ const GroupDisplay = ({ route, navigation }) => {
                 }}
               >
                 <IconButton 
+                  accessibilityLabel='search-button'
                   icon='magnify'
                   mode='contained'
                   size={25}
@@ -295,6 +298,7 @@ const GroupDisplay = ({ route, navigation }) => {
                   }}
                 />
                 <Button
+                  accessibilityLabel='add-group-members-button'
                   mode='contained'
                   buttonColor={theme.colors.success}
                   style={{
@@ -329,8 +333,15 @@ const GroupDisplay = ({ route, navigation }) => {
           &&
           <View style={styles.editContainer}>
             <Button
+              accessibilityLabel='change-group-name-button'
               mode='contained'
               buttonColor={theme.colors.success}
+              contentStyle={{
+                height: 50,
+              }}
+              labelStyle={{
+                fontSize: 16,
+              }}
               style={{
                 width: '85%',
                 borderRadius: 10,
@@ -340,10 +351,17 @@ const GroupDisplay = ({ route, navigation }) => {
               Change Group Name
             </Button>
             <Button
+              accessibilityLabel='delete-group-button'
               mode='contained'
+              contentStyle={{
+                height: 50,
+              }}
+              labelStyle={{
+                fontSize: 16,
+              }}
               style={{
                 width: '85%',
-                marginTop: '3%',
+                marginTop: '4%',
                 borderRadius: 10,
               }}
               onPress={() => alert('This feature is not available yet!')}

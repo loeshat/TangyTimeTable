@@ -162,6 +162,7 @@ const AvailabilityInput = ({ route, navigation }) => {
           <View style={{ alignItems: 'flex-end', width: '90%' }}>
             <Button
               mode='contained'
+              accessibilityLabel='availability-input-confirm-button'
               icon='arrow-right'
               contentStyle={{
                 flexDirection: 'row-reverse'

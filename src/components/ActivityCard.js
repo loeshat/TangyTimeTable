@@ -78,6 +78,7 @@ const ActivityPickCard = ({
         <Button
           mode='outlined'
           buttonColor='#F5F5F5'
+          accessibilityLabel={`${type}-read-more-button`}
           labelStyle={{
             color: theme.colors.text,
           }}
@@ -94,6 +95,7 @@ const ActivityPickCard = ({
           &&
           <Button
             mode='contained'
+            accessibilityLabel={`${type}-select-toggle-button`}
             style={{
               borderRadius: 12,
             }}

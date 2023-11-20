@@ -64,6 +64,7 @@ const ConfirmGroup = ({ route, navigation }) => {
             />
           </View>
           <Button
+            accessibilityLabel='new-event-navigation-button'
             mode='contained'
             labelStyle={{ 
               fontSize: 20
@@ -81,6 +82,7 @@ const ConfirmGroup = ({ route, navigation }) => {
             Plan an Event
           </Button>
           <Button
+            accessibilityLabel='see-group-navigation-button'
             mode='contained'
             buttonColor={theme.colors.success}
             labelStyle={{ 

@@ -121,7 +121,7 @@ export const loginRequest = async (email, password, rememberMe) => {
   try {
     // Get the existing users
     const users = await AsyncStorage.getItem(USERS_KEY);
-    const parsedUsers = JSON.parse(users);
+    const parsedUsers = users ? JSON.parse(users) : [];
 
     // Find the user with the matching email and password
     const user = parsedUsers.find((user) => user.email === email && user.password === password);
@@ -401,6 +401,26 @@ export const getEvent = async (eventId) => {
   } catch (e) {
     console.log(`Failed to get event details for event ${eventId}: ${e}`);
     return {};
+  }
+}
+
+/**
+ * Retrieve a user's profile details in the TangyTimeTable database
+ * @param {*} userId
+ * @returns {*} userObj
+*/
+export const getProfile = async (userId) => {
+  try {
+    const allUsers = await AsyncStorage.getItem(USERS_KEY);
+    if (allUsers) {
+      const usersArray = JSON.parse(allUsers);
+      const userMatch = usersArray.filter(u => u.userId === userId);
+      console.log(userMatch[0]); // for testing
+      return userMatch[0];
+    }
+    return [];
+  } catch (e) {
+    console.log(`Failed to get user details for the profile ${userId}: ${u}`);
   }
 }
 

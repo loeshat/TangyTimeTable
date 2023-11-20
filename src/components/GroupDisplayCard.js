@@ -15,6 +15,7 @@ const GroupDisplayCard = ({ name, membersNum, onPress }) => {
         mode='contained'
         style={{
           backgroundColor: theme.colors.background,
+          minWidth: 160,
         }}
         onPress={onPress}
       >

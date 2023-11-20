@@ -6,10 +6,9 @@ import { Image, View } from 'react-native';
 import TitleTopBar from '../../components/TitleTopBar';
 
 const CompletedEventConfirmScreen = ({ route, navigation }) => {
-  const { speech } = route.params ?? {};
+  const { speech, eventId, groupName } = route.params ?? {};
 
-  // TODO: Change route to group page
-  const returnToGroup = () => navigation.navigate('Events');
+  const returnToGroup = () => navigation.navigate('Event Display', { eventId: eventId, groupName: groupName });
 
   return (
     <PaperProvider theme={theme}>
@@ -55,6 +54,7 @@ const CompletedEventConfirmScreen = ({ route, navigation }) => {
         >
           <Button
             mode='contained'
+            accessibilityLabel='see-calendar-button'
             contentStyle={{
               height: 60,
             }}
@@ -70,6 +70,7 @@ const CompletedEventConfirmScreen = ({ route, navigation }) => {
           </Button>
           <Button
             mode='outlined'
+            accessibilityLabel='return-home-button'
             buttonColor='#F5F5F5'
             contentStyle={{
               height: 60,
