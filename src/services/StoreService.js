@@ -404,6 +404,26 @@ export const getEvent = async (eventId) => {
   }
 }
 
+/**
+ * Retrieve a user's profile details in the TangyTimeTable database
+ * @param {*} userId
+ * @returns {*} userObj
+*/
+export const getProfile = async (userId) => {
+  try {
+    const allUsers = await AsyncStorage.getItem(USERS_KEY);
+    if (allUsers) {
+      const usersArray = JSON.parse(allUsers);
+      const userMatch = usersArray.filter(u => u.userId === userId);
+      console.log(userMatch[0]); // for testing
+      return userMatch[0];
+    }
+    return [];
+  } catch (e) {
+    console.log(`Failed to get user details for the profile ${userId}: ${u}`);
+  }
+}
+
 // FOR TESTING ONLY
 export const clearEvents = async () => {
   await AsyncStorage.removeItem(EVENTS_KEY);

@@ -30,7 +30,7 @@ const FriendDisplayCard = ({ userId }) => {
             :
             <Avatar.Image 
               size={40} 
-              source={require('../assets/green_tangy.png')} 
+              source={{ uri: 'https://img.freepik.com/premium-photo/3d-character-male-cartoon-with-square-pattern-red-black-flanel-good-profile-picture_477250-9.jpg' }} 
               style={{
                 backgroundColor: theme.colors.background,
               }}

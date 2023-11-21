@@ -4,9 +4,11 @@ import Create from './screens/Create';
 import FriendsHome from './screens/FriendsHome';
 import Loading from './screens/Loading';
 import Profile from './screens/Profile';
+import Settings from './screens/Settings/Settings';
 import { GroupRoutes } from './routes/GroupRoutes';
 import { EventRoutes } from './routes/EventRoutes';
 import { LoginRoutes } from './routes/LoginRoutes';
+import { SettingsRoutes } from './routes/SettingsRoutes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { MD3LightTheme as DefaultTheme, PaperProvider, Text } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -147,6 +149,16 @@ const App = () => {
         <RootStack.Screen
           name='LoginRoutes'
           component={LoginRoutes}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='Settings'
+          component={Settings}
+          options={{ headerShown: false }}
+        />
+        <RootStack.Screen
+          name='SettingsRoutes'
+          component={SettingsRoutes}
           options={{ headerShown: false }}
         />
       </RootStack.Navigator>

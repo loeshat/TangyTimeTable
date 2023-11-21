@@ -296,6 +296,7 @@ const GroupDisplay = ({ route, navigation }) => {
                   style={{
                     borderRadius: 12,
                   }}
+                  onPress={() => alert('This feature is not available yet!')}
                 />
                 <Button
                   accessibilityLabel='add-group-members-button'
@@ -305,6 +306,7 @@ const GroupDisplay = ({ route, navigation }) => {
                     borderRadius: 10,
                     marginLeft: 2,
                   }}
+                  onPress={() => alert('This feature is not available yet!')}
                 >
                   Add Members
                 </Button>
