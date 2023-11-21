@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { theme } from '../styles/Theme';
 import { View, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
-import { PaperProvider, Text, Button, IconButton, Avatar } from 'react-native-paper';
+import { PaperProvider, Text, Button, Avatar } from 'react-native-paper';
 import ProfileTitleTopBar from '../components/ProfileTitleTopBar';
 import { signOutRequest } from '../services/StoreService';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -42,9 +42,9 @@ const Profile = ({ navigation }) => {
   return (
     <PaperProvider theme={theme}>
       <ProfileTitleTopBar navigation={navigation} />
-      <View style={{ display: 'flex', alignItems: 'center', backgroundColor: '#FFFFFF' }}>
+      <View style={{ alignItems: 'center', backgroundColor: '#FFFFFF', height: '88%' }}>
         <View style={{ padding: 20, width: '90%' }}>
-          <Avatar.Image size={150} style={{ backgroundColor: '#FFFFFF', marginBottom: 20, alignSelf: 'center' }} source={require('../assets/pink_tangy.png')} />
+          <Avatar.Image size={150} style={{ backgroundColor: '#FFFFFF', marginBottom: 20, alignSelf: 'center' }} source={{ uri: 'https://img.freepik.com/premium-photo/3d-character-male-cartoon-with-square-pattern-red-black-flanel-good-profile-picture_477250-9.jpg' }} />
           {name && <Text style={[loginStyles.title, { textAlign: 'center' }]}>{name}</Text>}
           <Button
             mode="contained"

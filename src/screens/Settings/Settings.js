@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../styles/Theme";
-import TitleTopBar from "../../components/TitleTopBar";
+import TopNavBar from "../../components/TopBar";
 import { View, Text, ScrollView, Pressable } from "react-native";
 import { Card, Title, Searchbar, Divider, List } from 'react-native-paper';
 import { StyleSheet } from "react-native";
@@ -11,7 +11,7 @@ const settingsCategories = {
     Account: ['Change Synced Calendar', 'Change Connected Accounts', 'Change Password'],
     Notifications: ['Push Notifications'],
     Privacy_And_Data: ['Consent And Privacy', 'Data And Sharing'],
-    Other: ['Language', 'Region And Timezone', 'Text Size And Font', 'Appearence Preferences', 'Data And Cache'],
+    Other: ['Language', 'Region And Timezone', 'Text Size And Font', 'Appearance Preferences', 'Data And Cache'],
     FAQ_And_Support: ['Help And Support', 'Terms And Policies', 'About Us', 'Report A Problem', 'Updates And Release Notes']
 };
 
@@ -66,7 +66,7 @@ const Settings = ({ navigation }) => {
 
     return (
         <PaperProvider theme={theme} style={styles.container}>
-            <TitleTopBar navigation={navigation} />
+            <TopNavBar navigation={navigation} />
             
             <View style={styles.contentContainer}>
                 <View style={styles.titleContainer}>
