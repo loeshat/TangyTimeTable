@@ -71,20 +71,20 @@ const Profile = ({ navigation }) => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Friends')}>
+          <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('GroupRoutes', { screen: 'Add Friends' })}>
             <View style={{ flexDirection: 'row', gap: 20 }}>
               <MaterialCommunityIcons name="account-multiple-plus" size={24} color="#5E412F" />
               <Text style={styles.text}>Invite Friends</Text>
             </View>
             <MaterialCommunityIcons name="arrow-right" size={24} color="#5E412F" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.container}>
+          <TouchableOpacity style={styles.container} onPress={() => alert('This feature is not available yet!')}>
             <View style={{ flexDirection: 'row', gap: 20 }}>
               <MaterialCommunityIcons name="home" size={24} color="#5E412F" />
               <Text style={styles.text}>Homebush, Sydney</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.container}>
+          <TouchableOpacity style={styles.container} onPress={() => alert('This feature is not available yet!')}>
             <View style={{ flexDirection: 'row', gap: 20 }}>
               <MaterialCommunityIcons name="map" size={24} color="#5E412F" />
               <Text style={styles.text}>Interests</Text>
