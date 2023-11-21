@@ -3,13 +3,12 @@ import { theme } from '../styles/Theme';
 import { Appbar, PaperProvider } from 'react-native-paper';
 
 /**
- * Top Navigation Bar for offshoot Settings screens to acesss the Settings screen
+ * Top Navigation Bar for the Settings screen to access Profile 
  * @param {Function} backAction
  * @param {String} backActiontitle
- * @param {Function} forwardAction
  * @returns 
  */
-const DoubleTitleTopBar = ({ backAction, backActionTitle, forwardAction }) => {
+const SettingsTitleTopBar = ({ backAction, backActionTitle }) => {
   return (
     <PaperProvider theme={theme}>
       <Appbar.Header
@@ -27,15 +26,9 @@ const DoubleTitleTopBar = ({ backAction, backActionTitle, forwardAction }) => {
           color={theme.colors.text}
           style={{ alignItems: 'flex-start' }}
         />
-        <Appbar.Action
-          icon='cog'
-          size={35}
-          color={theme.colors.text}
-          onPress={forwardAction}
-        />
       </Appbar.Header>
     </PaperProvider>
   );
 }
 
-export default DoubleTitleTopBar;
+export default SettingsTitleTopBar;

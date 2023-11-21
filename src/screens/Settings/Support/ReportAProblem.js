@@ -1,35 +1,45 @@
 import React, { useState } from "react";
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import WarningAlert from '../../../components/Alert';
 import { View, Text, Pressable, StyleSheet, TextInput, ScrollView } from "react-native";
 
+/**
+ * Display for user to report a problem
+ * @param {*} navigation 
+ * @returns 
+*/
 const ReportAProblem = ({ navigation }) => {
+    // States to save text input and adapt container size
     const [problemDescription, setProblemDescription] = useState('');
     const [inputHeight, setInputHeight] = useState(40);
     
+    // Handle warning alert
     const [alertOpen, setAlertOpen] = useState(false);
     const displayAlert = () => setAlertOpen(true);
     const closeAlert = () => setAlertOpen(false);
 
+    // Handle submit button pressed:
+    // Reset input field and close alert
     const submitChanges = () => {
         setProblemDescription('');
         closeAlert();
-        navigation.navigate('Settings');
     };
 
+    // Adapt height of container based on user input
     const handleContentSizeChange = (contentHeight) => {
         setInputHeight(contentHeight);
     };
 
+    // Disable submit button when user has not input anything
     const isSubmitDisabled = problemDescription.trim() === '';
 
     return (
         <PaperProvider theme={theme}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={'Return to Settings'}
+                backActionTitle={'Return to Settings'}
             />
             <WarningAlert
                 description={`You are submitting a report.`}

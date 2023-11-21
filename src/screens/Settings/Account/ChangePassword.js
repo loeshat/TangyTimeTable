@@ -1,38 +1,48 @@
 import React, { useState } from "react";
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider, TextInput } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, Pressable, StyleSheet, ScrollView } from "react-native";
 import WarningAlert from '../../../components/Alert';
 
+/**
+ * Display for user to update their password
+ * @param {*} navigation 
+ * @returns 
+ */
 const ChangePassword = ({ navigation }) => {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     
+    // Condition 1: all input fields must be filled
     const missingPassword = !currentPassword || !newPassword || !confirmNewPassword;
+
+    // Condition 2: input to the 'new password' and 'confirm new password' fields must match
     const mismatchingPasswords = newPassword !== confirmNewPassword;
-    // const isButtonDisabled = missingPassword && mismatchingPasswords;
+    
+    // Prevent user from confirming changes if both conditions are not met
     const isButtonDisabled = () => {
-        console.log("missing password state: ", missingPassword);
-        console.log("mismatching passwords state: ", mismatchingPasswords);
-        if(missingPassword || mismatchingPasswords) return true;
-        false;
+        return missingPassword || mismatchingPasswords;
     }
+    
     // Warning alert handling
     const [alertOpen, setAlertOpen] = useState(false);
     const displayAlert = () => setAlertOpen(true);
     const closeAlert = () => setAlertOpen(false);
 
+    // Navigate back to settings when password is updated
     const submitChanges = () => {
         closeAlert();
         navigation.navigate('Settings');
     };
 
+    // Close alert for missing password error recovery
     const handleMissing = () => {
         closeMissingAlert();
     }
 
+    // Close alert for mismatching passwords error recovery
     const handleMismatching = () => {
         closeMismatchingAlert();
     }
@@ -47,6 +57,7 @@ const ChangePassword = ({ navigation }) => {
     const displayMismatchingAlert = () => setMismatchingAlert(true);
     const closeMismatchingAlert = () => setMismatchingAlert(false);
 
+    // Check for conditions when the user provides input
     const handleChangePassword = () => {
         if (missingPassword) {
             displayMissingAlert();
@@ -64,9 +75,9 @@ const ChangePassword = ({ navigation }) => {
 
     return (
         <PaperProvider theme={theme} style={styles.container}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={'Return to Settings'}
+                backActionTitle={'Return to Settings'}
             />
             <WarningAlert
                 description={`You are updating your password.`}

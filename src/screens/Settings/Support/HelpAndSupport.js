@@ -1,30 +1,39 @@
 import React, { useState } from "react";
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import WarningAlert from '../../../components/Alert';
 
+// Hard-coded information paragraph
 const supportParagraph1 = 'Welcome to the TangyTimeTable Support Center. We are here to assist you and provide answers to your questions. If you are looking for help or information, here are some ways to get support:';
 const supportParagraph2Title = 'Frequently Asked Questions (FAQ):';
 const supportParagraph2 = 'Check out our FAQ section to find answers to common questions about using TangyTimeTable. We have compiled a list of frequently asked questions to help you navigate the app with ease.';
 const supportParagraph3Title = 'Contact Support:';
 const supportParagraph3 = 'If you cannot find the information you need in our FAQ, our support team is ready to assist you. You can reach us by our website or submitting a report.';
 
+/**
+ * Display of Help and Support details
+ * @param {*} navigation 
+ * @returns 
+*/
 const HelpAndSupport = ({ navigation }) => {
+    // Handle warning alert
     const [alertOpen, setAlertOpen] = useState(false);
     const displayAlert = () => setAlertOpen(true);
     const closeAlert = () => setAlertOpen(false);
 
+    // Redirect back to settings
     const approveAction = () => {
         closeAlert();
+        navigation.navigate('Settings');
     };
 
     return (
         <PaperProvider theme={theme}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={'Return to Settings'}
+                backActionTitle={'Return to Settings'}
             />
             <WarningAlert
                 description={`You are being redirected to Tangy's website!`}

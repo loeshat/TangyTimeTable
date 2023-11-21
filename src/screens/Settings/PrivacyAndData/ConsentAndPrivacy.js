@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import WarningAlert from '../../../components/Alert';
 
+// Hard-coded information paragraph
 const consentTextParagraph = 'At TangyTimeTable, we value your privacy and are committed to protecting your personal information. By using our app, you consent to the collection, use, and sharing of your data as described in our Privacy Policy.';
 const privacyTextParagraph = 'Welcome to TangyTimeTable. This Privacy Policy applies to related services. We are committed to protecting and respecting your privacy. This Privacy Policy explains how we collect, use, share, and otherwise process the personal information of users, and other individuals in connection with our platform. If you do no agree with this policy, you should not use the platform.';
 
+/**
+ * Display of Consent and Privacy details
+ * @param {*} navigation 
+ * @returns 
+*/
 const ConsentAndPrivacy = ({ navigation }) => {
+    // Handle warning alert
     const [alertOpen, setAlertOpen] = useState(false);
     const displayAlert = () => setAlertOpen(true);
     const closeAlert = () => setAlertOpen(false);
 
+    // Redirect back to settings
     const approveAction = () => {
         closeAlert();
         navigation.navigate('Settings');
@@ -20,9 +28,9 @@ const ConsentAndPrivacy = ({ navigation }) => {
 
     return (
         <PaperProvider theme={theme}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={'Return to Settings'}
+                backActionTitle={'Return to Settings'}
             />
             <WarningAlert
                 description={`You are being redirected to Tangy's website!`}

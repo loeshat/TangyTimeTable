@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider, Title } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import WarningAlertTranslate from '../../../components/AlertTranslate';
 
+/**
+ * Display for user to view and change language preferences
+ * @param {*} navigation 
+ * @returns 
+*/
 const Language = ({ navigation }) => {
+    // States for selected (implemented) and picker options
     const [selectedLanguage, setSelectedLanguage] = useState('');
     const [pickerValue, setPickerValue] = useState('');
     const [changesMade, setChangesMade] = useState(false);
 
+    // Warning alert states
     const [alertOpen, setAlertOpen] = useState(false);
     const displayAlert = () => setAlertOpen(true);
     const closeAlert = () => setAlertOpen(false);
 
+    // Database of available languages and corresponding translations
     const translations = {
         English: {
             selectLanguage: 'Select Language:',
@@ -62,14 +70,16 @@ const Language = ({ navigation }) => {
         setPickerValue('English');
     }, []);
 
-    if (!translations[selectedLanguage]) {
-        // Return loading or empty state if translations for the selected language are not available
+    // Return empty state if translations for the selected language are not available
+    if (!translations[selectedLanguage]) {  
         return null;
-    }
+    };
 
+    // Handle Save button pressed
     const saveChanges = () => {
         // Async not implemented as beyond prototype scope
 
+        // Implement the selected option
         setSelectedLanguage(pickerValue);        
         setChangesMade(false);
 
@@ -77,18 +87,22 @@ const Language = ({ navigation }) => {
         closeAlert();
     };
 
+    // Handle language option changed
     const handleLanguageChange = (language) => {
+        // If picker language option is already implemented disable save button
         if (language === selectedLanguage) {
             setChangesMade(false);
         }
+
+        // Update picker value
         setPickerValue(language);
     };
 
     return (
         <PaperProvider theme={theme}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={translations[selectedLanguage].returnToSettings}
+                backActionTitle={translations[selectedLanguage].returnToSettings}
             />
             <WarningAlertTranslate
                 description={translations[selectedLanguage].confirmUpdate}

@@ -1,18 +1,26 @@
 import React, { useState } from "react";
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import WarningAlert from '../../../components/Alert';
 
+// Hard-coded information paragraph
 const cacheParagraph = 'Clear your cache to free up your space. This will not affect your Tangy experience.';
 
+/**
+ * Display of Data and Cache details
+ * @param {*} navigation 
+ * @returns 
+*/
 const DataAndCache = ({ navigation }) => {
+    // Hard-code initial state of cache
     const [cache, setCache] = useState(37.4);
     const [alertOpen, setAlertOpen] = useState(false);
     const displayAlert = () => setAlertOpen(true);
     const closeAlert = () => setAlertOpen(false);
 
+    // When cache is cleared, set to 0
     const approveAction = () => {
         closeAlert();
         setCache(0);
@@ -20,9 +28,9 @@ const DataAndCache = ({ navigation }) => {
 
     return (
         <PaperProvider theme={theme}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={'Return to Settings'}
+                backActionTitle={'Return to Settings'}
             />
             <WarningAlert
                 description={`You will lose all your cache!`}

@@ -1,26 +1,35 @@
 import React, { useState } from "react";
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import WarningAlert from '../../../components/Alert';
 
+// Hard-coded information paragraph
 const AboutUsParagraph = 'At TangyTimeTable, our mission is to transform the way people connect and share experiences. We are passionate about creating a platform that fosters meaningful connections, provides valuable information, and enhances your daily life. Founded in 2023, our team of dedicated professionals are committed to delivering an exceptional user experience while ensuring the highest standards of data security and privacy. We understand that your trust is our most valuable asset, and we work tirelessly to maintain the confidentiality and integrity of your data. TangyTimeTable is built on the principles of transparency, innovation, and user-centric design. Thank you for choosing us. We are excited to have you on this journey with us as we strive to make your experience as enjoyable and enriching as possible.';
 
+/**
+ * Display of Application and Creator Team details
+ * @param {*} navigation 
+ * @returns 
+*/
 const AboutUs = ({ navigation }) => {
+    // Handle warning alert
     const [alertOpen, setAlertOpen] = useState(false);
     const displayAlert = () => setAlertOpen(true);
     const closeAlert = () => setAlertOpen(false);
 
+    // Redirect back to settings
     const approveAction = () => {
         closeAlert();
+        navigation.navigate('Settings');
     };
 
     return (
         <PaperProvider theme={theme}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={'Return to Settings'}
+                backActionTitle={'Return to Settings'}
             />
             <WarningAlert
                 description={`You are being redirected to Tangy's website!`}

@@ -9,7 +9,6 @@ import Language from "../screens/Settings/Other/Language";
 import RegionAndTimezone from "../screens/Settings/Other/RegionAndTimezone";
 import TextSizeAndFont from "../screens/Settings/Other/TextSizeAndFont";
 import AppearencePreferences from "../screens/Settings/Other/AppearencePreferences";
-import HighContrast from '../screens/Settings/Other/HighContrast';
 import DataAndCache from "../screens/Settings/Other/DataAndCache";
 import HelpAndSupport from "../screens/Settings/Support/HelpAndSupport";
 import TermsAndPolicies from "../screens/Settings/Support/TermsAndPolicies";
@@ -20,7 +19,7 @@ import UpdatesAndReleaseNotes from "../screens/Settings/Support/UpdatesAndReleas
 const Root = createNativeStackNavigator();
 
 /**
- * Stores settings related routes for all settings screens
+ * Stores settings related routes for all Settings screens
  * which cannot be accessed by clicking on the bottom
  * navigation bar
  * @returns 
@@ -77,11 +76,6 @@ export const SettingsRoutes = () => {
             <Root.Screen
                 name='AppearencePreferences'
                 component={AppearencePreferences}
-                options={{ headerShown: false }}
-            />
-            <Root.Screen
-                name='HighContrast'
-                component={HighContrast}
                 options={{ headerShown: false }}
             />
             <Root.Screen

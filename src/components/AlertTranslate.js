@@ -3,7 +3,7 @@ import { theme } from '../styles/Theme';
 import { Button, Dialog, Portal, Text } from 'react-native-paper';
 
 /**
- * Warning alert component for error prevention
+ * Warning alert component for error prevention with Multi-Langauge Support
  * @param {String} description: Warning message to be displayed on alert 
  * @param {String} affirmText: Text display of affirm button
  * @param {Function} affirmAction: Action taken place when 'affirm' button is clicked on

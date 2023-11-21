@@ -6,6 +6,7 @@ import { View, Text, ScrollView, Pressable } from "react-native";
 import { Card, Title, Searchbar, Divider, List } from 'react-native-paper';
 import { StyleSheet } from "react-native";
 
+// Database for settings categories and sub-topics
 const settingsCategories = {
     Account: ['Change Synced Calendar', 'Change Connected Accounts', 'Change Password'],
     Notifications: ['Push Notifications'],
@@ -14,6 +15,7 @@ const settingsCategories = {
     FAQ_And_Support: ['Help And Support', 'Terms And Policies', 'About Us', 'Report A Problem', 'Updates And Release Notes']
 };
 
+// Database for icons for each category
 const categoryIcons = {
     Settings: 'cog',
     Account: 'account',
@@ -23,12 +25,18 @@ const categoryIcons = {
     FAQ_And_Support: 'help-circle',
 };
 
+/**
+ * Display of main Settings Directory
+ * @param {*} navigation 
+ * @returns 
+*/
 const Settings = ({ navigation }) => {
-
+    // Get details from  settings categories database
     const getCategory = (setting) => {
         return Object.keys(settingsCategories).find(key => settingsCategories[key].includes(setting));
     };
 
+    // Group sub-topics by category
     const groupByCategory = (settings) => {
         return settings.reduce((acc, setting) => {
             if (!acc[setting.category]) acc[setting.category] = [];
@@ -37,13 +45,14 @@ const Settings = ({ navigation }) => {
         }, {});
     };
 
+    // Search function so only sub-topics with same words are displayed
     const [filteredSettings, setFilteredSettings] = useState(() => {
         const allSettings = Object.values(settingsCategories)
             .reduce((accumulator, currentArray) => accumulator.concat(currentArray), [])
         return allSettings.map(setting => ({ value: setting, category: getCategory(setting) }));
     });
 
-    
+    // Handle displaying available subtopics within their appropriate grouping
     const handleSearch = (query) => {
         const allSettings = Object.values(settingsCategories)
             .reduce((accumulator, currentArray) => accumulator.concat(currentArray), []);
@@ -57,7 +66,7 @@ const Settings = ({ navigation }) => {
 
     return (
         <PaperProvider theme={theme} style={styles.container}>
-            <TitleTopBar backAction={() => navigation.navigate('Profile')} title={'Return to Profile'}/>
+            <TitleTopBar navigation={navigation} />
             
             <View style={styles.contentContainer}>
                 <View style={styles.titleContainer}>

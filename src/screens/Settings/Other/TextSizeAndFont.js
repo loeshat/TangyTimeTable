@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { PaperProvider, Title } from 'react-native-paper';
-import TitleTopBar from '../../../components/TitleTopBar';
+import SettingsTitleTopBar from '../../../components/SettingsTitleTopBar';
 import { theme } from '../../../styles/Theme';
 import { Picker } from '@react-native-picker/picker';
 import WarningAlert from '../../../components/Alert';
@@ -10,17 +10,26 @@ import { Raleway_400Regular } from '@expo-google-fonts/raleway';
 import { Lusitana_400Regular } from '@expo-google-fonts/lusitana';
 import { Jost_400Regular } from '@expo-google-fonts/jost';
 
+/**
+ * Display for user to view and change text size and font preferences
+ * @param {*} navigation 
+ * @returns 
+*/
 const TextSizeAndFont = ({ navigation }) => {
+  // States for selected font and size options
   const [selectedFontSize, setSelectedFontSize] = useState('Medium');
   const [selectedFontFamily, setSelectedFontFamily] = useState('Inter_400Regular');
   const [selectedFont, setSelectedFont] = useState('Inter');
 
+  // Disable save button if selected options are the default options
   const isButtonDisabled = selectedFontSize === 'Medium' && selectedFontFamily === 'Inter_400Regular';
 
+  // Warning alert handling
   const [alertOpen, setAlertOpen] = useState(false);
   const displayAlert = () => setAlertOpen(true);
   const closeAlert = () => setAlertOpen(false);
 
+  // Database of fonts
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Raleway_400Regular,
@@ -28,20 +37,23 @@ const TextSizeAndFont = ({ navigation }) => {
     Jost_400Regular,
   });
 
+  // Return null if fonts have not finished loading into the environment
   if (!fontsLoaded) {
     return null;
-  }
+  };
 
+  // Handle updating the selected text size
   const handleFontSizeChange = (itemValue) => {
     setSelectedFontSize(itemValue);
   };
 
-
+  // Handle updating the selected text font
   const handleFontFamilyChange = (itemValue) => {
     setSelectedFontFamily(itemValue);
     setSelectedFont(itemValue.replace('_400Regular', ''));
   };
 
+  // Database of style font sizes for each option
   const getSelectedValueFontSize = () => {
     switch (selectedFontSize) {
       case 'Small':
@@ -55,16 +67,18 @@ const TextSizeAndFont = ({ navigation }) => {
     }
   };
 
+  // Handle submit button pressed
   const submitChanges = () => {
+    // Return to settings when changes confirmed
     closeAlert();
     navigation.navigate('Settings');
   };
 
   return (
     <PaperProvider theme={theme} style={styles.container}>
-      <TitleTopBar
+      <SettingsTitleTopBar
         backAction={() => navigation.navigate('Settings')}
-        title={'Return to Settings'}
+        backActionTitle={'Return to Settings'}
       />
       <WarningAlert
         description={`You are updating your text prefrences.`}

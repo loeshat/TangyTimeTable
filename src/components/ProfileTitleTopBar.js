@@ -4,10 +4,8 @@ import { Appbar } from 'react-native-paper';
 import { Image } from 'react-native';
 
 /**
- * Top Navigation Bar which contains return action,return button's text, 
- * @param {Function} backAction
- * @param {String} backActiontitle
- * @param {Function} forwardAction
+ * Top Navigation Bar for the Profile screen offering access to Settings 
+ * @param {*} navigation
  * @returns 
  */
 const ProfileTitleTopBar = ({ navigation }) => {

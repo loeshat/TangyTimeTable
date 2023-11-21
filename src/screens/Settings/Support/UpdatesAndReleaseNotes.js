@@ -1,29 +1,38 @@
 import React, { useState } from "react";
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import WarningAlert from '../../../components/Alert';
 
+// Hard-coded information paragraph
 const releaseNotesTitle = 'Release Notes - Version 2.0.1 (October 1, 2023)';
 const releaseNotesParagraph1 = 'In this latest update of TangyTimeTable, we have focused on enhancing your experience and addressing important improvements. Here is what is new:';
 const releaseNotesParagraph2 = 'We have fixed a bug that caused occasional crashes when opening the app on older devices.';
 const releaseNotesSubtitle = 'Bug Fixes:';
 
+/**
+ * Display of Application Updates and Release Notes details
+ * @param {*} navigation 
+ * @returns 
+*/
 const UpdatesAndReleaseNotes = ({ navigation }) => {
+    // Handle warning alert
     const [alertOpen, setAlertOpen] = useState(false);
     const displayAlert = () => setAlertOpen(true);
     const closeAlert = () => setAlertOpen(false);
 
+    // Redirect back to settings
     const approveAction = () => {
         closeAlert();
+        navigation.navigate('Settings');
     };
 
     return (
         <PaperProvider theme={theme}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={'Return to Settings'}
+                backActionTitle={'Return to Settings'}
             />
             <WarningAlert
                 description={`You are being redirected to Tangy's website!`}

@@ -3,12 +3,15 @@ import { theme, invertedTheme } from '../styles/Theme';
 import { Appbar, PaperProvider } from 'react-native-paper';
 
 /**
- * Top Navigation Bar which only contains return action and the return button's text
+ * Top Navigation Bar to return to settings screen with
+ * theme adaptability (toggling between default and high contrast modes)
  * @param {Function} backAction
  * @param {String} title
+ * @param {Boolean} darkTheme
  * @returns 
  */
 const TitleTopBarDark = ({ backAction, title, darkTheme }) => {
+  // If HC mode is toggled, choose invertedTheme, otherwise, choose default
   const display = darkTheme ? invertedTheme : theme;
 
   return (

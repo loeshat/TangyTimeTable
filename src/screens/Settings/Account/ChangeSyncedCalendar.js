@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { Text, Pressable, View, Modal, StyleSheet, Image } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
-
+/**
+ * Display for user to view and change calendars connected to the account
+ * @param {*} navigation 
+ * @returns 
+ */
 const ChangeSyncedCalendar = ({ navigation }) => {
+    // Hard-coded pre-existing connected calendars
     const [syncedCalendars, setSyncedCalendars] = useState([
         { name: 'Google Calendar', logo: require('../../../assets/google.png'), color: 'rgba(41,134,204, 0.5)' },
         { name: 'Apple Calendar', logo: require('../../../assets/apple.png'), color: 'rgba(0, 0, 0, 0.5)' },
@@ -14,6 +19,8 @@ const ChangeSyncedCalendar = ({ navigation }) => {
 
     const [selectedCalendar, setSelectedCalendar] = useState('');
     const [isAddModalVisible, setAddModalVisible] = useState(false);
+
+    // If calendar is not already connected, connect the new calendar and close the picker
     const addCalendar = () => {
         if (selectedCalendar && !syncedCalendars.find((cal) => cal.name === selectedCalendar)) {
           const newCalendar = { name: selectedCalendar, logo: require('../../../assets/think.png'), color: 'rgba(255, 131, 0, 0.5)' };
@@ -22,19 +29,21 @@ const ChangeSyncedCalendar = ({ navigation }) => {
         }
     };
 
+    // Remove the calendar from the list of calendars
     const deleteCalendar = (calendar) => {
         setSyncedCalendars((prevCalendars) =>
           prevCalendars.filter((cal) => cal.name !== calendar.name)
         );
     };
 
+    // Disable 'Add' button if no new calendar selected
     const isAddButtonDisabled = selectedCalendar === '';
 
     return (
         <PaperProvider theme={theme}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={'Return to Settings'}
+                backActionTitle={'Return to Settings'}
             />
             
             <View style={styles.container}>

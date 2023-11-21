@@ -10,7 +10,7 @@ import { EventRoutes } from './routes/EventRoutes';
 import { LoginRoutes } from './routes/LoginRoutes';
 import { SettingsRoutes } from './routes/SettingsRoutes';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { MD3LightTheme as DefaultTheme, MD3DarkTheme as InvertedTheme, PaperProvider, Text } from 'react-native-paper';
+import { MD3LightTheme as DefaultTheme, PaperProvider, Text } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

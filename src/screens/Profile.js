@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { theme } from '../styles/Theme';
-import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { PaperProvider, Text, Button, IconButton, Avatar } from 'react-native-paper';
 import ProfileTitleTopBar from '../components/ProfileTitleTopBar';
 import { signOutRequest } from '../services/StoreService';
@@ -49,10 +49,10 @@ const Profile = ({ navigation }) => {
           <Button
             mode="contained"
             style={{ width: '40%', backgroundColor: '#7ac1a9', alignSelf: 'center' }}
-            onPress={() => console.log('Edit Profile Pressed. Functionality Not Implemented Yet')}>
+            onPress={() => Alert.alert('Warning', 'This feature is not implemented yet!')}>
             Edit Profile
           </Button>
-          <TouchableOpacity style={styles.container}>
+          <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('SettingsRoutes', { screen: 'ChangeConnectedAccounts' })}>
             <Text style={styles.text}>Connected Accounts </Text>
             <View style={{ flexDirection: 'row', gap: 20 }}>
               <Image
@@ -71,7 +71,7 @@ const Profile = ({ navigation }) => {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.container}>
+          <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Friends')}>
             <View style={{ flexDirection: 'row', gap: 20 }}>
               <MaterialCommunityIcons name="account-multiple-plus" size={24} color="#5E412F" />
               <Text style={styles.text}>Invite Friends</Text>

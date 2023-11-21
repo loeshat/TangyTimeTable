@@ -1,25 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import TitleTopBar from "../../../components/TitleTopBar";
+import SettingsTitleTopBar from "../../../components/SettingsTitleTopBar";
 import { PaperProvider, Title } from "react-native-paper";
 import { theme } from "../../../styles/Theme";
 import { Text, Pressable, View, StyleSheet } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import WarningAlert from '../../../components/Alert';
 
+/**
+ * Display for user to view and change region and timezone preferences
+ * @param {*} navigation 
+ * @returns 
+*/
 const RegionAndTimezone = ({ navigation }) => {
+    // States for selected (implemented)
     const [selectedRegion, setSelectedRegion] = useState('');
     const [selectedTimezone, setSelectedTimezone] = useState('');
-
+    // States for picker options and new selection check
     const [regionChangesMade, setRegionChangesMade] = useState(false);
     const [timezoneChangesMade, setTimezoneChangesMade] = useState(false);
-
     const [regionPickerValue, setRegionPickerValue] = useState('');
     const [timezonepickerValue, setTimezonePickerValue] = useState('');
 
+    // Warning alert states
     const [alertOpen, setAlertOpen] = useState(false);
     const displayAlert = () => setAlertOpen(true);
     const closeAlert = () => setAlertOpen(false);
 
+    // Database of regions and corresponding timezones
     const regions = {
         Oceania: {
             timezone: '+11:00',
@@ -32,6 +39,7 @@ const RegionAndTimezone = ({ navigation }) => {
         },
     };
     
+    // Database of timezones and corresponding regions
     const timezones = {
         '+11:00': {
             region: 'Oceania',
@@ -52,29 +60,35 @@ const RegionAndTimezone = ({ navigation }) => {
         setTimezonePickerValue('+11:00');
     }, []);
 
+    // If the selected region or timezone does not exist/hasn't loaded, return null
     if (!regions[selectedRegion] || !timezones[selectedTimezone]) {
         return null;
-    }
+    };
 
+    // Handle Save button press
     const saveChanges = () => {
         // Async not impelmented as beyond prototype scope
 
+        // Update selected (implemented) values
         setSelectedRegion(regionPickerValue);
         setSelectedTimezone(timezonepickerValue);
         setRegionChangesMade(false);
         setTimezoneChangesMade(false);
 
+        // Return to settings
         closeAlert();
         navigation.navigate('Settings');
     };
 
+    // Handle region option picked
     const handleRegionChange = (region) => {
+        // If picker region option is already implemented disable save button
         if (region === selectedRegion) {
             setRegionChangesMade(false);
         }
         setRegionPickerValue(region);
     
-        // Set corresponding timezone based on the selected region
+        // Check for change and set corresponding timezone based on the selected region
         if (regions[region].timezone === selectedTimezone) {
             setTimezoneChangesMade(false);
         }
@@ -82,12 +96,13 @@ const RegionAndTimezone = ({ navigation }) => {
     };
 
     const handleTimezoneChange = (timezone) => {
+        // If picker timezone option is already implemented disable save button
         if (timezone === selectedTimezone) {
             setTimezoneChangesMade(false);
         }
         setTimezonePickerValue(timezone);
     
-        // Set corresponding region based on the selected timezone
+        // Check for change and set corresponding region based on the selected timezone
         if (timezones[timezone].region === selectedRegion) {
             setRegionChangesMade(false);
         }
@@ -96,9 +111,9 @@ const RegionAndTimezone = ({ navigation }) => {
 
     return (
         <PaperProvider theme={theme}>
-            <TitleTopBar
+            <SettingsTitleTopBar
                 backAction={() => navigation.navigate('Settings')}
-                title={'Return to Settings'}
+                backActionTitle={'Return to Settings'}
             />
             <WarningAlert
                 description={`You are updating your region and timezone prefrences.`}
