@@ -4,6 +4,7 @@
 TangyTimeTable is an all-in-one event planning assistant that automatically aligns users’ schedules with their friends and suggests activities based on their shared interests. Furthermore, through personal calendar synchronisation and timely notification reminders, TangyTimeTable eliminates manual back-and-forth messaging and event coordination efforts to help users save time and gain more enjoyment from in-person socialisation.
 
 ## Usage
+Before running the app, please ensure that you are cloning this project from its `main` branch.
 To run the project, navigate to the directory and run the following `npm` commands:
 - `cd src`
 - `npm install`
