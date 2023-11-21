@@ -74,7 +74,7 @@ export const SettingsRoutes = () => {
                 options={{ headerShown: false }}
             />
             <Root.Screen
-                name='AppearencePreferences'
+                name='AppearancePreferences'
                 component={AppearencePreferences}
                 options={{ headerShown: false }}
             />
